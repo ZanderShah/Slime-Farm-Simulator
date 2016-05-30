@@ -2,7 +2,7 @@ import java.awt.Graphics;
 
 public abstract class Player extends LivingEntity {
 
-	public void update(ControlState cs, Level l) {
+	public void update(ControlState cs, Room l) {
 		Vector2D speed = new Vector2D();
 		
 		if (cs.getPressed(ControlState.KEY_UP)) {
