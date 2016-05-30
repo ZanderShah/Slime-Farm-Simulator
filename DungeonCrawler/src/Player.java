@@ -19,27 +19,11 @@ public abstract class Player extends LivingEntity {
 		}
 		
 		speed.normalize();
-		speed.multiplyBy(getMaxSpeed()); // Adjusted based on which class it is
+		speed.multiplyBy(); // Adjusted based on which class it is
 		
 		setSpeed(speed);
 		
 		super.update(l);
-	}
-	
-	/**
-	 * Gets the max speed of this player. Varies based on class, buffs/debuffs
-	 * @return the max speed of this player right now
-	 */
-	public double getMaxSpeed() {
-		double speed = 2;
-		
-		for (StatusEffect e : getEffects()) {
-			if (e.getType() == StatusEffect.SPEED) {
-				speed *= e.getStrength();
-			}
-		}
-		
-		return speed;
 	}
 	
 	@Override

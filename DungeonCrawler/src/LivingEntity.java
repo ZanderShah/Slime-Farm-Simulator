@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public abstract class LivingEntity implements Drawable {
 	private Vector2D position;
 	private Vector2D speed;
+	private int health;
 	
 	private ArrayList<StatusEffect> effects;
 	
@@ -11,8 +12,8 @@ public abstract class LivingEntity implements Drawable {
 		position = new Vector2D();
 		speed = new Vector2D();
 		effects = new ArrayList<StatusEffect>();
+		health = 10;
 	}
-	
 	public Vector2D getPos() {
 		return position;
 	}
@@ -28,7 +29,7 @@ public abstract class LivingEntity implements Drawable {
 	public void setSpeed(Vector2D v) {
 		speed = v.clone();
 	}
-	
+
 	public ArrayList<StatusEffect> getEffects() {
 		return effects;
 	}
