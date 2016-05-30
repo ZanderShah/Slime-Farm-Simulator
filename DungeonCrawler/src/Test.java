@@ -29,7 +29,7 @@ public class Test extends JFrame {
 	static class TestPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 		
 		private ControlState cs;
-		private Level currentLevel;
+		private Room currentLevel;
 		
 		private Tank tankTest = new Tank();
 		private Warrior warriorTest = new Warrior();
