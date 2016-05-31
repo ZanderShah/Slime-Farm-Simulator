@@ -2,10 +2,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
-public class Cleric extends Player {
+public class Thief extends Player {
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(Color.GREEN);
+		g.setColor(Color.RED);
 		g.fillRect((int) getPos().getX(), (int) getPos().getY(), 32, 32);
 	}
 

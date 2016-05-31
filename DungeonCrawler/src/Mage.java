@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class Mage extends Player {
 	@Override
@@ -9,17 +10,23 @@ public class Mage extends Player {
 	}
 
 	@Override
-	public void attack() {
+	public void attack(Point p)
+	{
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void ability1() {
+	public void ability1(Point p)
+	{
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void ability2() {
+	public void ability2(Point p)
+	{
+		// TODO Auto-generated method stub
 		
 	}
 }
