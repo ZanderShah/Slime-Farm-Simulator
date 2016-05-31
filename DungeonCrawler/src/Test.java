@@ -123,6 +123,12 @@ public class Test extends JFrame
 		}
 
 		@Override
+		public void mouseDragged(MouseEvent e)
+		{
+			cs.updateMouse(e.getPoint());
+		}
+
+		@Override
 		public void keyPressed(KeyEvent e)
 		{
 			switch (e.getKeyCode())
@@ -188,12 +194,7 @@ public class Test extends JFrame
 		public void mouseExited(MouseEvent e)
 		{
 		}
-
-		@Override
-		public void mouseDragged(MouseEvent e)
-		{
-		}
-
+		
 		@Override
 		public void keyTyped(KeyEvent e)
 		{

@@ -1,12 +1,14 @@
 public class Stats {
 	private int maxHealth;
 	private int health;
+	private int attackSpeed;
 	private double speed;
 	private double defense;
 	
-	public Stats(int mh, double s, double d) {
+	public Stats(int mh, int as, double s, double d) {
 		maxHealth = mh;
 		health = mh;
+		attackSpeed = as;
 		speed = s;
 		defense = d;
 	}
@@ -17,6 +19,10 @@ public class Stats {
 	
 	public int getHealth() {
 		return health;
+	}
+	
+	public int getAttackSpeed() {
+		return attackSpeed;
 	}
 	
 	public double getSpeed() {
@@ -33,6 +39,10 @@ public class Stats {
 	
 	public void setHealth(int h) {
 		health = h;
+	}
+	
+	public void setAttackSpeed(int as) {
+		attackSpeed = as;
 	}
 	
 	public void setSpeed(double s) {
