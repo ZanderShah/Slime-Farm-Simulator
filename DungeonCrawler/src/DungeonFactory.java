@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class DungeonFactory
 {
 	private static final int MIN_ROOM_WIDTH = 35, MAX_ROOM_WIDTH = 100,
@@ -19,24 +17,24 @@ public class DungeonFactory
 				+ MIN_ROOM_HEIGHT;
 	}
 
-	public static Room generateMap(int numberOfRooms)
+	public static Room generateMap(int numberOfRooms, int difficulty)
 	{
 		Room entry = new Room(500, 500, randomWidth(), randomHeight(), 0);
 		totalRooms = 1;
 		generateConnections(entry, numberOfRooms - 1);
+		fillWithObjects(entry, new boolean[totalRooms]);
 		return entry;
 	}
 
 	private static void generateConnections(Room room, int left)
 	{
-		System.out.println("LEFT--------------" + left);
 		if (left == 0)
 			return;
-		
+
 		int roomsConnected = (int) (Math.random() * (Math.min(left, 4))) + 1, successfulConnections = 0;
 		boolean newLeft = false, newRight = false, newUp = false, newDown = false;
 
-		for (int tries = 0; tries < 10000
+		for (int tries = 0; tries < 10000d
 				&& roomsConnected != successfulConnections; tries++)
 		{
 			int direction = (int) (Math.random() * 4) + 1;
@@ -55,8 +53,8 @@ public class DungeonFactory
 				totalRooms++;
 				successfulConnections++;
 				newLeft = true;
-				System.out.printf("Room %d placed LEFT of Room %d%n", room
-						.getLeft().id(), room.id());
+				// System.out.printf("Room %d placed LEFT of Room %d%n",
+				// room.getLeft().id(), room.id());
 			}
 			else if (direction == UP && room.getUp() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
@@ -69,9 +67,8 @@ public class DungeonFactory
 				totalRooms++;
 				successfulConnections++;
 				newUp = true;
-				System.out.printf("Room %d placed UP of Room %d%n", room
-						.getUp()
-						.id(), room.id());
+				// System.out.printf("Room %d placed UP of Room %d%n",
+				// room.getUp().id(), room.id());
 			}
 			else if (direction == RIGHT && room.getRight() == null
 					&& fits(room, room.x() + room.width(),
@@ -86,8 +83,8 @@ public class DungeonFactory
 				totalRooms++;
 				successfulConnections++;
 				newRight = true;
-				System.out.printf("Room %d placed RIGHT of Room %d%n", room
-						.getRight().id(), room.id());
+				// System.out.printf("Room %d placed RIGHT of Room %d%n",
+				// room.getRight().id(), room.id());
 			}
 			else if (direction == DOWN && room.getDown() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
@@ -100,16 +97,16 @@ public class DungeonFactory
 				totalRooms++;
 				successfulConnections++;
 				newDown = true;
-				System.out.printf("Room %d placed DOWN of Room %d%n", room
-						.getDown().id(), room.id());
+				// System.out.printf("Room %d placed DOWN of Room %d%n",
+				// room.getDown().id(), room.id());
 			}
 		}
 
 		if (successfulConnections == 0)
 			return;
-		
+
 		int split = (left - successfulConnections) / successfulConnections;
-		
+
 		if (newLeft)
 			generateConnections(room.getLeft(), split);
 		if (newUp)
@@ -120,7 +117,7 @@ public class DungeonFactory
 			generateConnections(room.getDown(), split);
 	}
 
-	public static boolean fits(Room room, int x, int y, int width, int height,
+	private static boolean fits(Room room, int x, int y, int width, int height,
 			boolean[] vis)
 	{
 		if (room.x() >= x + width || room.x() + room.width() <= x
@@ -145,19 +142,25 @@ public class DungeonFactory
 
 			return ret;
 		}
-		/*System.out.printf("Overlap :( %d %d %d %d %d %d %d %d%n", room.x(),
-				room.y(),
-				room.width(), room.height(), x, y, width, height);*/
+
+		// System.out.printf("Overlap :( %d %d %d %d %d %d %d %d%n", room.x(),
+		// room.y(), room.width(), room.height(), x, y, width, height);
+
 		return false;
 	}
 
-	public static void fillMap(Room entry, int difficulty)
+	private static void fillWithObjects(Room room, boolean[] vis)
 	{
-		fillRooms(entry, difficulty);
-	}
-
-	private static void fillRooms(Room room, int difficulty)
-	{
-
+		if (room == null || vis[room.id()])
+			return;
+		
+		vis[room.id()] = true;
+	
+		
+		
+		fillWithObjects(room.getUp(), vis);
+		fillWithObjects(room.getDown(), vis);
+		fillWithObjects(room.getLeft(), vis);
+		fillWithObjects(room.getRight(), vis);
 	}
 }

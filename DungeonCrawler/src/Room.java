@@ -1,8 +1,11 @@
+import java.util.ArrayList;
+
 public class Room
 {
 	private int x, y, width, height, id;
 	private boolean cleared;
 	private Room up, down, left, right;
+	private ArrayList<LevelObject> objects;
 
 	public Room(int x, int y, int width, int height, int id)
 	{
@@ -14,6 +17,7 @@ public class Room
 
 		cleared = false;
 		up = down = left = right = null;
+		objects = new ArrayList<LevelObject>();
 	}
 
 	public void setUp(Room up)
