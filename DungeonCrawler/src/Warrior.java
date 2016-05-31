@@ -9,7 +9,7 @@ public class Warrior extends Player {
 	
 	public Warrior() {
 		super();
-		setStats(new Stats(100, 60, 3.0, 20.0));
+		setStats(new Stats(100, 60, 2.0, 20.0));
 	}
 	
 	@Override

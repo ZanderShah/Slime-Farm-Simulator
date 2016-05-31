@@ -4,6 +4,11 @@ import java.awt.Point;
 
 public class Tank extends Player {
 	
+	public Tank() {
+		super();
+		setStats(new Stats(100, 60, 1.0, 20.0));
+	}
+	
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
