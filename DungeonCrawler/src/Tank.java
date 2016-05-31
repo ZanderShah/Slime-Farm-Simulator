@@ -1,12 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class Tank extends Player {
-	
-	@Override
-	public double getMaxSpeed() {
-		return 1;
-	}
 	
 	@Override
 	public void draw(Graphics g) {
@@ -15,17 +11,17 @@ public class Tank extends Player {
 	}
 
 	@Override
-	public void attack() {
+	public void attack(Point p) {
 		
 	}
 
 	@Override
-	public void ability1() {
+	public void ability1(Point p) {
 		
 	}
 
 	@Override
-	public void ability2() {
+	public void ability2(Point p) {
 		
 	}
 }

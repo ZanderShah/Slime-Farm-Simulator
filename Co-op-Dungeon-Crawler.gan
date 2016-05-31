@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-05-12" view-index="0" gantt-divider-location="353" resource-divider-location="300" version="2.7.2" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-05-23" view-index="0" gantt-divider-location="353" resource-divider-location="300" version="2.7.2" locale="en_US">
     <description/>
     <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd3" name="Name" width="57" order="0"/>
@@ -7,7 +7,7 @@
     </view>
     <view id="resource-table">
         <field id="0" name="Name" width="50" order="0"/>
-        <field id="1" name="Default role" width="49" order="1"/>
+        <field id="1" name="Default role" width="50" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -33,21 +33,19 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="Planning/design" color="#8cb6ce" meeting="false" start="2016-05-23" duration="4" complete="0" expand="true">
+        <task id="119" name="Planning/design" color="#8cb6ce" meeting="false" start="2016-05-23" duration="4" complete="0" expand="true">
             <depend id="27" type="2" difference="0" hardness="Strong"/>
-            <depend id="102" type="2" difference="0" hardness="Strong"/>
-            <depend id="112" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="27" name="Create Engine" color="#8cb6ce" meeting="false" start="2016-05-27" duration="6" complete="0" expand="true">
+        <task id="27" name="Create Engine" color="#8cb6ce" meeting="false" start="2016-05-27" duration="7" complete="0" expand="true">
             <depend id="98" type="2" difference="0" hardness="Strong"/>
             <depend id="104" type="2" difference="0" hardness="Strong"/>
             <depend id="114" type="2" difference="0" hardness="Strong"/>
-            <task id="31" name="Create player classes" meeting="false" start="2016-05-27" duration="3" complete="0" expand="true">
+            <task id="31" name="Create player classes" meeting="false" start="2016-05-27" duration="5" complete="0" expand="true">
                 <depend id="80" type="2" difference="0" hardness="Strong"/>
-                <task id="40" name="Create player" color="#8cb6ce" meeting="false" start="2016-05-27" duration="2" complete="0" expand="true">
+                <task id="40" name="Create player" color="#8cb6ce" meeting="false" start="2016-05-27" duration="4" complete="0" expand="true">
                     <depend id="43" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="43" name="Implement controls" meeting="false" start="2016-05-31" duration="1" complete="0" expand="true"/>
+                <task id="43" name="Implement controls" meeting="false" start="2016-06-02" duration="1" complete="0" expand="true"/>
             </task>
             <task id="34" name="Create level classes" meeting="false" start="2016-05-27" duration="3" complete="0" expand="true">
                 <depend id="80" type="2" difference="0" hardness="Strong"/>
@@ -67,22 +65,22 @@
                 </task>
                 <task id="63" name="Implement basic AI" meeting="false" start="2016-06-01" duration="1" complete="0" expand="true"/>
             </task>
-            <task id="80" name="Handle player-&gt;world-&gt;enemy interactions" color="#8cb6ce" meeting="false" start="2016-06-02" duration="2" complete="0" expand="true"/>
+            <task id="80" name="Handle player-&gt;world-&gt;enemy interactions" color="#8cb6ce" meeting="false" start="2016-06-03" duration="2" complete="0" expand="true"/>
         </task>
-        <task id="98" name="Populate game (art, environments, bosses, enemies)" color="#8cb6ce" meeting="false" start="2016-06-06" duration="5" complete="0" expand="true"/>
-        <task id="100" name="Create client" meeting="false" start="2016-05-27" duration="12" complete="0" expand="true">
+        <task id="98" name="Populate game (art, environments, bosses, enemies)" color="#8cb6ce" meeting="false" start="2016-06-07" duration="5" complete="0" expand="true"/>
+        <task id="100" name="Create client" meeting="false" start="2016-05-27" duration="13" complete="0" expand="true">
             <task id="102" name="Implement menus and interface" color="#8cb6ce" meeting="false" start="2016-05-27" duration="4" complete="0" expand="true"/>
-            <task id="104" name="Implement engine and controls" color="#8cb6ce" meeting="false" start="2016-06-06" duration="3" complete="0" expand="true">
+            <task id="104" name="Implement engine and controls" color="#8cb6ce" meeting="false" start="2016-06-07" duration="3" complete="0" expand="true">
                 <depend id="106" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="106" name="Implement server communication" color="#8cb6ce" meeting="false" start="2016-06-09" duration="3" complete="0" expand="true"/>
+            <task id="106" name="Implement server communication" color="#8cb6ce" meeting="false" start="2016-06-10" duration="3" complete="0" expand="true"/>
         </task>
-        <task id="110" name="Create server" meeting="false" start="2016-05-27" duration="12" complete="0" expand="true">
+        <task id="110" name="Create server" meeting="false" start="2016-05-27" duration="13" complete="0" expand="true">
             <task id="112" name="Implement structure/interface" color="#8cb6ce" meeting="false" start="2016-05-27" duration="3" complete="0" expand="true"/>
-            <task id="114" name="Implement engine" color="#8cb6ce" meeting="false" start="2016-06-06" duration="3" complete="0" expand="true">
+            <task id="114" name="Implement engine" color="#8cb6ce" meeting="false" start="2016-06-07" duration="3" complete="0" expand="true">
                 <depend id="116" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="116" name="Implement client communications" color="#8cb6ce" meeting="false" start="2016-06-09" duration="3" complete="0" expand="true"/>
+            <task id="116" name="Implement client communications" color="#8cb6ce" meeting="false" start="2016-06-10" duration="3" complete="0" expand="true"/>
         </task>
     </tasks>
     <resources>

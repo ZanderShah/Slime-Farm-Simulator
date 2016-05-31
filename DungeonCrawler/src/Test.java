@@ -10,9 +10,11 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Test extends JFrame {
-	
-	public Test() {
+public class Test extends JFrame
+{
+
+	public Test()
+	{
 		super("Procedural Generator Test");
 		TestPanel tp = new TestPanel();
 		setResizable(true);
@@ -20,61 +22,77 @@ public class Test extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 	}
+
+	public static void main(String[] args)
+	{
+		// Seems to lose a lot of rooms due to rounding errors lmao
+		Room t = DungeonFactory.generateMap(10000);
 	
-	public static void main(String[] args) {
 		Test pdt = new Test();
 		pdt.setVisible(true);
 	}
-	
-	static class TestPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
-		
+
+	static class TestPanel extends JPanel implements MouseListener,
+			MouseMotionListener, KeyListener
+	{
+
 		private ControlState cs;
-		private Level currentLevel;
-		
-		private Tank tankTest = new Tank();
+		private Room currentLevel;
+
+		// private Tank tankTest = new Tank();
 		private Warrior warriorTest = new Warrior();
-		
-		public TestPanel() {
+
+		public TestPanel()
+		{
 			setPreferredSize(new Dimension(1000, 1000));
 			setFocusable(true);
 			addMouseListener(this);
 			addMouseMotionListener(this);
 			addKeyListener(this);
-			
+
 			cs = new ControlState();
-			
+
 			(new Thread() {
 				long lastUpdate;
-				public void run() {
+
+				public void run()
+				{
 					lastUpdate = System.currentTimeMillis();
-					while (true) {
-						tankTest.update(cs, currentLevel);
+					while (true)
+					{
+						// tankTest.update(cs, currentLevel);
 						warriorTest.update(cs, currentLevel);
 						repaint(0);
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
 						lastUpdate = time;
-						try {
+						try
+						{
 							Thread.sleep(Math.max(0, 1000 / 60 - diff));
-						} catch (Exception e) {
+						}
+						catch (Exception e)
+						{
 							e.printStackTrace();
 						}
 					}
 				}
 			}).start();
 		}
-		
-		public void paintComponent(Graphics g) {
+
+		public void paintComponent(Graphics g)
+		{
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, getWidth(), getHeight());
-			
-			tankTest.draw(g);
+
+			// tankTest.draw(g);
 			warriorTest.draw(g);
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mousePressed(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.press(ControlState.KEY_ATTACK);
 				break;
@@ -85,8 +103,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mouseReleased(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.release(ControlState.KEY_ATTACK);
 				break;
@@ -97,13 +117,16 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e) {
+		public void mouseMoved(MouseEvent e)
+		{
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyPressed(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.press(ControlState.KEY_UP);
 				break;
@@ -126,8 +149,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyReleased(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.release(ControlState.KEY_UP);
 				break;
@@ -148,16 +173,30 @@ public class Test extends JFrame {
 				break;
 			}
 		}
-		
+
 		@Override
-		public void mouseClicked(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e)
+		{
+		}
+
 		@Override
-		public void mouseEntered(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e)
+		{
+		}
+
 		@Override
-		public void mouseExited(MouseEvent e) {}
+		public void mouseExited(MouseEvent e)
+		{
+		}
+
 		@Override
-		public void mouseDragged(MouseEvent e) {}
+		public void mouseDragged(MouseEvent e)
+		{
+		}
+
 		@Override
-		public void keyTyped(KeyEvent e) {}
+		public void keyTyped(KeyEvent e)
+		{
+		}
 	}
 }

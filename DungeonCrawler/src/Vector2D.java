@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 /**
  * Represents a two dimensional vector.
  * 
@@ -38,6 +40,15 @@ public class Vector2D implements Comparable<Vector2D>
 	{
 		y = Math.sin(Math.toRadians(angle));
 		x = Math.cos(Math.toRadians(angle));
+	}
+	
+	/**
+	 * Initialises a vector from a given point
+	 * @param p the point to use
+	 */
+	public Vector2D(Point p) {
+		x = p.x;
+		y = p.y;
 	}
 
 	/**
@@ -151,7 +162,7 @@ public class Vector2D implements Comparable<Vector2D>
 	 */
 	public double getAngle()
 	{
-		return Math.toDegrees(Math.atan(y / x));
+		return -((Math.toDegrees(Math.atan(y / x)) + (x < 0 ? 180 : 0)) % 360);
 	}
 
 	public Vector2D clone()
