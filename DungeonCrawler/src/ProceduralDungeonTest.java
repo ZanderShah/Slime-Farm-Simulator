@@ -15,7 +15,7 @@ public class ProceduralDungeonTest extends JFrame {
 	private static final int MAX_ROOM_WIDTH = 20;
 	private static final int MIN_ROOM_HEIGHT = 10;
 	private static final int MAX_ROOM_HEIGHT = 20;
-	private static final int NUM_ROOMS = 1500;
+	private static final int NUM_ROOMS = 15;
 	
 	public ProceduralDungeonTest() {
 		super("Procedural Generator Test");
@@ -33,19 +33,15 @@ public class ProceduralDungeonTest extends JFrame {
 	
 	static class DungeonPanel extends JPanel implements MouseListener {
 		
-		private static ArrayList<Room> rooms;
-		private static ArrayList<Room>[] adj;
+		private static ArrayList<Rectangle> rooms;
+		private static boolean[][] map;
 		private static int minW, maxW, minH, maxH, r;
 		
 		public DungeonPanel(int miw, int maw, int mih, int mah, int ra) {
 			setPreferredSize(new Dimension(1000, 1000));
 			addMouseListener(this);
-			
-			adj = new ArrayList[NUM_ROOMS];
-			for (int room = 0; room < NUM_ROOMS; room++)
-				adj[room] = new ArrayList<Room>();
-				
-			rooms = new ArrayList<Room>();
+			map = new boolean[1000][1000];
+			rooms = new ArrayList<Rectangle>();
 			
 			minW = miw;
 			maxW = maw;
@@ -55,10 +51,14 @@ public class ProceduralDungeonTest extends JFrame {
 		}
 		
 		public void generate() {
-	
-			rooms = new ArrayList<Room>();
+			for (int i = 0; i < 1000; i++) {
+				for (int j = 0; j < 1000; j++) {
+					map[i][j] = false;
+				}
+			}
+			rooms = new ArrayList<Rectangle>();
 			
-			rooms.add(new Room(500, 500, randW(), randH()));
+			rooms.add(new Rectangle(500, 500, randW(), randH()));
 			fillRect(rooms.get(0));
 			new Thread() {
 				public void run() {
@@ -70,7 +70,7 @@ public class ProceduralDungeonTest extends JFrame {
 			}.start();
 		}
 		
-		public void placeRoom(Room prevRoom, int dir) {
+		public void placeRoom(Rectangle prevRoom, int dir) {
 			int w = randW();
 			int h = randH();
 			
@@ -80,32 +80,32 @@ public class ProceduralDungeonTest extends JFrame {
 			int pathY = 0;
 			switch (dir) {
 			case 0: // up
-				x = prevRoom.x() + prevRoom.width() / 2 - w / 2;
-				y = prevRoom.y() - 1 - h;
-				pathX = prevRoom.x() + prevRoom.width() / 2;
+				x = prevRoom.x + prevRoom.width / 2 - w / 2;
+				y = prevRoom.y - 1 - h;
+				pathX = prevRoom.x + prevRoom.width / 2;
 				pathY = y + h;
 				break;
 			case 1: // right
-				x = prevRoom.x() + prevRoom.width() + 1;
-				y = prevRoom.y() + prevRoom.height() / 2 - h / 2;
+				x = prevRoom.x + prevRoom.width + 1;
+				y = prevRoom.y + prevRoom.height / 2 - h / 2;
 				pathX = x - 1;
-				pathY = prevRoom.y() + prevRoom.height() / 2;
+				pathY = prevRoom.y + prevRoom.height / 2;
 				break;
 			case 2: // down
-				x = prevRoom.x() + prevRoom.width() / 2 - w / 2;
-				y = prevRoom.y() + prevRoom.height() + 1;
-				pathX = prevRoom.x() + prevRoom.width() / 2;
+				x = prevRoom.x + prevRoom.width / 2 - w / 2;
+				y = prevRoom.y + prevRoom.height + 1;
+				pathX = prevRoom.x + prevRoom.width / 2;
 				pathY = y - 1;
 				break;
 			case 3: // left
-				x = prevRoom.x() - 1 - w;
-				y = prevRoom.y() + prevRoom.height() / 2 - h / 2;
+				x = prevRoom.x - 1 - w;
+				y = prevRoom.y + prevRoom.height / 2 - h / 2;
 				pathX = x + w;
-				pathY = prevRoom.y() + prevRoom.height() / 2;
+				pathY = prevRoom.y + prevRoom.height / 2;
 				break;
 			}
 			
-			Room newRoom = new Room(x, y, w, h);
+			Rectangle newRoom = new Rectangle(x, y, w, h);
 			if (valid(newRoom)) {
 				fillRect(newRoom);
 				rooms.add(newRoom);
@@ -125,9 +125,9 @@ public class ProceduralDungeonTest extends JFrame {
 			return randRange(minH, maxH);
 		}
 		
-		public static boolean valid(Room r) {
-			for (int i = r.x() - 1; i <= r.x() + r.width(); i++) {
-				for (int j = r.y() - 1; j <= r.y() + r.height(); j++) {
+		public static boolean valid(Rectangle r) {
+			for (int i = r.x - 1; i <= r.x + r.width; i++) {
+				for (int j = r.y - 1; j <= r.y + r.height; j++) {
 					if (i < 0 || i >= 1000 || j < 0 || j >= 1000) return false;
 					if (map[j][i]) {
 						return false;

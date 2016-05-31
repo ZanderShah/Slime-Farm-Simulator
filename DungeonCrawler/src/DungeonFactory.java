@@ -1,237 +1,157 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-public class DungeonFactory extends JFrame
+public class DungeonFactory
 {
+	private static final int MIN_ROOM_WIDTH = 10, MAX_ROOM_WIDTH = 20,
+			MIN_ROOM_HEIGHT = 10, MAX_ROOM_HEIGHT = 20;
+	private static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
+	private static int totalRooms;
 
-	private static final int MIN_ROOM_WIDTH = 10;
-	private static final int MAX_ROOM_WIDTH = 20;
-	private static final int MIN_ROOM_HEIGHT = 10;
-	private static final int MAX_ROOM_HEIGHT = 20;
-
-	public static ArrayList<Room> fillRooms(ArrayList<Integer>[] adj, int d)
+	private static int randomWidth()
 	{
-		return null;
+		return (int) (Math.random() * (MAX_ROOM_WIDTH - MIN_ROOM_WIDTH + 1))
+				+ MIN_ROOM_WIDTH;
 	}
 
-	public static ArrayList<Integer>[] generateConnections(int numberOfRooms)
+	private static int randomHeight()
 	{
-		ArrayList<Integer>[] adj = new ArrayList[numberOfRooms];
+		return (int) (Math.random() * (MAX_ROOM_HEIGHT - MIN_ROOM_HEIGHT + 1))
+				+ MIN_ROOM_HEIGHT;
+	}
+
+	public static Room generateMap(int numberOfRooms)
+	{
+		// x, y, width (+ x), height(+ y)
+		Room entry = new Room(0, 0, randomWidth(), randomHeight(), 0);
+		totalRooms = 1;
+		generateConnections(entry, numberOfRooms - 1);
+		return entry;
+	}
+
+	private static void generateConnections(Room room, int left)
+	{
+		if (left == 0)
+			return;
 		
+		int roomsConnected = (int) (Math.random() * (Math.min(left, 4))) + 1, successfulConnections = 0;
+		boolean newLeft = false, newRight = false, newUp = false, newDown = false;
+
+		for (int tries = 0; tries < 100
+				&& roomsConnected != successfulConnections; tries++)
+		{
+			int direction = (int) (Math.random() * 4) + 1;
+
+			int width = randomWidth(), height = randomHeight();
+
+			if (direction == LEFT && room.getLeft() == null
+					&& fits(room, room.x() - width, room.y() + room.height()
+							/ 2 - height / 2, width, height,
+							new boolean[totalRooms]))
+			{
+				room.setLeft(new Room(room.x() - width, room.y()
+						+ room.height()
+						/ 2 - height / 2, width, height, totalRooms));
+				totalRooms++;
+				successfulConnections++;
+				newLeft = true;
+				System.out.printf("Room %d placed LEFT of Room %d%n", room
+						.getLeft().id(), room.id());
+			}
+			else if (direction == UP && room.getUp() == null
+					&& fits(room, room.x() + room.width() / 2 - width / 2,
+							room.y() + room.height(), width,
+							height, new boolean[totalRooms]))
+			{
+				room.setUp(new Room(room.x() + room.width() / 2 - width / 2,
+						room.y() + room.height(), width, height, totalRooms));
+				totalRooms++;
+				successfulConnections++;
+				newUp = true;
+				System.out.printf("Room %d placed UP of Room %d%n", room
+						.getUp()
+						.id(), room.id());
+			}
+			else if (direction == RIGHT && room.getRight() == null
+					&& fits(room, room.x() + room.width(),
+							room.y() + room.height()
+									/ 2 - height / 2, width, height,
+							new boolean[totalRooms]))
+			{
+				room.setRight(new Room(room.x() + room.width(),
+						room.y() + room.height()
+								/ 2 - height / 2, width, height, totalRooms));
+				totalRooms++;
+				successfulConnections++;
+				newRight = true;
+				System.out.printf("Room %d placed RIGHT of Room %d%n", room
+						.getRight().id(), room.id());
+			}
+			else if (direction == DOWN && room.getDown() == null
+					&& fits(room, room.x() + room.width() / 2 - width / 2,
+							room.y() - height, width, height,
+							new boolean[totalRooms]))
+			{
+				room.setDown(new Room(room.x() + room.width() / 2 - width / 2,
+						room.y() - height, width, height, totalRooms));
+				totalRooms++;
+				successfulConnections++;
+				newDown = true;
+				System.out.printf("Room %d placed DOWN of Room %d%n", room
+						.getDown().id(), room.id());
+			}
+		}
+
 		
-		for (int room = 0; room < numberOfRooms; room++)
-		{
-			int doorways = (int) (Math.random() * 4) + 1;
-			
-			for (int connectedRoom = 0; connectedRoom < doorways; connectedRoom++)
-				adj[room].add(connectedRoom + room + 1);
-		}
+		int split = (left - successfulConnections) / successfulConnections;
+		
+		if (newLeft)
+			generateConnections(room.getLeft(), split);
+		if (newUp)
+			generateConnections(room.getUp(), split);
+		if (newRight)
+			generateConnections(room.getRight(), split);
+		if (newDown)
+			generateConnections(room.getDown(), split);
 	}
 
-	public DungeonFactory()
+	public static boolean fits(Room room, int x, int y, int width, int height,
+			boolean[] vis)
 	{
-		super("Procedural Generator Test");
-		DungeonPanel dp = new DungeonPanel(MIN_ROOM_WIDTH, MAX_ROOM_WIDTH,
-				MIN_ROOM_HEIGHT, MAX_ROOM_HEIGHT, NUM_ROOMS);
-		setResizable(true);
-		setContentPane(dp);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		pack();
+		if (room.x() >= x + width || room.x() + room.width() <= x
+				|| room.y() >= y + height || room.y() + room.height() <= y)
+		{
+			vis[room.id()] = true;
+
+			boolean ret = true;
+
+			if (room.getRight() != null && !vis[room.getRight().id()]
+					&& !fits(room.getRight(), x, y, width, height, vis))
+				ret = false;
+			if (room.getUp() != null && !vis[room.getUp().id()]
+					&& !fits(room.getUp(), x, y, width, height, vis))
+				ret = false;
+			if (room.getLeft() != null && !vis[room.getLeft().id()]
+					&& !fits(room.getLeft(), x, y, width, height, vis))
+				ret = false;
+			if (room.getDown() != null && !vis[room.getDown().id()]
+					&& !fits(room.getDown(), x, y, width, height, vis))
+				ret = false;
+
+			return ret;
+		}
+		System.out.printf("Overlap :( %d %d %d %d %d %d %d %d%n", room.x(),
+				room.y(),
+				room.width(), room.height(), x, y, width, height);
+		return false;
 	}
 
-	public static void main(String[] args)
+	public static void fillMap(Room entry, int difficulty)
 	{
-		DungeonFactory pdt = new DungeonFactory();
-		pdt.setVisible(true);
+		fillRooms(entry, difficulty);
 	}
 
-	static class DungeonPanel extends JPanel implements MouseListener
+	private static void fillRooms(Room room, int difficulty)
 	{
 
-		private static ArrayList<Room> rooms;
-		private static ArrayList<Room>[] adj;
-		private static int minW, maxW, minH, maxH, r;
-
-		public DungeonPanel(int miw, int maw, int mih, int mah, int ra)
-		{
-			setPreferredSize(new Dimension(1000, 1000));
-			addMouseListener(this);
-
-			adj = new ArrayList[NUM_ROOMS];
-			for (int room = 0; room < NUM_ROOMS; room++)
-				adj[room] = new ArrayList<Room>();
-
-			rooms = new ArrayList<Room>();
-
-			minW = miw;
-			maxW = maw;
-			minH = mih;
-			maxH = mah;
-			r = ra;
-		}
-
-		public void generate()
-		{
-
-			rooms = new ArrayList<Room>();
-
-			rooms.add(new Room(500, 500, randW(), randH()));
-			fillRect(rooms.get(0));
-			new Thread() {
-				public void run()
-				{
-					while (rooms.size() < r)
-					{
-						placeRoom(
-								rooms.get((int) (Math.random() * rooms.size())),
-								(int) (Math.random() * 4));
-						repaint(0);
-					}
-				};
-			}.start();
-		}
-
-		public void placeRoom(Room prevRoom, int dir)
-		{
-			int w = randW();
-			int h = randH();
-
-			int x = 0;
-			int y = 0;
-			int pathX = 0;
-			int pathY = 0;
-			switch (dir)
-			{
-			case 0: // up
-				x = prevRoom.x() + prevRoom.width() / 2 - w / 2;
-				y = prevRoom.y() - 1 - h;
-				pathX = prevRoom.x() + prevRoom.width() / 2;
-				pathY = y + h;
-				break;
-			case 1: // right
-				x = prevRoom.x() + prevRoom.width() + 1;
-				y = prevRoom.y() + prevRoom.height() / 2 - h / 2;
-				pathX = x - 1;
-				pathY = prevRoom.y() + prevRoom.height() / 2;
-				break;
-			case 2: // down
-				x = prevRoom.x() + prevRoom.width() / 2 - w / 2;
-				y = prevRoom.y() + prevRoom.height() + 1;
-				pathX = prevRoom.x() + prevRoom.width() / 2;
-				pathY = y - 1;
-				break;
-			case 3: // left
-				x = prevRoom.x() - 1 - w;
-				y = prevRoom.y() + prevRoom.height() / 2 - h / 2;
-				pathX = x + w;
-				pathY = prevRoom.y() + prevRoom.height() / 2;
-				break;
-			}
-
-			Room newRoom = new Room(x, y, w, h);
-			if (valid(newRoom))
-			{
-				fillRect(newRoom);
-				rooms.add(newRoom);
-				map[pathY][pathX] = true;
-			}
-		}
-
-		public static int randRange(int a, int b)
-		{
-			return (int) (Math.random() * (b - a + 1)) + a;
-		}
-
-		public static int randW()
-		{
-			return randRange(minW, maxW);
-		}
-
-		public static int randH()
-		{
-			return randRange(minH, maxH);
-		}
-
-		public static boolean valid(Room r)
-		{
-			for (int i = r.x() - 1; i <= r.x() + r.width(); i++)
-			{
-				for (int j = r.y() - 1; j <= r.y() + r.height(); j++)
-				{
-					if (i < 0 || i >= 1000 || j < 0 || j >= 1000)
-						return false;
-					if (map[j][i])
-					{
-						return false;
-					}
-				}
-			}
-
-			return true;
-		}
-
-		public static void fillRect(Rectangle r)
-		{
-			for (int i = r.x; i < r.x + r.width; i++)
-			{
-				for (int j = r.y; j < r.y + r.height; j++)
-				{
-					map[j][i] = true;
-				}
-			}
-		}
-
-		public void paintComponent(Graphics g)
-		{
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, getWidth(), getHeight());
-
-			g.setColor(Color.WHITE);
-			for (int i = 0; i < 1000; i++)
-			{
-				for (int j = 0; j < 1000; j++)
-				{
-					if (map[i][j])
-					{
-						g.fillRect(i, j, 1, 1);
-					}
-				}
-			}
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e)
-		{
-			generate();
-			repaint(0);
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e)
-		{
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e)
-		{
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e)
-		{
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e)
-		{
-		}
 	}
 }
