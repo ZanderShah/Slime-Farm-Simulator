@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 public class Test extends JFrame
 {
+	public static Room entry;
 
 	public Test()
 	{
@@ -26,10 +27,27 @@ public class Test extends JFrame
 	public static void main(String[] args)
 	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
-		Room t = DungeonFactory.generateMap(10000);
-	
+		entry = DungeonFactory.generateMap(25);
+
 		Test pdt = new Test();
 		pdt.setVisible(true);
+	}
+
+	static void drawRooms(Room t, Graphics g, boolean[] vis)
+	{
+		if (t == null || vis[t.id()])
+			return;
+
+		g.fillRect(t.x(), t.y(), t.width(), t.height());
+		g.setColor(Color.BLUE);
+		g.drawRect(t.x(), t.y(), t.width(), t.height());
+		g.setColor(Color.LIGHT_GRAY);
+		vis[t.id()] = true;
+
+		drawRooms(t.getUp(), g, vis);
+		drawRooms(t.getDown(), g, vis);
+		drawRooms(t.getRight(), g, vis);
+		drawRooms(t.getLeft(), g, vis);
 	}
 
 	static class TestPanel extends JPanel implements MouseListener,
@@ -86,6 +104,7 @@ public class Test extends JFrame
 
 			// tankTest.draw(g);
 			warriorTest.draw(g);
+			drawRooms(entry, g, new boolean[10000]);
 		}
 
 		@Override

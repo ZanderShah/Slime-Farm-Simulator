@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class DungeonFactory
 {
-	private static final int MIN_ROOM_WIDTH = 10, MAX_ROOM_WIDTH = 20,
-			MIN_ROOM_HEIGHT = 10, MAX_ROOM_HEIGHT = 20;
+	private static final int MIN_ROOM_WIDTH = 35, MAX_ROOM_WIDTH = 100,
+			MIN_ROOM_HEIGHT = 35, MAX_ROOM_HEIGHT = 100;
 	private static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	private static int totalRooms;
 
@@ -21,8 +21,7 @@ public class DungeonFactory
 
 	public static Room generateMap(int numberOfRooms)
 	{
-		// x, y, width (+ x), height(+ y)
-		Room entry = new Room(0, 0, randomWidth(), randomHeight(), 0);
+		Room entry = new Room(500, 500, randomWidth(), randomHeight(), 0);
 		totalRooms = 1;
 		generateConnections(entry, numberOfRooms - 1);
 		return entry;
@@ -30,13 +29,14 @@ public class DungeonFactory
 
 	private static void generateConnections(Room room, int left)
 	{
+		System.out.println("LEFT--------------" + left);
 		if (left == 0)
 			return;
 		
 		int roomsConnected = (int) (Math.random() * (Math.min(left, 4))) + 1, successfulConnections = 0;
 		boolean newLeft = false, newRight = false, newUp = false, newDown = false;
 
-		for (int tries = 0; tries < 100
+		for (int tries = 0; tries < 10000
 				&& roomsConnected != successfulConnections; tries++)
 		{
 			int direction = (int) (Math.random() * 4) + 1;
@@ -51,6 +51,7 @@ public class DungeonFactory
 				room.setLeft(new Room(room.x() - width, room.y()
 						+ room.height()
 						/ 2 - height / 2, width, height, totalRooms));
+				room.getLeft().setRight(room);
 				totalRooms++;
 				successfulConnections++;
 				newLeft = true;
@@ -64,6 +65,7 @@ public class DungeonFactory
 			{
 				room.setUp(new Room(room.x() + room.width() / 2 - width / 2,
 						room.y() + room.height(), width, height, totalRooms));
+				room.getUp().setDown(room);
 				totalRooms++;
 				successfulConnections++;
 				newUp = true;
@@ -80,6 +82,7 @@ public class DungeonFactory
 				room.setRight(new Room(room.x() + room.width(),
 						room.y() + room.height()
 								/ 2 - height / 2, width, height, totalRooms));
+				room.getRight().setLeft(room);
 				totalRooms++;
 				successfulConnections++;
 				newRight = true;
@@ -93,6 +96,7 @@ public class DungeonFactory
 			{
 				room.setDown(new Room(room.x() + room.width() / 2 - width / 2,
 						room.y() - height, width, height, totalRooms));
+				room.getDown().setUp(room);
 				totalRooms++;
 				successfulConnections++;
 				newDown = true;
@@ -101,6 +105,8 @@ public class DungeonFactory
 			}
 		}
 
+		if (successfulConnections == 0)
+			return;
 		
 		int split = (left - successfulConnections) / successfulConnections;
 		
@@ -139,9 +145,9 @@ public class DungeonFactory
 
 			return ret;
 		}
-		System.out.printf("Overlap :( %d %d %d %d %d %d %d %d%n", room.x(),
+		/*System.out.printf("Overlap :( %d %d %d %d %d %d %d %d%n", room.x(),
 				room.y(),
-				room.width(), room.height(), x, y, width, height);
+				room.width(), room.height(), x, y, width, height);*/
 		return false;
 	}
 
