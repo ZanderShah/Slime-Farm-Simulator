@@ -16,7 +16,7 @@ public abstract class Player extends LivingEntity {
 		attacking = 0;
 	}
 
-	public void update(ControlState cs, Room l) {
+	public void update(ControlState cs, Room r) {
 		if (attacking > 0) attacking--;
 		if (attackCooldown > 0) attackCooldown--;
 		
@@ -35,7 +35,7 @@ public abstract class Player extends LivingEntity {
 			speed.addToThis(new Vector2D(1, 0));
 		}
 		if (cs.getPressed(ControlState.KEY_ATTACK)) {
-			attack(cs.getMouse());
+			attack(cs.getMouse(), r);
 			// also send attack to server
 		}
 		
@@ -53,11 +53,15 @@ public abstract class Player extends LivingEntity {
 		
 		setSpeed(speed);
 		
-		super.update(l);
+		super.update(r);
 	}
 	
 	public int getAttacking() {
 		return attacking;
+	}
+	
+	public int getAttackCooldown() {
+		return attackCooldown;
 	}
 	
 	public Vector2D getAttackDir() {
@@ -67,15 +71,15 @@ public abstract class Player extends LivingEntity {
 	@Override
 	public abstract void draw(Graphics g);
 	
-	public void attack(Point p) {
+	public void attack(Point p, Room r) {
 		if (attackCooldown == 0) {
 			attacking = ATTACK_TIME;
 			attackCooldown = getStats().getAttackSpeed();
-			Vector2D direction = (new Vector2D(p)).subtract(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)));
+			Vector2D direction = (new Vector2D(p)).subtract(getPos());
 			direction.normalize();
 			attackDirection = direction;
 		}
 	}
-	public abstract void ability1(Point p);
-	public abstract void ability2(Point p);
+	public abstract void ability1(Point p, Room r);
+	public abstract void ability2(Point p, Room r);
 }

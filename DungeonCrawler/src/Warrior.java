@@ -15,11 +15,11 @@ public class Warrior extends Player {
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(Color.GRAY);
-		g.fillRect((int) getPos().getX(), (int) getPos().getY(), SIZE, SIZE);
+		g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
 		
 		g.setColor(Color.LIGHT_GRAY);
 		if (getAttacking() > 0) {
-			g.fillArc((int) getPos().getX() + getWidth() / 2 - SWORD_SIZE / 2, (int) getPos().getY() + getHeight() / 2 - SWORD_SIZE / 2, SWORD_SIZE, SWORD_SIZE,
+			g.fillArc((int) getPos().getX() - SWORD_SIZE / 2, (int) getPos().getY() - SWORD_SIZE / 2, SWORD_SIZE, SWORD_SIZE,
 					(int) (getAttackDir().getAngle() - SWORD_SWING / 2), SWORD_SWING);
 		}
 	}
@@ -39,15 +39,19 @@ public class Warrior extends Player {
 		super.update(cs, r);
 	}
 	
-	
+	@Override
+	public void attack(Point p, Room r) {
+		super.attack(p, r);
+		// r.addHitbox(hitbox);
+	}
 	
 	@Override
-	public void ability1(Point p) {
+	public void ability1(Point p, Room r) {
 		
 	}
 
 	@Override
-	public void ability2(Point p) {
+	public void ability2(Point p, Room r) {
 		
 	}
 }

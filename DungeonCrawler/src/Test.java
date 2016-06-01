@@ -55,11 +55,12 @@ public class Test extends JFrame
 	{
 
 		private ControlState cs;
-		private Room currentLevel;
 
+		private Room r = new Room(0, 0, 0, 0, 0);
 		private Tank tankTest = new Tank();
 		private Warrior warriorTest = new Warrior();
 		private Thief thiefTest = new Thief();
+		private Hunter hunterTest = new Hunter();
 
 		public TestPanel()
 		{
@@ -71,6 +72,11 @@ public class Test extends JFrame
 
 			cs = new ControlState();
 
+			r.addPlayer(tankTest);
+			r.addPlayer(warriorTest);
+			r.addPlayer(thiefTest);
+			r.addPlayer(hunterTest);
+
 			(new Thread() {
 				long lastUpdate;
 
@@ -79,9 +85,11 @@ public class Test extends JFrame
 					lastUpdate = System.currentTimeMillis();
 					while (true)
 					{
-						tankTest.update(cs, currentLevel);
-						warriorTest.update(cs, currentLevel);
-						thiefTest.update(cs, currentLevel);
+						tankTest.update(cs, r);
+						warriorTest.update(cs, r);
+						thiefTest.update(cs, r);
+						hunterTest.update(cs, r);
+						r.update();
 						repaint(0);
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
@@ -104,10 +112,8 @@ public class Test extends JFrame
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
-			tankTest.draw(g);
-			warriorTest.draw(g);
-			thiefTest.draw(g);
-			drawRooms(entry, g, new boolean[10000]);
+			r.draw(g);
+//			drawRooms(entry, g, new boolean[10000]);
 		}
 
 		@Override

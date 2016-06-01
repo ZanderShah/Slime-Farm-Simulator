@@ -1,11 +1,15 @@
+import java.awt.Graphics;
 import java.util.ArrayList;
 
-public class Room
-{
+public class Room implements Drawable {
 	private int x, y, width, height, id;
 	private boolean cleared;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
+	
+	
+	private ArrayList<Projectile> projectiles;
+	private ArrayList<Player> players;
 
 	public Room(int x, int y, int width, int height, int id)
 	{
@@ -18,6 +22,23 @@ public class Room
 		cleared = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
+		
+		projectiles = new ArrayList<Projectile>();
+		players = new ArrayList<Player>();
+	}
+	
+	public void update() {
+		for (Projectile p : projectiles) {
+			p.update(this);
+		}
+	}
+	
+	public void addPlayer(Player p) {
+		players.add(p);
+	}
+	
+	public void fireProjectile(Projectile p) {
+		projectiles.add(p);
 	}
 
 	public void setUp(Room up)
@@ -88,5 +109,15 @@ public class Room
 	public int id()
 	{
 		return id;
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		for (int p = 0; p < players.size(); p++) {
+			players.get(p).draw(g);
+		}
+		for (int p = 0; p < projectiles.size(); p++) {
+			projectiles.get(p).draw(g);
+		}
 	}
 }
