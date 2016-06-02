@@ -60,10 +60,16 @@ public class Test extends JFrame
 		private Tank tankTest = new Tank();
 		private Warrior warriorTest = new Warrior();
 		private Thief thiefTest = new Thief();
-		private Hunter hunterTest = new Hunter();
+		private Hunter hunterTest;
 
 		public TestPanel()
 		{
+			try{
+				hunterTest = new Hunter();
+			}	
+			catch(Exception IOException){
+				
+			}
 			setPreferredSize(new Dimension(1000, 1000));
 			setFocusable(true);
 			addMouseListener(this);

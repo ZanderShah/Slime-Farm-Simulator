@@ -1,21 +1,36 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Warrior extends Player {
 	private static final int SIZE = 32;
 	private static final int SWORD_SIZE = 96;
 	private static final int SWORD_SWING = 120;
+	private Image img;
 	
-	public Warrior() {
+	public Warrior(){
 		super();
 		setStats(new Stats(100, 60, 2.0, 20.0));
+		
+//		try{
+//			img = ImageIO.read(new File(".png"));
+//		}
+//		catch(Exception IOException){
+//			
+//		}
+		
 	}
 	
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(Color.GRAY);
-		g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
+		//g.setColor(Color.GRAY);
+		//g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
+		//g.drawImage(img, (int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, null);
 		
 		g.setColor(Color.LIGHT_GRAY);
 		if (getAttacking() > 0) {
