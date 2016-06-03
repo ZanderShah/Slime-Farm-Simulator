@@ -1,6 +1,4 @@
-import java.awt.Graphics;
-
-public class DamageSource implements Drawable {
+public abstract class DamageSource implements Drawable {
 	private Hitbox hitbox;
 	private int frequency;
 	private int duration;
@@ -48,10 +46,5 @@ public class DamageSource implements Drawable {
 	
 	public int getDamage() {
 		return damage;
-	}
-
-	@Override
-	public void draw(Graphics g) {
-		
 	}
 }
