@@ -10,7 +10,7 @@ public class Room implements Drawable
 	private boolean cleared;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
-	private ArrayList<Projectile> projectiles;
+	private ArrayList<DamageSource> damageSources;
 	private ArrayList<Player> players;
 
 	public Room(int x, int y, int width, int height, int id)
@@ -24,15 +24,21 @@ public class Room implements Drawable
 		cleared = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
-		projectiles = new ArrayList<Projectile>();
+		damageSources = new ArrayList<DamageSource>();
 		players = new ArrayList<Player>();
 	}
 
 	public void update()
 	{
-		for (Projectile p : projectiles)
+		for (int i = 0; i < damageSources.size(); i++)
 		{
-			p.update(this);
+			damageSources.get(i).update(this);
+			if (damageSources.get(i).getDuration() == 0) {
+				damageSources.remove(i);
+				i--;
+			} else {
+				// check for collisions
+			}
 		}
 	}
 
@@ -41,9 +47,9 @@ public class Room implements Drawable
 		players.add(p);
 	}
 
-	public void fireProjectile(Projectile p)
+	public void addDamageSource(DamageSource ds)
 	{
-		projectiles.add(p);
+		damageSources.add(ds);
 	}
 
 	public void setUp(Room up)
@@ -124,17 +130,17 @@ public class Room implements Drawable
 	@Override
 	public void draw(Graphics g)
 	{
-		for (Player p : players)
-		{
-			p.draw(g);
-		}
-		for (Projectile p : projectiles)
-		{
-			p.draw(g);
-		}
 		for (LevelObject o : objects)
 		{
 			o.draw(g);
+		}
+		for (DamageSource ds : damageSources)
+		{
+			ds.draw(g);
+		}
+		for (Player p : players)
+		{
+			p.draw(g);
 		}
 	}
 

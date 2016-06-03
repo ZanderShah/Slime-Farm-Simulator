@@ -46,7 +46,7 @@ public class Hunter extends Player {
 	@Override
 	public void attack(Point p, Room r) {
 		if (getAttackCooldown() == 0) {
-			r.fireProjectile(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(getPos())));
+			r.addDamageSource(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(getPos()), true));
 		}
 		super.attack(p, r);
 	}

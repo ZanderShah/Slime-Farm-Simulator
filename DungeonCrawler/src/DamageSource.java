@@ -8,14 +8,17 @@ public class DamageSource implements Drawable {
 	private int hitCounter;
 	private boolean singleHit;
 	
-	public DamageSource(Hitbox h, int f, int d, boolean single) {
+	private boolean player;
+	private int damage;
+	
+	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p, int dam) {
 		hitbox = h;
 		frequency = f;
 		duration = d;
-		
 		hitCounter = 0;
-		
 		singleHit = single;
+		player = p;
+		damage = dam;
 	}
 	
 	public Hitbox getHitbox() {
@@ -37,6 +40,14 @@ public class DamageSource implements Drawable {
 	
 	public boolean isSingleHit() {
 		return singleHit;
+	}
+	
+	public boolean isPlayer() {
+		return player;
+	}
+	
+	public int getDamage() {
+		return damage;
 	}
 
 	@Override
