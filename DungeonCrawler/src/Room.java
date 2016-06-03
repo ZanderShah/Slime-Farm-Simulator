@@ -1,13 +1,15 @@
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-public class Room implements Drawable {
+public class Room implements Drawable
+{
+	// x y are used only for position relative to other rooms, when dealing with
+	// the room individually,
+	// bottom left is (0, 0) and top right is (width, height)
 	private int x, y, width, height, id;
 	private boolean cleared;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
-	
-	
 	private ArrayList<Projectile> projectiles;
 	private ArrayList<Player> players;
 
@@ -22,22 +24,25 @@ public class Room implements Drawable {
 		cleared = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
-		
 		projectiles = new ArrayList<Projectile>();
 		players = new ArrayList<Player>();
 	}
-	
-	public void update() {
-		for (Projectile p : projectiles) {
+
+	public void update()
+	{
+		for (Projectile p : projectiles)
+		{
 			p.update(this);
 		}
 	}
-	
-	public void addPlayer(Player p) {
+
+	public void addPlayer(Player p)
+	{
 		players.add(p);
 	}
-	
-	public void fireProjectile(Projectile p) {
+
+	public void fireProjectile(Projectile p)
+	{
 		projectiles.add(p);
 	}
 
@@ -111,13 +116,45 @@ public class Room implements Drawable {
 		return id;
 	}
 
+	public void addLevelObject(LevelObject o)
+	{
+		objects.add(o);
+	}
+
 	@Override
-	public void draw(Graphics g) {
-		for (int p = 0; p < players.size(); p++) {
-			players.get(p).draw(g);
+	public void draw(Graphics g)
+	{
+		for (Player p : players)
+		{
+			p.draw(g);
 		}
-		for (int p = 0; p < projectiles.size(); p++) {
-			projectiles.get(p).draw(g);
+		for (Projectile p : projectiles)
+		{
+			p.draw(g);
 		}
+		for (LevelObject o : objects)
+		{
+			o.draw(g);
+		}
+	}
+
+	public boolean hasSpaceFor(LevelObject n)
+	{
+		for (LevelObject o : objects)
+		{
+			if (o.x() >= n.x() + n.width() || o.x() + o.width() <= n.x()
+					|| o.y() >= n.y() + n.height()
+					|| o.y() + o.height() <= n.y())
+			{
+				continue;
+			}
+			else
+			{
+				System.out.println("false");
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

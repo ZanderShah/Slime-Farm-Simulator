@@ -82,4 +82,10 @@ public abstract class Player extends LivingEntity {
 	}
 	public abstract void ability1(Point p, Room r);
 	public abstract void ability2(Point p, Room r);
+
+	public void attack(Point p)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -10,21 +10,21 @@ public class Mage extends Player {
 	}
 
 	@Override
-	public void attack(Point p)
+	public void attack(Point p, Room r)
+	{
+		super.attack(p, r);
+		
+	}
+
+	@Override
+	public void ability1(Point p, Room r)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void ability1(Point p)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void ability2(Point p)
+	public void ability2(Point p, Room r)
 	{
 		// TODO Auto-generated method stub
 		

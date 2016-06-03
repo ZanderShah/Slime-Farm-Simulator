@@ -119,7 +119,7 @@ public class Test extends JFrame
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			r.draw(g);
-//			drawRooms(entry, g, new boolean[10000]);
+			drawRooms(entry, g, new boolean[10000]);
 		}
 
 		@Override

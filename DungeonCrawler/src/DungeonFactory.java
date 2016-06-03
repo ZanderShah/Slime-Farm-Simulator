@@ -22,7 +22,7 @@ public class DungeonFactory
 		Room entry = new Room(500, 500, randomWidth(), randomHeight(), 0);
 		totalRooms = 1;
 		generateConnections(entry, numberOfRooms - 1);
-		fillWithObjects(entry, new boolean[totalRooms]);
+		fillWithObjects(entry, difficulty, new boolean[totalRooms]);
 		return entry;
 	}
 
@@ -149,18 +149,26 @@ public class DungeonFactory
 		return false;
 	}
 
-	private static void fillWithObjects(Room room, boolean[] vis)
+	private static void fillWithObjects(Room room, int difficulty, boolean[] vis)
 	{
 		if (room == null || vis[room.id()])
 			return;
-		
+
 		vis[room.id()] = true;
-	
-		
-		
-		fillWithObjects(room.getUp(), vis);
-		fillWithObjects(room.getDown(), vis);
-		fillWithObjects(room.getLeft(), vis);
-		fillWithObjects(room.getRight(), vis);
+
+		for (int i = 0; i < 100; i++)
+		{
+			int x = randomWidth() * randomWidth(), y = randomHeight()
+					* randomHeight(), width = randomWidth(), height = randomHeight();
+			
+			LevelObject lo = new LevelObject(new Vector2D(x, y), false, false, width, height);
+			if (room.hasSpaceFor(lo))
+				room.addLevelObject(lo);
+		}
+
+		/*fillWithObjects(room.getUp(), difficulty, vis);
+		fillWithObjects(room.getDown(), difficulty, vis);
+		fillWithObjects(room.getLeft(), difficulty, vis);
+		fillWithObjects(room.getRight(), difficulty, vis);*/
 	}
 }
