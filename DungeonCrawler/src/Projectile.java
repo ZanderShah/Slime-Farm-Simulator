@@ -1,16 +1,15 @@
-import java.awt.Color;
-import java.awt.Graphics;
-
-public class Projectile implements Drawable {
+public class Projectile extends DamageSource {
 
 	private Vector2D position;
 	private Vector2D speed;
 	
-	public Projectile(Vector2D pos, Vector2D spd) {
+	public Projectile(Hitbox h, Vector2D pos, Vector2D spd, boolean single) {
+		super(h, 0, 999999999, single);
 		position = pos;
 		speed = spd;
 	}
 	
+	@Override
 	public void update(Room r) {
 		position.addToThis(speed);
 	}
@@ -21,11 +20,5 @@ public class Projectile implements Drawable {
 	
 	public Vector2D getSpeed() {
 		return speed;
-	}
-	
-	@Override
-	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect((int) position.getX() - 4, (int) position.getY() - 4, 8, 8);
 	}
 }

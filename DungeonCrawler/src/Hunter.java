@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -7,7 +6,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class Hunter extends Player {
-	private static final int SIZE = 32;
+	private static final int SIZE = 64;
 	private Image img;
 	
 	public Hunter() {
