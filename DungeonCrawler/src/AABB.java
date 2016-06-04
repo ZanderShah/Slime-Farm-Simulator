@@ -39,6 +39,8 @@ public class AABB implements Hitbox {
 			AABB o = (AABB) other;
 			
 			return this.getRect().intersects(o.getRect());
+		} else if (other instanceof SwordHitbox) {
+			
 		}
 		
 		return false;
