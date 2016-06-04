@@ -10,9 +10,9 @@ public class Cleric extends Player {
 	}
 
 	@Override
-	public void attack(Point p, Room r)
+	public boolean attack(Point p, Room r)
 	{
-		super.attack(p, r);
+		return super.attack(p, r);
 	}
 
 	@Override

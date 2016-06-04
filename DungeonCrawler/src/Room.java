@@ -130,17 +130,17 @@ public class Room implements Drawable
 	@Override
 	public void draw(Graphics g)
 	{
-		for (LevelObject o : objects)
+		for (int i = 0; i < objects.size(); i++)
 		{
-			o.draw(g);
+			objects.get(i).draw(g);
 		}
-		for (DamageSource ds : damageSources)
+		for (int i = 0; i < damageSources.size(); i++)
 		{
-			ds.draw(g);
+			damageSources.get(i).draw(g);
 		}
-		for (Player p : players)
+		for (int i = 0; i < players.size(); i++)
 		{
-			p.draw(g);
+			players.get(i).draw(g);
 		}
 	}
 

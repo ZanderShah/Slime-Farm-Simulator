@@ -38,8 +38,8 @@ public class Vector2D implements Comparable<Vector2D>
 	 */
 	public Vector2D(double angle)
 	{
-		y = Math.sin(Math.toRadians(angle));
-		x = Math.cos(Math.toRadians(angle));
+		y = Math.sin(Math.toRadians(-angle));
+		x = Math.cos(Math.toRadians(-angle));
 	}
 	
 	/**

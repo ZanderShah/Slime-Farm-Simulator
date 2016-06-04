@@ -57,19 +57,20 @@ public class Test extends JFrame
 		private ControlState cs;
 
 		private Room r = new Room(0, 0, 0, 0, 0);
-		private Tank tankTest = new Tank();
-		private Warrior warriorTest = new Warrior();
-		private Thief thiefTest = new Thief();
-		private Hunter hunterTest;
+//		private Tank tankTest = new Tank();
+//		private Warrior warriorTest = new Warrior();
+//		private Thief thiefTest = new Thief();
+//		private Hunter hunterTest;
+		private Mage mageTest = new Mage();
 
 		public TestPanel()
 		{
-			try{
-				hunterTest = new Hunter();
-			}	
-			catch(Exception IOException){
-				
-			}
+//			try{
+//				hunterTest = new Hunter();
+//			}	
+//			catch(Exception IOException){
+//				
+//			}
 			setPreferredSize(new Dimension(1000, 1000));
 			setFocusable(true);
 			addMouseListener(this);
@@ -78,10 +79,11 @@ public class Test extends JFrame
 
 			cs = new ControlState();
 
-			r.addPlayer(tankTest);
-			r.addPlayer(warriorTest);
-			r.addPlayer(thiefTest);
-			r.addPlayer(hunterTest);
+//			r.addPlayer(tankTest);
+//			r.addPlayer(warriorTest);
+//			r.addPlayer(thiefTest);
+//			r.addPlayer(hunterTest);
+			r.addPlayer(mageTest);
 
 			(new Thread() {
 				long lastUpdate;
@@ -91,10 +93,11 @@ public class Test extends JFrame
 					lastUpdate = System.currentTimeMillis();
 					while (true)
 					{
-						tankTest.update(cs, r);
-						warriorTest.update(cs, r);
-						thiefTest.update(cs, r);
-						hunterTest.update(cs, r);
+//						tankTest.update(cs, r);
+//						warriorTest.update(cs, r);
+//						thiefTest.update(cs, r);
+//						hunterTest.update(cs, r);
+						mageTest.update(cs, r);
 						r.update();
 						repaint(0);
 						long time = System.currentTimeMillis();

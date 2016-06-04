@@ -3,8 +3,8 @@ public abstract class Projectile extends DamageSource {
 	private Vector2D position;
 	private Vector2D speed;
 	
-	public Projectile(Hitbox h, Vector2D pos, Vector2D spd, boolean single, boolean player, int damage) {
-		super(h, 0, 999999999, single, player, damage);
+	public Projectile(Hitbox h, int duration, Vector2D pos, Vector2D spd, boolean single, boolean player, int damage) {
+		super(h, 0, duration, single, player, damage);
 		position = pos;
 		speed = spd;
 	}

@@ -12,7 +12,7 @@ public abstract class LivingEntity implements Drawable {
 		position = new Vector2D();
 		speed = new Vector2D();
 		effects = new ArrayList<StatusEffect>();
-		stats = new Stats(0, 0, 0, 0);
+		stats = new Stats(0, 0, 0, 0, 0);
 	}
 	
 	public Vector2D getPos() {

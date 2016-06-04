@@ -12,7 +12,7 @@ public class AABB implements Hitbox {
 	}
 	
 	public Rectangle getRect() {
-		return new Rectangle((int) position.getX(), (int) position.getY(), width, height);
+		return new Rectangle((int) position.getX() - width / 2, (int) position.getY() - height / 2, width, height);
 	}
 	
 	@Override
@@ -25,11 +25,11 @@ public class AABB implements Hitbox {
 		return position;
 	}
 
-	private int getWidth() {
+	public int getWidth() {
 		return width;
 	}
 	
-	private int getHeight() {
+	public int getHeight() {
 		return height;
 	}
 

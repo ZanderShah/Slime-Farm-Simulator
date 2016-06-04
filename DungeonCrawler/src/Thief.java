@@ -9,7 +9,7 @@ public class Thief extends Player {
 	
 	public Thief() {
 		super();
-		setStats(new Stats(100, 60, 3.0, 20.0));
+		setStats(new Stats(100, 30, 10, 3.0, 20.0));
 	}
 	
 	@Override
@@ -40,8 +40,8 @@ public class Thief extends Player {
 	}
 	
 	@Override
-	public void attack(Point p, Room r) {
-		super.attack(p, r);
+	public boolean attack(Point p, Room r) {
+		return super.attack(p, r);
 	}
 	
 	@Override

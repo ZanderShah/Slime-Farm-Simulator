@@ -6,7 +6,7 @@ public class Arrow extends Projectile {
 	private static final int DAMAGE = 20;
 	
 	public Arrow(Vector2D pos, Vector2D dir, boolean player) {
-		super(new AABB(pos, 8, 8), pos, dir.getNormalized().multiply(4.0), true, player, DAMAGE);
+		super(new AABB(pos, 8, 8), 999999, pos, dir.getNormalized().multiply(4.0), true, player, DAMAGE);
 	}
 
 	@Override

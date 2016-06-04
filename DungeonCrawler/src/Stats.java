@@ -2,13 +2,15 @@ public class Stats {
 	private int maxHealth;
 	private int health;
 	private int attackSpeed;
+	private int attackTime;
 	private double speed;
 	private double defense;
 	
-	public Stats(int mh, int as, double s, double d) {
+	public Stats(int mh, int as, int at, double s, double d) {
 		maxHealth = mh;
 		health = mh;
 		attackSpeed = as;
+		attackTime = at;
 		speed = s;
 		defense = d;
 	}
@@ -23,6 +25,10 @@ public class Stats {
 	
 	public int getAttackSpeed() {
 		return attackSpeed;
+	}
+
+	public int getAttackTime() {
+		return attackTime;
 	}
 	
 	public double getSpeed() {
@@ -43,6 +49,10 @@ public class Stats {
 	
 	public void setAttackSpeed(int as) {
 		attackSpeed = as;
+	}
+	
+	public void setAttackTime(int at) {
+		attackTime = at;
 	}
 	
 	public void setSpeed(double s) {

@@ -6,7 +6,7 @@ public class Tank extends Player {
 	
 	public Tank() {
 		super();
-		setStats(new Stats(100, 60, 1.0, 20.0));
+		setStats(new Stats(100, 60, 40, 1.0, 20.0));
 	}
 	
 	@Override
@@ -16,8 +16,8 @@ public class Tank extends Player {
 	}
 
 	@Override
-	public void attack(Point p, Room r) {
-		
+	public boolean attack(Point p, Room r) {
+		return super.attack(p, r);
 	}
 
 	@Override
