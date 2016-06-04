@@ -17,6 +17,7 @@ public abstract class Player extends LivingEntity {
 	}
 
 	public void update(ControlState cs, Room r) {
+		// send control state to server
 		if (attacking > 0) attacking--;
 		if (attackCooldown > 0) attackCooldown--;
 		
@@ -36,7 +37,6 @@ public abstract class Player extends LivingEntity {
 		}
 		if (cs.getPressed(ControlState.KEY_ATTACK)) {
 			attack(cs.getMouse(), r);
-			// also send attack to server
 		}
 		
 		speed.normalize();
