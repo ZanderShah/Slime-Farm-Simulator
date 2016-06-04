@@ -144,10 +144,13 @@ public class Room implements Drawable
 	@Override
 	public void draw(Graphics g)
 	{
+		if (currentRoom)
+			g.setColor(Color.CYAN);
+		else
+			g.setColor(Color.GRAY);
 		g.fillRect(x, y, width, height);
-		g.setColor(Color.BLUE);
+		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
-		g.setColor(Color.LIGHT_GRAY);
 
 		if (!currentRoom)
 			return;
