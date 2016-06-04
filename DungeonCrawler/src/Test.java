@@ -28,7 +28,7 @@ public class Test extends JFrame
 	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		entry = DungeonFactory.generateMap(25, 1);
-
+		entry.setCurrent(true);
 		Test pdt = new Test();
 		pdt.setVisible(true);
 	}
@@ -38,10 +38,7 @@ public class Test extends JFrame
 		if (t == null || vis[t.id()])
 			return;
 
-		g.fillRect(t.x(), t.y(), t.width(), t.height());
-		g.setColor(Color.BLUE);
-		g.drawRect(t.x(), t.y(), t.width(), t.height());
-		g.setColor(Color.LIGHT_GRAY);
+		t.draw(g);
 		vis[t.id()] = true;
 
 		drawRooms(t.getUp(), g, vis);
@@ -56,21 +53,20 @@ public class Test extends JFrame
 
 		private ControlState cs;
 
-		private Room r = new Room(0, 0, 0, 0, 0);
-//		private Tank tankTest = new Tank();
-//		private Warrior warriorTest = new Warrior();
-//		private Thief thiefTest = new Thief();
-//		private Hunter hunterTest;
+		// private Tank tankTest = new Tank();
+		private Warrior warriorTest = new Warrior();
+		private Thief thiefTest = new Thief();
+		// private Hunter hunterTest;
 		private Mage mageTest = new Mage();
 
 		public TestPanel()
 		{
-//			try{
-//				hunterTest = new Hunter();
-//			}	
-//			catch(Exception IOException){
-//				
-//			}
+			// try{
+			// hunterTest = new Hunter();
+			// }
+			// catch(Exception IOException){
+			//
+			// }
 			setPreferredSize(new Dimension(1000, 1000));
 			setFocusable(true);
 			addMouseListener(this);
@@ -79,11 +75,11 @@ public class Test extends JFrame
 
 			cs = new ControlState();
 
-//			r.addPlayer(tankTest);
-//			r.addPlayer(warriorTest);
-//			r.addPlayer(thiefTest);
-//			r.addPlayer(hunterTest);
-			r.addPlayer(mageTest);
+			// r.addPlayer(tankTest);
+			entry.addPlayer(warriorTest);
+			entry.addPlayer(thiefTest);
+			// r.addPlayer(hunterTest);
+			entry.addPlayer(mageTest);
 
 			(new Thread() {
 				long lastUpdate;
@@ -93,12 +89,12 @@ public class Test extends JFrame
 					lastUpdate = System.currentTimeMillis();
 					while (true)
 					{
-//						tankTest.update(cs, r);
-//						warriorTest.update(cs, r);
-//						thiefTest.update(cs, r);
-//						hunterTest.update(cs, r);
-						mageTest.update(cs, r);
-						r.update();
+						// tankTest.update(cs, r);
+						warriorTest.update(cs, entry);
+						thiefTest.update(cs, entry);
+						// hunterTest.update(cs, r);
+						mageTest.update(cs, entry);
+						entry.update();
 						repaint(0);
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
@@ -121,7 +117,7 @@ public class Test extends JFrame
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
-			r.draw(g);
+			entry.draw(g);
 			drawRooms(entry, g, new boolean[10000]);
 		}
 
@@ -231,7 +227,7 @@ public class Test extends JFrame
 		public void mouseExited(MouseEvent e)
 		{
 		}
-		
+
 		@Override
 		public void keyTyped(KeyEvent e)
 		{

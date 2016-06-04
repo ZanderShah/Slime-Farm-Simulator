@@ -34,7 +34,7 @@ public class DungeonFactory
 		int roomsConnected = (int) (Math.random() * (Math.min(left, 4))) + 1, successfulConnections = 0;
 		boolean newLeft = false, newRight = false, newUp = false, newDown = false;
 
-		for (int tries = 0; tries < 10000d
+		for (int tries = 0; tries < 10000
 				&& roomsConnected != successfulConnections; tries++)
 		{
 			int direction = (int) (Math.random() * 4) + 1;
@@ -156,19 +156,21 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 10; i++)
 		{
-			int x = randomWidth() * randomWidth(), y = randomHeight()
-					* randomHeight(), width = randomWidth(), height = randomHeight();
-			
-			LevelObject lo = new LevelObject(new Vector2D(x, y), false, false, width, height);
+			int x = randomWidth() * randomWidth() / randomWidth(), y = randomHeight()
+					* randomHeight() / randomHeight(), width = randomWidth(), height = randomHeight();
+			boolean blocks = Math.round(Math.random()) == 0;
+
+			LevelObject lo = new LevelObject(new Vector2D(x, y), false, blocks,
+					width, height);
 			if (room.hasSpaceFor(lo))
 				room.addLevelObject(lo);
 		}
 
-		/*fillWithObjects(room.getUp(), difficulty, vis);
+		fillWithObjects(room.getUp(), difficulty, vis);
 		fillWithObjects(room.getDown(), difficulty, vis);
 		fillWithObjects(room.getLeft(), difficulty, vis);
-		fillWithObjects(room.getRight(), difficulty, vis);*/
+		fillWithObjects(room.getRight(), difficulty, vis);
 	}
 }

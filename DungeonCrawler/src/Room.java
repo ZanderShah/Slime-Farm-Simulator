@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ public class Room implements Drawable
 	// the room individually,
 	// bottom left is (0, 0) and top right is (width, height)
 	private int x, y, width, height, id;
-	private boolean cleared;
+	private boolean cleared, currentRoom;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
 	private ArrayList<DamageSource> damageSources;
@@ -21,7 +22,7 @@ public class Room implements Drawable
 		this.height = height;
 		this.id = id;
 
-		cleared = false;
+		cleared = currentRoom = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
 		damageSources = new ArrayList<DamageSource>();
@@ -33,10 +34,13 @@ public class Room implements Drawable
 		for (int i = 0; i < damageSources.size(); i++)
 		{
 			damageSources.get(i).update(this);
-			if (damageSources.get(i).getDuration() == 0) {
+			if (damageSources.get(i).getDuration() == 0)
+			{
 				damageSources.remove(i);
 				i--;
-			} else {
+			}
+			else
+			{
 				// check for collisions
 			}
 		}
@@ -122,6 +126,16 @@ public class Room implements Drawable
 		return id;
 	}
 
+	public boolean isCurrent()
+	{
+		return currentRoom;
+	}
+
+	public void setCurrent(boolean newState)
+	{
+		currentRoom = newState;
+	}
+
 	public void addLevelObject(LevelObject o)
 	{
 		objects.add(o);
@@ -130,6 +144,14 @@ public class Room implements Drawable
 	@Override
 	public void draw(Graphics g)
 	{
+		g.fillRect(x, y, width, height);
+		g.setColor(Color.BLUE);
+		g.drawRect(x, y, width, height);
+		g.setColor(Color.LIGHT_GRAY);
+
+		if (!currentRoom)
+			return;
+		
 		for (int i = 0; i < objects.size(); i++)
 		{
 			objects.get(i).draw(g);
@@ -144,21 +166,25 @@ public class Room implements Drawable
 		}
 	}
 
+	public boolean hasCollisionWith(AABB object)
+	{
+		for (LevelObject l : objects)
+		{
+			if (l.hitbox() != null && l.hitbox().intersects(object))
+				return true;
+		}
+			
+		return false;
+	}
+	
 	public boolean hasSpaceFor(LevelObject n)
 	{
 		for (LevelObject o : objects)
 		{
-			if (o.x() >= n.x() + n.width() || o.x() + o.width() <= n.x()
+			if (!(o.x() >= n.x() + n.width() || o.x() + o.width() <= n.x()
 					|| o.y() >= n.y() + n.height()
-					|| o.y() + o.height() <= n.y())
-			{
-				continue;
-			}
-			else
-			{
-				System.out.println("false");
+					|| o.y() + o.height() <= n.y()))
 				return false;
-			}
 		}
 
 		return true;

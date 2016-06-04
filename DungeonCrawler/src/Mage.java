@@ -12,7 +12,7 @@ public class Mage extends Player {
 	
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(Color.BLUE);
+		g.setColor(Color.RED);
 		g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
 	}
 	

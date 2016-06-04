@@ -28,8 +28,8 @@ public class Warrior extends Player {
 	
 	@Override
 	public void draw(Graphics g) {
-		//g.setColor(Color.GRAY);
-		//g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
+		g.setColor(Color.GRAY);
+		g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
 		//g.drawImage(img, (int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, null);
 		
 		g.setColor(Color.LIGHT_GRAY);
