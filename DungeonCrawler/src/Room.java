@@ -151,7 +151,7 @@ public class Room implements Drawable
 
 		if (!currentRoom)
 			return;
-		
+
 		for (int i = 0; i < objects.size(); i++)
 		{
 			objects.get(i).draw(g);
@@ -169,23 +169,17 @@ public class Room implements Drawable
 	public boolean hasCollisionWith(AABB object)
 	{
 		for (LevelObject l : objects)
-		{
-			if (l.hitbox() != null && l.hitbox().intersects(object))
+			if (l.blocksPlayer() && l.hitbox().intersects(object))
 				return true;
-		}
-			
+
 		return false;
 	}
-	
+
 	public boolean hasSpaceFor(LevelObject n)
 	{
 		for (LevelObject o : objects)
-		{
-			if (!(o.x() >= n.x() + n.width() || o.x() + o.width() <= n.x()
-					|| o.y() >= n.y() + n.height()
-					|| o.y() + o.height() <= n.y()))
+			if (n.hitbox().intersects(o.hitbox()))
 				return false;
-		}
 
 		return true;
 	}

@@ -18,10 +18,8 @@ public class LevelObject implements Drawable
 		this.blocksPlayer = blocksPlayer;
 		this.width = width;
 		this.height = height;
-		if (blocksPlayer)
-			hitbox = new AABB(
-					pos.add(new Vector2D(width / 2, height / 2)), width,
-					height);
+		hitbox = new AABB(pos.add(new Vector2D(width / 2, height / 2)), width,
+				height);
 	}
 
 	public Vector2D getPos()
