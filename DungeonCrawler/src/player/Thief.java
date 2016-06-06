@@ -5,14 +5,13 @@ import java.awt.Point;
 
 import engine.Stats;
 import engine.SwordDamageSource;
+import utility.Constants;
 import utility.ControlState;
 import utility.Vector2D;
 import world.Room;
 
 public class Thief extends Player {
 	private static final int SIZE = 32;
-	private static final int SWORD_SIZE = 64;
-	private static final int SWORD_SWING = 30;
 	
 	private int blinking;
 	private int dodging;
@@ -21,7 +20,7 @@ public class Thief extends Player {
 	
 	public Thief() {
 		super();
-		setStats(new Stats(100, 30, 10, 3.0, 20.0));
+		setStats(new Stats(Constants.THIEF_HEALTH, Constants.THIEF_ATTACK_SPEED, Constants.THIEF_ATTACK_LENGTH, Constants.THIEF_SPEED, Constants.THIEF_DEFENSE));
 		blinking = 0;
 		dodging = 0;
 		dodgeDirection = new Vector2D();
@@ -34,12 +33,6 @@ public class Thief extends Player {
 			g.setColor(new Color(Color.GRAY.getRed(), Color.GRAY.getGreen(), Color.GRAY.getBlue(), 128));
 		}
 		g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
-		
-//		g.setColor(Color.LIGHT_GRAY);
-//		if (getAttacking() > 0) {
-//			g.fillArc((int) getPos().getX() - SWORD_SIZE / 2, (int) getPos().getY() - SWORD_SIZE / 2, SWORD_SIZE, SWORD_SIZE,
-//					(int) (getAttackDir().getAngle() - SWORD_SWING / 2), SWORD_SWING);
-//		}
 	}
 	
 	@Override
@@ -56,7 +49,7 @@ public class Thief extends Player {
 	public void update(ControlState cs, Room r) {
 		if (blinking > 0) {
 			blinking--;
-			if (blinking == 0) setCooldown(1, 600);
+			if (blinking == 0) setCooldown(1, Constants.THIEF_AB1_COOLDOWN);
 		}
 		if (dodging > 0) {
 			dodging--;
@@ -70,7 +63,7 @@ public class Thief extends Player {
 	public boolean attack(Point p, Room r) {
 		boolean attacked = super.attack(p, r);
 		if (attacked) {
-			r.addDamageSource(new SwordDamageSource(getPos(), SWORD_SIZE, (int) getAttackDir().getAngle() - SWORD_SWING / 2, SWORD_SWING, getStats().getAttackTime(), true, (blinking != 0 ? 60 : 20)));
+			r.addDamageSource(new SwordDamageSource(getPos(), Constants.THIEF_SWORD_SIZE, (int) getAttackDir().getAngle() - Constants.THIEF_SWING_ANGLE / 2, Constants.THIEF_SWING_ANGLE, getStats().getAttackTime(), true, (blinking != 0 ? Constants.THIEF_DAMAGE * 3 : Constants.THIEF_DAMAGE)));
 			blinking = 0;
 			setCooldown(1, 600);
 		}
@@ -94,7 +87,7 @@ public class Thief extends Player {
 			dodging = 15;
 			setImmobile(true);
 			dodgeDirection = (new Vector2D(p)).subtract(getPos()).getNormalized();
-			setCooldown(2, 90);
+			setCooldown(2, Constants.THIEF_AB2_COOLDOWN);
 		}
 	}
 

@@ -1,38 +1,26 @@
 package player;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 
 import engine.Stats;
 import engine.SwordDamageSource;
+import utility.Constants;
 import utility.ControlState;
 import world.Room;
 
 public class Warrior extends Player {
 	private static final int SIZE = 32;
-	private static final int SWORD_SIZE = 96;
-	private static final int SWORD_SWING = 120;
-	private Image img;
 	
 	public Warrior(){
 		super();
-		setStats(new Stats(100, 60, 40, 2.0, 20.0));
-		
-//		try{
-//			img = ImageIO.read(new File(".png"));
-//		}
-//		catch(Exception IOException){
-//			
-//		}
-		
+		setStats(new Stats(Constants.WARRIOR_HEALTH, Constants.WARRIOR_ATTACK_SPEED, Constants.WARRIOR_ATTACK_LENGTH, Constants.WARRIOR_SPEED, Constants.WARRIOR_DEFENSE));
 	}
 	
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(Color.GRAY);
 		g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
-		//g.drawImage(img, (int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, null);
 	}
 	
 	@Override
@@ -53,7 +41,7 @@ public class Warrior extends Player {
 	@Override
 	public boolean attack(Point p, Room r) {
 		boolean attacked = super.attack(p, r);
-		if (attacked) r.addDamageSource(new SwordDamageSource(getPos(), SWORD_SIZE, (int) getAttackDir().getAngle() - SWORD_SWING / 2, SWORD_SWING, getStats().getAttackTime(), true, 30));
+		if (attacked) r.addDamageSource(new SwordDamageSource(getPos(), Constants.WARRIOR_SWORD_SIZE, (int) getAttackDir().getAngle() - Constants.WARRIOR_SWING_ANGLE / 2, Constants.WARRIOR_SWING_ANGLE, getStats().getAttackTime(), true, Constants.WARRIOR_DAMAGE));
 		return attacked;
 	}
 	
@@ -63,8 +51,8 @@ public class Warrior extends Player {
 	public void ability1(Point p, Room r) {
 		if (getAttacking() == 0 && getCooldown(1) == 0) {
 			setAttacking(100);
-			setCooldown(1, 300);
-			r.addDamageSource(new SwordDamageSource(getPos(), SWORD_SIZE, 0, 360, getStats().getAttackTime(), true, 30));
+			setCooldown(1, Constants.WARRIOR_AB1_COOLDOWN);
+			r.addDamageSource(new SwordDamageSource(getPos(), (int) (Constants.WARRIOR_SWORD_SIZE * 1.5), 0, 360, getStats().getAttackTime(), true, Constants.WARRIOR_DAMAGE));
 		}
 	}
 

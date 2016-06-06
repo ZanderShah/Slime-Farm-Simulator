@@ -4,13 +4,14 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 import engine.Stats;
+import utility.Constants;
 import world.Room;
 
 public class Tank extends Player {
 	
 	public Tank() {
 		super();
-		setStats(new Stats(100, 60, 40, 1.0, 20.0));
+		setStats(new Stats(Constants.TANK_HEALTH, Constants.TANK_ATTACK_SPEED, Constants.TANK_ATTACK_LENGTH, Constants.TANK_SPEED, Constants.TANK_DEFENSE));
 	}
 	
 	@Override

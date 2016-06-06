@@ -5,6 +5,7 @@ import java.awt.Point;
 
 import engine.Fireball;
 import engine.Stats;
+import utility.Constants;
 import utility.ControlState;
 import utility.Vector2D;
 import world.Room;
@@ -14,7 +15,7 @@ public class Mage extends Player {
 	
 	public Mage() {
 		super();
-		setStats(new Stats(100, 2, 1, 2.0, 20.0));
+		setStats(new Stats(Constants.MAGE_HEALTH, Constants.MAGE_ATTACK_SPEED, Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED, Constants.MAGE_DEFENSE));
 	}
 	
 	@Override

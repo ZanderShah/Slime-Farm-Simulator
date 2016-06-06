@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import engine.Arrow;
 import engine.Stats;
+import utility.Constants;
 import utility.ControlState;
 import utility.Vector2D;
 import world.Room;
@@ -18,7 +19,7 @@ public class Hunter extends Player {
 	
 	public Hunter() {
 		super();
-		setStats(new Stats(100, 60, 20, 2.0, 20.0));
+		setStats(new Stats(Constants.HUNTER_HEALTH, Constants.HUNTER_ATTACK_SPEED, Constants.HUNTER_ATTACK_LENGTH, Constants.HUNTER_SPEED, Constants.HUNTER_DEFENSE));
 		try{
 			img = ImageIO.read(new File("img\\HunterFront2.png"));
 		}
