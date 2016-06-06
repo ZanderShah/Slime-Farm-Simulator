@@ -135,6 +135,21 @@ public class Test extends JFrame
 
 			entry.draw(g);
 			drawRooms(entry, g, new boolean[10000]);
+			
+			drawHUD(warriorTest, g);
+		}
+		
+		public void drawHUD(Player p, Graphics g) {
+			g.setColor(Color.GRAY);
+			g.fillRect(0, getHeight() - 200, getWidth(), 200);
+			
+			g.setColor(Color.GRAY.darker());
+			g.fillRect(100, getHeight() - 180, 300, 20);
+			
+			g.setColor(Color.RED);
+			g.fillRect(100, getHeight() - 180, (int) (300.0 * p.getStats().getHealth() / p.getStats().getMaxHealth()), 20);
+			
+			
 		}
 
 		@Override

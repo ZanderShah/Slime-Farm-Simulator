@@ -53,4 +53,10 @@ public class Thief extends Player {
 	public void ability2(Point p, Room r) {
 		
 	}
+
+	@Override
+	public void ability3(Point p, Room r) {
+		// TODO Auto-generated method stub
+		
+	}
 }
