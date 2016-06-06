@@ -7,6 +7,7 @@ public abstract class LivingEntity implements Drawable
 	private Vector2D speed;
 	private Stats stats;
 	private AABB hitbox;
+	private boolean immobile;
 
 	private ArrayList<StatusEffect> effects;
 
@@ -17,6 +18,7 @@ public abstract class LivingEntity implements Drawable
 		effects = new ArrayList<StatusEffect>();
 		stats = new Stats(0, 0, 0, 0, 0);
 		hitbox = new AABB(position.add(new Vector2D(16, 16)), 32, 32);
+		immobile = false;
 	}
 
 	public Vector2D getPos()
@@ -67,6 +69,14 @@ public abstract class LivingEntity implements Drawable
 	public int getHeight()
 	{
 		return 0;
+	}
+	
+	public boolean getImmobile() {
+		return immobile;
+	}
+	
+	public void setImmobile(boolean i) {
+		immobile = i;
 	}
 
 	public void update(Room l)

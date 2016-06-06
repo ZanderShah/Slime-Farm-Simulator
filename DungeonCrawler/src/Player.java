@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Arrays;
 
 public abstract class Player extends LivingEntity {
 	private Vector2D attackDirection;
@@ -21,48 +20,49 @@ public abstract class Player extends LivingEntity {
 		for (int i = 0; i < cooldowns.length; i++) {
 			if (cooldowns[i] > 0) cooldowns[i]--;
 		}
-		System.out.println(Arrays.toString(cooldowns));
 		
-		Vector2D speed = new Vector2D();
-		
-		if (cs.getPressed(ControlState.KEY_UP)) {
-			speed.addToThis(new Vector2D(0, -1));
-		}
-		if (cs.getPressed(ControlState.KEY_LEFT)) {
-			speed.addToThis(new Vector2D(-1, 0));
-		}
-		if (cs.getPressed(ControlState.KEY_DOWN)) {
-			speed.addToThis(new Vector2D(0, 1));
-		}
-		if (cs.getPressed(ControlState.KEY_RIGHT)) {
-			speed.addToThis(new Vector2D(1, 0));
-		}
-		if (cs.getPressed(ControlState.KEY_ATTACK)) {
-			attack(cs.getMouse(), r);
-		}
-		if (cs.getPressed(ControlState.KEY_AB1)) {
-			ability1(cs.getMouse(), r);
-		}
-		if (cs.getPressed(ControlState.KEY_AB2)) {
-			ability2(cs.getMouse(), r);
-		}
-		if (cs.getPressed(ControlState.KEY_AB3)) {
-			ability3(cs.getMouse(), r);
-		}
-
-		speed.normalize();
-		speed.multiplyBy(getStats().getSpeed());
-		for (StatusEffect e : getEffects()) {
-			if (e.getType() == StatusEffect.SPEED) {
-				speed.multiplyBy(e.getStrength());
+		if (!getImmobile()) {
+			Vector2D speed = new Vector2D();
+			
+			if (cs.getPressed(ControlState.KEY_UP)) {
+				speed.addToThis(new Vector2D(0, -1));
 			}
+			if (cs.getPressed(ControlState.KEY_LEFT)) {
+				speed.addToThis(new Vector2D(-1, 0));
+			}
+			if (cs.getPressed(ControlState.KEY_DOWN)) {
+				speed.addToThis(new Vector2D(0, 1));
+			}
+			if (cs.getPressed(ControlState.KEY_RIGHT)) {
+				speed.addToThis(new Vector2D(1, 0));
+			}
+			if (cs.getPressed(ControlState.KEY_ATTACK)) {
+				attack(cs.getMouse(), r);
+			}
+			if (cs.getPressed(ControlState.KEY_AB1)) {
+				ability1(cs.getMouse(), r);
+			}
+			if (cs.getPressed(ControlState.KEY_AB2)) {
+				ability2(cs.getMouse(), r);
+			}
+			if (cs.getPressed(ControlState.KEY_AB3)) {
+				ability3(cs.getMouse(), r);
+			}
+	
+			speed.normalize();
+			speed.multiplyBy(getStats().getSpeed());
+			for (StatusEffect e : getEffects()) {
+				if (e.getType() == StatusEffect.SPEED) {
+					speed.multiplyBy(e.getStrength());
+				}
+			}
+			
+			if (attacking != 0) {
+				speed.multiplyBy(0);
+			}
+			
+			setSpeed(speed);
 		}
-		
-		if (attacking != 0) {
-			speed.multiplyBy(0);
-		}
-		
-		setSpeed(speed);
 		
 		super.update(r);
 	}

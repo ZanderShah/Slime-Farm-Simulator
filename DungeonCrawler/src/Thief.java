@@ -51,11 +51,12 @@ public class Thief extends Player {
 			blinking--;
 			if (blinking == 0) setCooldown(1, 300);
 		}
-		super.update(cs, r);
 		if (dodging > 0) {
 			dodging--;
-			setSpeed(dodgeDirection.multiply(6));
+			if (dodging == 0) setImmobile(false);
+			setSpeed(dodgeDirection.multiply(8.0));
 		}
+		super.update(cs, r);
 	}
 	
 	@Override
@@ -83,8 +84,9 @@ public class Thief extends Player {
 	@Override
 	public void ability2(Point p, Room r) {
 		if (getAttacking() == 0 && getCooldown(2) == 0) {
-			dodging = 30;
-			dodgeDirection = (new Vector2D(p)).subtract(getPos());
+			dodging = 15;
+			setImmobile(true);
+			dodgeDirection = (new Vector2D(p)).subtract(getPos()).getNormalized();
 			setCooldown(2, 90);
 		}
 	}
