@@ -1,7 +1,9 @@
+import java.awt.Image;
+
 public class DungeonFactory
 {
-	private static final int MIN_ROOM_WIDTH = 35, MAX_ROOM_WIDTH = 100,
-			MIN_ROOM_HEIGHT = 35, MAX_ROOM_HEIGHT = 100;
+	private static final int MIN_ROOM_WIDTH = 35, MAX_ROOM_WIDTH = 35,
+			MIN_ROOM_HEIGHT = 35, MAX_ROOM_HEIGHT = 35;
 	private static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	private static int totalRooms;
 
@@ -19,14 +21,15 @@ public class DungeonFactory
 
 	public static Room generateMap(int numberOfRooms, int difficulty)
 	{
-		Room entry = new Room(500, 500, randomWidth(), randomHeight(), 0);
+		Room entry = new Room(850, 850, randomWidth(), randomHeight(),
+				difficulty, 0);
 		totalRooms = 1;
-		generateConnections(entry, numberOfRooms - 1);
+		generateConnections(entry, numberOfRooms - 1, difficulty);
 		fillWithObjects(entry, difficulty, new boolean[totalRooms]);
 		return entry;
 	}
 
-	private static void generateConnections(Room room, int left)
+	private static void generateConnections(Room room, int left, int difficulty)
 	{
 		if (left == 0)
 			return;
@@ -48,7 +51,7 @@ public class DungeonFactory
 			{
 				room.setLeft(new Room(room.x() - width, room.y()
 						+ room.height()
-						/ 2 - height / 2, width, height, totalRooms));
+						/ 2 - height / 2, width, height, difficulty, totalRooms));
 				room.getLeft().setRight(room);
 				totalRooms++;
 				successfulConnections++;
@@ -62,7 +65,8 @@ public class DungeonFactory
 							height, new boolean[totalRooms]))
 			{
 				room.setUp(new Room(room.x() + room.width() / 2 - width / 2,
-						room.y() + room.height(), width, height, totalRooms));
+						room.y() + room.height(), width, height, difficulty,
+						totalRooms));
 				room.getUp().setDown(room);
 				totalRooms++;
 				successfulConnections++;
@@ -78,7 +82,8 @@ public class DungeonFactory
 			{
 				room.setRight(new Room(room.x() + room.width(),
 						room.y() + room.height()
-								/ 2 - height / 2, width, height, totalRooms));
+								/ 2 - height / 2, width, height, difficulty,
+						totalRooms));
 				room.getRight().setLeft(room);
 				totalRooms++;
 				successfulConnections++;
@@ -92,7 +97,8 @@ public class DungeonFactory
 							new boolean[totalRooms]))
 			{
 				room.setDown(new Room(room.x() + room.width() / 2 - width / 2,
-						room.y() - height, width, height, totalRooms));
+						room.y() - height, width, height, difficulty,
+						totalRooms));
 				room.getDown().setUp(room);
 				totalRooms++;
 				successfulConnections++;
@@ -108,13 +114,13 @@ public class DungeonFactory
 		int split = (left - successfulConnections) / successfulConnections;
 
 		if (newLeft)
-			generateConnections(room.getLeft(), split);
+			generateConnections(room.getLeft(), split, difficulty);
 		if (newUp)
-			generateConnections(room.getUp(), split);
+			generateConnections(room.getUp(), split, difficulty);
 		if (newRight)
-			generateConnections(room.getRight(), split);
+			generateConnections(room.getRight(), split, difficulty);
 		if (newDown)
-			generateConnections(room.getDown(), split);
+			generateConnections(room.getDown(), split, difficulty);
 	}
 
 	private static boolean fits(Room room, int x, int y, int width, int height,
@@ -156,14 +162,14 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 50; i++)
 		{
-			int x = randomWidth() * randomWidth() / randomWidth(), y = randomHeight()
-					* randomHeight() / randomHeight(), width = randomWidth(), height = randomHeight();
+			Image img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES);
+			int x = room.randomX(), y = room.randomY();
 			boolean blocks = Math.round(Math.random()) == 0;
 
 			LevelObject lo = new LevelObject(new Vector2D(x, y), false, blocks,
-					width, height);
+					img);
 			if (room.hasSpaceFor(lo))
 				room.addLevelObject(lo);
 		}

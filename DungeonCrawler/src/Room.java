@@ -7,19 +7,20 @@ public class Room implements Drawable
 	// x y are used only for position relative to other rooms, when dealing with
 	// the room individually,
 	// bottom left is (0, 0) and top right is (width, height)
-	private int x, y, width, height, id;
+	private int x, y, width, height, difficulty, id;
 	private boolean cleared, currentRoom;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
 	private ArrayList<DamageSource> damageSources;
 	private ArrayList<Player> players;
 
-	public Room(int x, int y, int width, int height, int id)
+	public Room(int x, int y, int width, int height, int difficulty, int id)
 	{
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.difficulty = difficulty;
 		this.id = id;
 
 		cleared = currentRoom = false;
@@ -141,11 +142,26 @@ public class Room implements Drawable
 		objects.add(o);
 	}
 
+	public int randomX()
+	{
+		return (int) (Math.random() * (width - 1) * 64) + 64;
+	}
+
+	public int randomY()
+	{
+		return (int) (Math.random() * (height - 1) * 64) + 64;
+	}
+
 	@Override
 	public void draw(Graphics g)
 	{
 		if (currentRoom)
+		{
 			g.setColor(Color.CYAN);
+			for (int i = 0; i < width; i++)
+				for (int j = 0; j < height; j++)
+					g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64, j * 64, null);
+		}
 		else
 			g.setColor(Color.GRAY);
 		g.fillRect(x, y, width, height);

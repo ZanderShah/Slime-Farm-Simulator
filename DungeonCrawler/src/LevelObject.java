@@ -7,19 +7,17 @@ public class LevelObject implements Drawable
 	private Image img;
 	private Vector2D position;
 	private boolean destructable, blocksPlayer;
-	private int width, height;
 	private AABB hitbox;
 
 	public LevelObject(Vector2D pos, boolean destructable,
-			boolean blocksPlayer, int width, int height)
+			boolean blocksPlayer, Image img)
 	{
 		position = pos;
 		this.destructable = destructable;
 		this.blocksPlayer = blocksPlayer;
-		this.width = width;
-		this.height = height;
-		hitbox = new AABB(pos.add(new Vector2D(width / 2, height / 2)), width,
-				height);
+		this.img = img;
+		hitbox = new AABB(pos.add(new Vector2D(width() / 2, height() / 2)), width(),
+				height());
 	}
 
 	public Vector2D getPos()
@@ -49,12 +47,12 @@ public class LevelObject implements Drawable
 
 	public int width()
 	{
-		return width;
+		return img.getWidth(null);
 	}
 
 	public int height()
 	{
-		return height;
+		return img.getHeight(null);
 	}
 
 	public AABB hitbox()
@@ -66,9 +64,13 @@ public class LevelObject implements Drawable
 	public void draw(Graphics g)
 	{
 		if (blocksPlayer)
+		{
 			g.setColor(Color.GREEN);
+			g.fillRect(x(), y(), width(), height());
+		}
 		else
-			g.setColor(Color.MAGENTA);
-		g.fillRect(x(), y(), width, height);
+		{
+			g.drawImage(img, x(), y(), null);
+		}
 	}
 }
