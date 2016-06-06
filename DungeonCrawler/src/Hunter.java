@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -7,12 +6,12 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class Hunter extends Player {
-	private static final int SIZE = 32;
+	private static final int SIZE = 64;
 	private Image img;
 	
 	public Hunter() {
 		super();
-		setStats(new Stats(100, 60, 2.0, 20.0));
+		setStats(new Stats(100, 60, 20, 2.0, 20.0));
 		try{
 			img = ImageIO.read(new File("img\\HunterFront2.png"));
 		}
@@ -45,11 +44,12 @@ public class Hunter extends Player {
 	}
 	
 	@Override
-	public void attack(Point p, Room r) {
-		if (getAttackCooldown() == 0) {
-			r.fireProjectile(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(getPos())));
+	public boolean attack(Point p, Room r) {
+		boolean attacked = super.attack(p, r);
+		if (attacked) {
+			r.addDamageSource(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(getPos()), true));
 		}
-		super.attack(p, r);
+		return attacked;
 	}
 	
 	@Override

@@ -15,7 +15,7 @@ public class Warrior extends Player {
 	
 	public Warrior(){
 		super();
-		setStats(new Stats(100, 60, 2.0, 20.0));
+		setStats(new Stats(100, 60, 40, 2.0, 20.0));
 		
 //		try{
 //			img = ImageIO.read(new File(".png"));
@@ -28,8 +28,8 @@ public class Warrior extends Player {
 	
 	@Override
 	public void draw(Graphics g) {
-		//g.setColor(Color.GRAY);
-		//g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
+		g.setColor(Color.GRAY);
+		g.fillRect((int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, getWidth(), getHeight());
 		//g.drawImage(img, (int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, null);
 		
 		g.setColor(Color.LIGHT_GRAY);
@@ -55,9 +55,9 @@ public class Warrior extends Player {
 	}
 	
 	@Override
-	public void attack(Point p, Room r) {
-		super.attack(p, r);
-		// r.addHitbox(hitbox);
+	public boolean attack(Point p, Room r) {
+		return super.attack(p, r);
+		// r.addDamageSource(hitbox);
 	}
 	
 	@Override

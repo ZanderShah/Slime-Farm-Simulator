@@ -1,14 +1,17 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-public class Room implements Drawable {
+public class Room implements Drawable
+{
+	// x y are used only for position relative to other rooms, when dealing with
+	// the room individually,
+	// bottom left is (0, 0) and top right is (width, height)
 	private int x, y, width, height, id;
-	private boolean cleared;
+	private boolean cleared, currentRoom;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
-	
-	
-	private ArrayList<Projectile> projectiles;
+	private ArrayList<DamageSource> damageSources;
 	private ArrayList<Player> players;
 
 	public Room(int x, int y, int width, int height, int id)
@@ -19,26 +22,38 @@ public class Room implements Drawable {
 		this.height = height;
 		this.id = id;
 
-		cleared = false;
+		cleared = currentRoom = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
-		
-		projectiles = new ArrayList<Projectile>();
+		damageSources = new ArrayList<DamageSource>();
 		players = new ArrayList<Player>();
 	}
-	
-	public void update() {
-		for (Projectile p : projectiles) {
-			p.update(this);
+
+	public void update()
+	{
+		for (int i = 0; i < damageSources.size(); i++)
+		{
+			damageSources.get(i).update(this);
+			if (damageSources.get(i).getDuration() == 0)
+			{
+				damageSources.remove(i);
+				i--;
+			}
+			else
+			{
+				// check for collisions
+			}
 		}
 	}
-	
-	public void addPlayer(Player p) {
+
+	public void addPlayer(Player p)
+	{
 		players.add(p);
 	}
-	
-	public void fireProjectile(Projectile p) {
-		projectiles.add(p);
+
+	public void addDamageSource(DamageSource ds)
+	{
+		damageSources.add(ds);
 	}
 
 	public void setUp(Room up)
@@ -111,13 +126,64 @@ public class Room implements Drawable {
 		return id;
 	}
 
+	public boolean isCurrent()
+	{
+		return currentRoom;
+	}
+
+	public void setCurrent(boolean newState)
+	{
+		currentRoom = newState;
+	}
+
+	public void addLevelObject(LevelObject o)
+	{
+		objects.add(o);
+	}
+
 	@Override
-	public void draw(Graphics g) {
-		for (int p = 0; p < players.size(); p++) {
-			players.get(p).draw(g);
+	public void draw(Graphics g)
+	{
+		if (currentRoom)
+			g.setColor(Color.CYAN);
+		else
+			g.setColor(Color.GRAY);
+		g.fillRect(x, y, width, height);
+		g.setColor(Color.BLACK);
+		g.drawRect(x, y, width, height);
+
+		if (!currentRoom)
+			return;
+
+		for (int i = 0; i < objects.size(); i++)
+		{
+			objects.get(i).draw(g);
 		}
-		for (int p = 0; p < projectiles.size(); p++) {
-			projectiles.get(p).draw(g);
+		for (int i = 0; i < damageSources.size(); i++)
+		{
+			damageSources.get(i).draw(g);
 		}
+		for (int i = 0; i < players.size(); i++)
+		{
+			players.get(i).draw(g);
+		}
+	}
+
+	public boolean hasCollisionWith(AABB object)
+	{
+		for (LevelObject l : objects)
+			if (l.blocksPlayer() && l.hitbox().intersects(object))
+				return true;
+
+		return false;
+	}
+
+	public boolean hasSpaceFor(LevelObject n)
+	{
+		for (LevelObject o : objects)
+			if (n.hitbox().intersects(o.hitbox()))
+				return false;
+
+		return true;
 	}
 }

@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+// Not used anymore
 public class ProceduralDungeonTest extends JFrame {
 
 	private static final int MIN_ROOM_WIDTH = 10;

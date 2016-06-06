@@ -12,11 +12,12 @@ public abstract class Player extends LivingEntity {
 	
 	public Player() {
 		super();
-		setStats(new Stats(100, 40, 3, 0));
+		setStats(new Stats(100, 40, 40, 3, 0));
 		attacking = 0;
 	}
 
 	public void update(ControlState cs, Room r) {
+		// send control state to server
 		if (attacking > 0) attacking--;
 		if (attackCooldown > 0) attackCooldown--;
 		
@@ -36,7 +37,6 @@ public abstract class Player extends LivingEntity {
 		}
 		if (cs.getPressed(ControlState.KEY_ATTACK)) {
 			attack(cs.getMouse(), r);
-			// also send attack to server
 		}
 		
 		speed.normalize();
@@ -71,15 +71,23 @@ public abstract class Player extends LivingEntity {
 	@Override
 	public abstract void draw(Graphics g);
 	
-	public void attack(Point p, Room r) {
+	public boolean attack(Point p, Room r) {
 		if (attackCooldown == 0) {
-			attacking = ATTACK_TIME;
+			attacking = getStats().getAttackTime();
 			attackCooldown = getStats().getAttackSpeed();
 			Vector2D direction = (new Vector2D(p)).subtract(getPos());
 			direction.normalize();
 			attackDirection = direction;
+			return true;
 		}
+		return false;
 	}
 	public abstract void ability1(Point p, Room r);
 	public abstract void ability2(Point p, Room r);
+
+	public void attack(Point p)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

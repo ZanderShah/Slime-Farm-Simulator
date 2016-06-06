@@ -22,7 +22,7 @@ public class DungeonFactory
 		Room entry = new Room(500, 500, randomWidth(), randomHeight(), 0);
 		totalRooms = 1;
 		generateConnections(entry, numberOfRooms - 1);
-		fillWithObjects(entry, new boolean[totalRooms]);
+		fillWithObjects(entry, difficulty, new boolean[totalRooms]);
 		return entry;
 	}
 
@@ -34,7 +34,7 @@ public class DungeonFactory
 		int roomsConnected = (int) (Math.random() * (Math.min(left, 4))) + 1, successfulConnections = 0;
 		boolean newLeft = false, newRight = false, newUp = false, newDown = false;
 
-		for (int tries = 0; tries < 10000d
+		for (int tries = 0; tries < 10000
 				&& roomsConnected != successfulConnections; tries++)
 		{
 			int direction = (int) (Math.random() * 4) + 1;
@@ -149,18 +149,28 @@ public class DungeonFactory
 		return false;
 	}
 
-	private static void fillWithObjects(Room room, boolean[] vis)
+	private static void fillWithObjects(Room room, int difficulty, boolean[] vis)
 	{
 		if (room == null || vis[room.id()])
 			return;
-		
+
 		vis[room.id()] = true;
-	
-		
-		
-		fillWithObjects(room.getUp(), vis);
-		fillWithObjects(room.getDown(), vis);
-		fillWithObjects(room.getLeft(), vis);
-		fillWithObjects(room.getRight(), vis);
+
+		for (int i = 0; i < 10; i++)
+		{
+			int x = randomWidth() * randomWidth() / randomWidth(), y = randomHeight()
+					* randomHeight() / randomHeight(), width = randomWidth(), height = randomHeight();
+			boolean blocks = Math.round(Math.random()) == 0;
+
+			LevelObject lo = new LevelObject(new Vector2D(x, y), false, blocks,
+					width, height);
+			if (room.hasSpaceFor(lo))
+				room.addLevelObject(lo);
+		}
+
+		fillWithObjects(room.getUp(), difficulty, vis);
+		fillWithObjects(room.getDown(), difficulty, vis);
+		fillWithObjects(room.getLeft(), difficulty, vis);
+		fillWithObjects(room.getRight(), difficulty, vis);
 	}
 }
