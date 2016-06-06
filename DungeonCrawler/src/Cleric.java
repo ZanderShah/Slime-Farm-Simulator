@@ -28,4 +28,10 @@ public class Cleric extends Player {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void ability3(Point p, Room r) {
+		// TODO Auto-generated method stub
+		
+	}
 }

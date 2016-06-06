@@ -3,13 +3,13 @@ public class SwordHitbox implements Hitbox {
 	private Vector2D position;
 	private int radius;
 	private int startAngle;
-	private int endAngle;
+	private int angle;
 	
-	public SwordHitbox(Vector2D pos, int r, int sa, int ea) {
+	public SwordHitbox(Vector2D pos, int r, int sa, int a) {
 		position = pos;
 		radius = r;
 		startAngle = sa;
-		endAngle = ea;
+		angle = a;
 	}
 	
 	@Override
@@ -31,8 +31,8 @@ public class SwordHitbox implements Hitbox {
 		return startAngle;
 	}
 	
-	public int getEnd() {
-		return endAngle;
+	public int getAngle() {
+		return angle;
 	}
 
 	@Override
@@ -47,6 +47,6 @@ public class SwordHitbox implements Hitbox {
 	
 	@Override
 	public SwordHitbox clone() {
-		return new SwordHitbox(position.clone(), radius, startAngle, endAngle);
+		return new SwordHitbox(position.clone(), radius, startAngle, angle);
 	}
 }

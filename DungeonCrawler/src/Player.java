@@ -2,24 +2,24 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 public abstract class Player extends LivingEntity {
-	
-	private static final int ATTACK_TIME = 40;
-	
 	private Vector2D attackDirection;
 	
 	private int attacking;
-	private int attackCooldown;
+	private int[] cooldowns;
 	
 	public Player() {
 		super();
 		setStats(new Stats(100, 40, 40, 3, 0));
 		attacking = 0;
+		cooldowns = new int[4];
 	}
 
 	public void update(ControlState cs, Room r) {
 		// send control state to server
 		if (attacking > 0) attacking--;
-		if (attackCooldown > 0) attackCooldown--;
+		for (int i = 0; i < cooldowns.length; i++) {
+			if (cooldowns[i] > 0) cooldowns[i]--;
+		}
 		
 		Vector2D speed = new Vector2D();
 		
@@ -38,7 +38,16 @@ public abstract class Player extends LivingEntity {
 		if (cs.getPressed(ControlState.KEY_ATTACK)) {
 			attack(cs.getMouse(), r);
 		}
-		
+		if (cs.getPressed(ControlState.KEY_AB1)) {
+			ability1(cs.getMouse(), r);
+		}
+		if (cs.getPressed(ControlState.KEY_AB2)) {
+			ability2(cs.getMouse(), r);
+		}
+		if (cs.getPressed(ControlState.KEY_AB3)) {
+			ability3(cs.getMouse(), r);
+		}
+
 		speed.normalize();
 		speed.multiplyBy(getStats().getSpeed());
 		for (StatusEffect e : getEffects()) {
@@ -60,8 +69,16 @@ public abstract class Player extends LivingEntity {
 		return attacking;
 	}
 	
-	public int getAttackCooldown() {
-		return attackCooldown;
+	public void setAttacking(int v) {
+		attacking = v;
+	}
+	
+	public int getCooldown(int c) {
+		return cooldowns[c];
+	}
+	
+	public void setCooldown(int c, int v) {
+		cooldowns[c] = v;
 	}
 	
 	public Vector2D getAttackDir() {
@@ -72,9 +89,9 @@ public abstract class Player extends LivingEntity {
 	public abstract void draw(Graphics g);
 	
 	public boolean attack(Point p, Room r) {
-		if (attackCooldown == 0) {
+		if (cooldowns[0] == 0) {
 			attacking = getStats().getAttackTime();
-			attackCooldown = getStats().getAttackSpeed();
+			cooldowns[0] = getStats().getAttackSpeed();
 			Vector2D direction = (new Vector2D(p)).subtract(getPos());
 			direction.normalize();
 			attackDirection = direction;
@@ -84,10 +101,8 @@ public abstract class Player extends LivingEntity {
 	}
 	public abstract void ability1(Point p, Room r);
 	public abstract void ability2(Point p, Room r);
+	public abstract void ability3(Point p, Room r);
 
-	public void attack(Point p)
-	{
-		// TODO Auto-generated method stub
-		
+	public void attack(Point p) {
 	}
 }
