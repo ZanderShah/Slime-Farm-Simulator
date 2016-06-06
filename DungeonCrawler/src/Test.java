@@ -49,7 +49,8 @@ public class Test extends JFrame {
 	}
 
 	static void draw(Graphics g) {
-		try {
+		try
+		{
 			floor = ImageIO.read(new File("img\\Floor1.png"));
 		} catch (Exception IOException) {
 
@@ -87,6 +88,8 @@ public class Test extends JFrame {
 			// r.addPlayer(tankTest);
 //			entry.addPlayer(warriorTest);
 			entry.addPlayer(thiefTest);
+			// entry.addPlayer(warriorTest);
+			// entry.addPlayer(thiefTest);
 			// r.addPlayer(hunterTest);
 //			entry.addPlayer(mageTest);
 
@@ -99,6 +102,8 @@ public class Test extends JFrame {
 						// tankTest.update(cs, r);
 //						warriorTest.update(cs, entry);
 						thiefTest.update(cs, entry);
+						// warriorTest.update(cs, entry);
+						// thiefTest.update(cs, entry);
 						// hunterTest.update(cs, r);
 //						mageTest.update(cs, entry);
 						entry.update();

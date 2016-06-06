@@ -16,7 +16,8 @@ public class LevelObject implements Drawable
 		this.destructable = destructable;
 		this.blocksPlayer = blocksPlayer;
 		this.img = img;
-		hitbox = new AABB(pos.add(new Vector2D(width() / 2, height() / 2)), width(),
+		hitbox = new AABB(pos.add(new Vector2D(width() / 2, height() / 2)),
+				width(),
 				height());
 	}
 
@@ -63,14 +64,6 @@ public class LevelObject implements Drawable
 	@Override
 	public void draw(Graphics g)
 	{
-		if (blocksPlayer)
-		{
-			g.setColor(Color.GREEN);
-			g.fillRect(x(), y(), width(), height());
-		}
-		else
-		{
-			g.drawImage(img, x(), y(), null);
-		}
+		g.drawImage(img, x(), y(), null);
 	}
 }
