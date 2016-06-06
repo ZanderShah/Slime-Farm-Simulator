@@ -5,6 +5,13 @@ public class SwordHitbox implements Hitbox {
 	private int startAngle;
 	private int endAngle;
 	
+	public SwordHitbox(Vector2D pos, int r, int sa, int ea) {
+		position = pos;
+		radius = r;
+		startAngle = sa;
+		endAngle = ea;
+	}
+	
 	@Override
 	public boolean intersects(Hitbox other) {
 		if (other instanceof AABB) {
@@ -36,5 +43,10 @@ public class SwordHitbox implements Hitbox {
 	@Override
 	public void updatePosition(Vector2D pos) {
 		position = pos;
+	}
+	
+	@Override
+	public SwordHitbox clone() {
+		return new SwordHitbox(position.clone(), radius, startAngle, endAngle);
 	}
 }

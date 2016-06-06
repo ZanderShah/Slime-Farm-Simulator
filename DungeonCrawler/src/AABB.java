@@ -45,4 +45,9 @@ public class AABB implements Hitbox {
 		
 		return false;
 	}
+	
+	@Override
+	public AABB clone() {
+		return new AABB(position.clone(), width, height);
+	}
 }
