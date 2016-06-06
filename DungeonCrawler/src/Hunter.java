@@ -29,16 +29,6 @@ public class Hunter extends Player {
 	}
 	
 	@Override
-	public int getWidth() {
-		return SIZE;
-	}
-	
-	@Override
-	public int getHeight() {
-		return SIZE;
-	}
-	
-	@Override
 	public void update(ControlState cs, Room r) {
 		super.update(cs, r);
 	}

@@ -8,7 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Warrior extends Player {
-	private static final int SIZE = 32;
+	private static final int WIDTH = 48;
+	private static final int HEIGHT = 54;
 	private static final int SWORD_SIZE = 96;
 	private static final int SWORD_SWING = 120;
 	private Image img;
@@ -41,12 +42,12 @@ public class Warrior extends Player {
 	
 	@Override
 	public int getWidth() {
-		return SIZE;
+		return WIDTH;
 	}
 	
 	@Override
 	public int getHeight() {
-		return SIZE;
+		return HEIGHT;
 	}
 	
 	@Override

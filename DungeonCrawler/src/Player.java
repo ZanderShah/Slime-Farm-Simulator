@@ -4,6 +4,9 @@ import java.awt.Point;
 public abstract class Player extends LivingEntity {
 	
 	private static final int ATTACK_TIME = 40;
+	private static final int WIDTH = 48;
+	private static final int HEIGHT = 54;
+	private static final int DEPTH = 18;
 	
 	private Vector2D attackDirection;
 	
@@ -66,6 +69,15 @@ public abstract class Player extends LivingEntity {
 	
 	public Vector2D getAttackDir() {
 		return attackDirection;
+	}
+
+	public int getWidth() {
+		return WIDTH;
+	}
+	
+
+	public int getHeight() {
+		return HEIGHT;
 	}
 
 	@Override
