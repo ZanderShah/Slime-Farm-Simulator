@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.Arrays;
 
 public abstract class Player extends LivingEntity {
 	private Vector2D attackDirection;
@@ -20,6 +21,7 @@ public abstract class Player extends LivingEntity {
 		for (int i = 0; i < cooldowns.length; i++) {
 			if (cooldowns[i] > 0) cooldowns[i]--;
 		}
+		System.out.println(Arrays.toString(cooldowns));
 		
 		Vector2D speed = new Vector2D();
 		

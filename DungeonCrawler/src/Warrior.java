@@ -51,11 +51,13 @@ public class Warrior extends Player {
 		return attacked;
 	}
 	
+	// Spin attack ability: Do a giant spinning sword attack, hitting everything around you
+	// Cooldown: 5 seconds
 	@Override
 	public void ability1(Point p, Room r) {
 		if (getAttacking() == 0 && getCooldown(1) == 0) {
 			setAttacking(100);
-			setCooldown(1, 5000);
+			setCooldown(1, 300);
 			r.addDamageSource(new SwordDamageSource(getPos(), SWORD_SIZE, 0, 360, getStats().getAttackTime(), true, 30));
 		}
 	}
