@@ -53,9 +53,10 @@ public class Warrior extends Player {
 	
 	@Override
 	public void ability1(Point p, Room r) {
-		if (getAttacking() == 0) {
+		if (getAttacking() == 0 && getCooldown(1) == 0) {
 			setAttacking(100);
 			setCooldown(1, 5000);
+			r.addDamageSource(new SwordDamageSource(getPos(), SWORD_SIZE, 0, 360, getStats().getAttackTime(), true, 30));
 		}
 	}
 
