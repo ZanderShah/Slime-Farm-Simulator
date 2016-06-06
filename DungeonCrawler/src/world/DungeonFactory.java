@@ -1,4 +1,8 @@
+package world;
 import java.awt.Image;
+
+import utility.SpriteSheet;
+import utility.Vector2D;
 
 public class DungeonFactory
 {

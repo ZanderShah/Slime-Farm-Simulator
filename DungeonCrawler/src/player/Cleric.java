@@ -1,6 +1,9 @@
+package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+
+import world.Room;
 
 public class Cleric extends Player {
 	@Override

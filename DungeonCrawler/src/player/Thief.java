@@ -1,6 +1,13 @@
+package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+
+import engine.Stats;
+import engine.SwordDamageSource;
+import utility.ControlState;
+import utility.Vector2D;
+import world.Room;
 
 public class Thief extends Player {
 	private static final int SIZE = 32;
@@ -49,7 +56,7 @@ public class Thief extends Player {
 	public void update(ControlState cs, Room r) {
 		if (blinking > 0) {
 			blinking--;
-			if (blinking == 0) setCooldown(1, 300);
+			if (blinking == 0) setCooldown(1, 600);
 		}
 		if (dodging > 0) {
 			dodging--;
@@ -65,13 +72,13 @@ public class Thief extends Player {
 		if (attacked) {
 			r.addDamageSource(new SwordDamageSource(getPos(), SWORD_SIZE, (int) getAttackDir().getAngle() - SWORD_SWING / 2, SWORD_SWING, getStats().getAttackTime(), true, (blinking != 0 ? 60 : 20)));
 			blinking = 0;
-			setCooldown(1, 300);
+			setCooldown(1, 600);
 		}
 		return attacked;
 	}
 	
 	// Blink ability: turn invisible/invincible for 3 seconds, attack to reappear and deal crit (3x) damage
-	// Cooldown: 5 seconds from reappearing
+	// Cooldown: 10 seconds from reappearing
 	@Override
 	public void ability1(Point p, Room r) {
 		if (getAttacking() == 0 && getCooldown(1) == 0) {
@@ -91,9 +98,10 @@ public class Thief extends Player {
 		}
 	}
 
+	// Throwing knives?
+	// Cooldown 4 seconds
 	@Override
 	public void ability3(Point p, Room r) {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -1,7 +1,13 @@
+package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+
+import engine.Stats;
+import engine.SwordDamageSource;
+import utility.ControlState;
+import world.Room;
 
 public class Warrior extends Player {
 	private static final int SIZE = 32;

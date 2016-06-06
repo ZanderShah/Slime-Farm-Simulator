@@ -1,3 +1,4 @@
+package engine;
 public class Stats {
 	private int maxHealth;
 	private int health;

@@ -1,3 +1,6 @@
+package engine;
+import world.Room;
+
 public abstract class DamageSource implements Drawable {
 	private Hitbox hitbox;
 	private int frequency;

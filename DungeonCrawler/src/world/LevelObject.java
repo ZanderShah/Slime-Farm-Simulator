@@ -1,6 +1,11 @@
+package world;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+
+import engine.AABB;
+import engine.Drawable;
+import utility.Vector2D;
 
 public class LevelObject implements Drawable
 {

@@ -1,3 +1,7 @@
+package engine;
+import utility.Vector2D;
+import world.Room;
+
 public abstract class Projectile extends DamageSource {
 
 	private Vector2D position;

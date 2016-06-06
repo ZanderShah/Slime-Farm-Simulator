@@ -1,4 +1,7 @@
+package engine;
 import java.awt.Rectangle;
+
+import utility.Vector2D;
 
 public class AABB implements Hitbox {
 	

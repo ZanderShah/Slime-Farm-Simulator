@@ -1,6 +1,10 @@
+package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+
+import engine.Stats;
+import world.Room;
 
 public class Tank extends Player {
 	

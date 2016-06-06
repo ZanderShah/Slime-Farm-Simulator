@@ -1,6 +1,13 @@
+package world;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+
+import engine.AABB;
+import engine.DamageSource;
+import engine.Drawable;
+import player.Player;
+import utility.SpriteSheet;
 
 public class Room implements Drawable {
 	// x y are used only for position relative to other rooms, when dealing with

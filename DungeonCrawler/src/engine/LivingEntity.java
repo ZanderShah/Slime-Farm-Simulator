@@ -1,5 +1,9 @@
+package engine;
 import java.awt.Graphics;
 import java.util.ArrayList;
+
+import utility.Vector2D;
+import world.Room;
 
 public abstract class LivingEntity implements Drawable
 {

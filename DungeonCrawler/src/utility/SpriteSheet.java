@@ -1,3 +1,4 @@
+package utility;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -8,12 +9,12 @@ public class SpriteSheet
 {
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES;
 
-	static Image random(Image[] source)
+	public static Image random(Image[] source)
 	{
 		return source[(int) (Math.random() * source.length)];
 	}
 
-	static void initializeImages()
+	public static void initializeImages()
 	{
 		try
 		{

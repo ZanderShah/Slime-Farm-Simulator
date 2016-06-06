@@ -1,3 +1,6 @@
+package engine;
+import utility.Vector2D;
+
 public class SwordHitbox implements Hitbox {
 
 	private Vector2D position;

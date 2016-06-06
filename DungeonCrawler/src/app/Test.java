@@ -1,3 +1,4 @@
+package app;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,6 +13,13 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import player.Player;
+import player.Thief;
+import utility.ControlState;
+import utility.SpriteSheet;
+import world.DungeonFactory;
+import world.Room;
 
 public class Test extends JFrame {
 	public static Room entry;

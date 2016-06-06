@@ -1,3 +1,4 @@
+package engine;
 public class StatusEffect {
 	
 	public static final int HEALTH = 0;

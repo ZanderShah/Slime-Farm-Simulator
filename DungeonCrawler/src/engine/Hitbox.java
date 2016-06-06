@@ -1,3 +1,6 @@
+package engine;
+import utility.Vector2D;
+
 public interface Hitbox {
 	public boolean intersects(Hitbox other);
 	public Vector2D getPosition();

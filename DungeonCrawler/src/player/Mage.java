@@ -1,6 +1,13 @@
+package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+
+import engine.Fireball;
+import engine.Stats;
+import utility.ControlState;
+import utility.Vector2D;
+import world.Room;
 
 public class Mage extends Player {
 	private static final int SIZE = 32;

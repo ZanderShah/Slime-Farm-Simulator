@@ -1,9 +1,16 @@
+package player;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
 
 import javax.imageio.ImageIO;
+
+import engine.Arrow;
+import engine.Stats;
+import utility.ControlState;
+import utility.Vector2D;
+import world.Room;
 
 public class Hunter extends Player {
 	private static final int SIZE = 64;

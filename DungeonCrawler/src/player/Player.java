@@ -1,5 +1,13 @@
+package player;
 import java.awt.Graphics;
 import java.awt.Point;
+
+import engine.LivingEntity;
+import engine.Stats;
+import engine.StatusEffect;
+import utility.ControlState;
+import utility.Vector2D;
+import world.Room;
 
 public abstract class Player extends LivingEntity {
 	private Vector2D attackDirection;
