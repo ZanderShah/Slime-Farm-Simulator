@@ -31,7 +31,8 @@ public class Test extends JFrame
 	public static void main(String[] args)
 	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
-		entry = DungeonFactory.generateMap(25, 1);
+		SpriteSheet.initializeImages();
+		entry = DungeonFactory.generateMap(25, 0);
 		entry.setCurrent(true);
 		Test pdt = new Test();
 		pdt.setVisible(true);
