@@ -1,18 +1,22 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Test extends JFrame
 {
 	public static Room entry;
+	static Image floor;
 
 	public Test()
 	{
@@ -28,6 +32,8 @@ public class Test extends JFrame
 	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		entry = DungeonFactory.generateMap(25, 1);
+		
+		
 
 		Test pdt = new Test();
 		pdt.setVisible(true);
@@ -43,13 +49,25 @@ public class Test extends JFrame
 		g.drawRect(t.x(), t.y(), t.width(), t.height());
 		g.setColor(Color.LIGHT_GRAY);
 		vis[t.id()] = true;
-
+		
+		
+		
 		drawRooms(t.getUp(), g, vis);
 		drawRooms(t.getDown(), g, vis);
 		drawRooms(t.getRight(), g, vis);
 		drawRooms(t.getLeft(), g, vis);
 	}
 
+	static void draw(Graphics g){
+		try{
+			floor = ImageIO.read(new File("img\\Floor1.png"));
+		}
+		catch(Exception IOException){
+			
+		}
+		
+		g.drawImage(floor, 0, 0, null);
+	}
 	static class TestPanel extends JPanel implements MouseListener,
 			MouseMotionListener, KeyListener
 	{
