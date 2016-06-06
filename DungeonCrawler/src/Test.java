@@ -45,25 +45,27 @@ public class Test extends JFrame
 
 		t.draw(g);
 		vis[t.id()] = true;
-		
-		
-		
+
 		drawRooms(t.getUp(), g, vis);
 		drawRooms(t.getDown(), g, vis);
 		drawRooms(t.getRight(), g, vis);
 		drawRooms(t.getLeft(), g, vis);
 	}
 
-	static void draw(Graphics g){
-		try{
+	static void draw(Graphics g)
+	{
+		try
+		{
 			floor = ImageIO.read(new File("img\\Floor1.png"));
 		}
-		catch(Exception IOException){
-			
+		catch (Exception IOException)
+		{
+
 		}
-		
+
 		g.drawImage(floor, 0, 0, null);
 	}
+
 	static class TestPanel extends JPanel implements MouseListener,
 			MouseMotionListener, KeyListener
 	{
@@ -93,8 +95,8 @@ public class Test extends JFrame
 			cs = new ControlState();
 
 			// r.addPlayer(tankTest);
-			entry.addPlayer(warriorTest);
-			entry.addPlayer(thiefTest);
+			// entry.addPlayer(warriorTest);
+			// entry.addPlayer(thiefTest);
 			// r.addPlayer(hunterTest);
 			entry.addPlayer(mageTest);
 
@@ -107,8 +109,8 @@ public class Test extends JFrame
 					while (true)
 					{
 						// tankTest.update(cs, r);
-						warriorTest.update(cs, entry);
-						thiefTest.update(cs, entry);
+						// warriorTest.update(cs, entry);
+						// thiefTest.update(cs, entry);
 						// hunterTest.update(cs, r);
 						mageTest.update(cs, entry);
 						entry.update();

@@ -2,8 +2,8 @@ import java.awt.Image;
 
 public class DungeonFactory
 {
-	private static final int MIN_ROOM_WIDTH = 35, MAX_ROOM_WIDTH = 35,
-			MIN_ROOM_HEIGHT = 35, MAX_ROOM_HEIGHT = 35;
+	private static final int MIN_ROOM_WIDTH = 20, MAX_ROOM_WIDTH = 30,
+			MIN_ROOM_HEIGHT = 20, MAX_ROOM_HEIGHT = 30;
 	private static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	private static int totalRooms;
 
@@ -164,9 +164,13 @@ public class DungeonFactory
 
 		for (int i = 0; i < 50; i++)
 		{
-			Image img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES);
+			Image img; 
 			int x = room.randomX(), y = room.randomY();
 			boolean blocks = Math.round(Math.random()) == 0;
+			if (!blocks)
+				img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES);
+			else
+				img = SpriteSheet.random(SpriteSheet.BLOCKING_IMAGES);
 
 			LevelObject lo = new LevelObject(new Vector2D(x, y), false, blocks,
 					img);
