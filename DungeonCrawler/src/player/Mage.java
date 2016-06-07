@@ -2,18 +2,21 @@ package player;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 
+import engine.AABB;
 import engine.Fireball;
 import engine.Stats;
 import utility.Constants;
 import utility.ControlState;
+import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
 
 public class Mage extends Player
 {
-	private static final int SIZE = 32;
+	private Image[] img;
 
 	public Mage()
 	{
@@ -21,27 +24,33 @@ public class Mage extends Player
 		setStats(new Stats(Constants.MAGE_HEALTH, Constants.MAGE_ATTACK_SPEED,
 				Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED,
 				Constants.MAGE_DEFENCE));
+		this.img = SpriteSheet.MAGE_IMAGES;
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)),
+				getWidth(),
+				getHeight()));
 	}
 
 	@Override
 	public void draw(Graphics g)
 	{
 		g.setColor(Color.RED);
-		g.fillRect((int) getPos().getX() - getWidth() / 2,
-				(int) getPos().getY() - getHeight() / 2, getWidth(),
-				getHeight());
+		g.drawImage(img[0], (int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, null);
+		
+		//g.fillRect((int) getPos().getX() - getWidth() / 2,
+		//		(int) getPos().getY() - getHeight() / 2, getWidth(),
+		//		getHeight());
 	}
 
 	@Override
 	public int getWidth()
 	{
-		return SIZE;
+		return img[0].getWidth(null);
 	}
 
 	@Override
 	public int getHeight()
 	{
-		return SIZE;
+		return img[0].getHeight(null);
 	}
 
 	@Override
