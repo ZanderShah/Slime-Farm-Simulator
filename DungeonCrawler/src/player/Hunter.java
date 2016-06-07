@@ -19,7 +19,7 @@ public class Hunter extends Player {
 	
 	public Hunter() {
 		super();
-		setStats(new Stats(Constants.HUNTER_HEALTH, Constants.HUNTER_ATTACK_SPEED, Constants.HUNTER_ATTACK_LENGTH, Constants.HUNTER_SPEED, Constants.HUNTER_DEFENSE));
+		setStats(new Stats(Constants.HUNTER_HEALTH, Constants.HUNTER_ATTACK_SPEED, Constants.HUNTER_ATTACK_LENGTH, Constants.HUNTER_SPEED, Constants.HUNTER_DEFENCE));
 		try{
 			img = ImageIO.read(new File("img\\HunterFront2.png"));
 		}

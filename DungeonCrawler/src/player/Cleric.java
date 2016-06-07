@@ -13,7 +13,7 @@ public class Cleric extends Player {
 	
 	public Cleric() {
 		super();
-		setStats(new Stats(Constants.CLERIC_HEALTH, Constants.CLERIC_ATTACK_SPEED, Constants.CLERIC_ATTACK_LENGTH, Constants.CLERIC_SPEED, Constants.CLERIC_DEFENSE));
+		setStats(new Stats(Constants.CLERIC_HEALTH, Constants.CLERIC_ATTACK_SPEED, Constants.CLERIC_ATTACK_LENGTH, Constants.CLERIC_SPEED, Constants.CLERIC_DEFENCE));
 	}
 	
 	@Override

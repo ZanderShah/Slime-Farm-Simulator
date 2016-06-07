@@ -20,7 +20,7 @@ public class Thief extends Player {
 	
 	public Thief() {
 		super();
-		setStats(new Stats(Constants.THIEF_HEALTH, Constants.THIEF_ATTACK_SPEED, Constants.THIEF_ATTACK_LENGTH, Constants.THIEF_SPEED, Constants.THIEF_DEFENSE));
+		setStats(new Stats(Constants.THIEF_HEALTH, Constants.THIEF_ATTACK_SPEED, Constants.THIEF_ATTACK_LENGTH, Constants.THIEF_SPEED, Constants.THIEF_DEFENCE));
 		blinking = 0;
 		dodging = 0;
 		dodgeDirection = new Vector2D();

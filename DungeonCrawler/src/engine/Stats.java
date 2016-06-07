@@ -5,7 +5,7 @@ public class Stats {
 	private int attackSpeed;
 	private int attackTime;
 	private double speed;
-	private double defense;
+	private double defence;
 	
 	public Stats(int mh, int as, int at, double s, double d) {
 		maxHealth = mh;
@@ -13,7 +13,7 @@ public class Stats {
 		attackSpeed = as;
 		attackTime = at;
 		speed = s;
-		defense = d;
+		defence = d;
 	}
 	
 	public int getMaxHealth() {
@@ -36,8 +36,8 @@ public class Stats {
 		return speed;
 	}
 	
-	public double getDefense() {
-		return defense;
+	public double getDefence() {
+		return defence;
 	}
 	
 	public void setMaxHealth(int mh) {
@@ -60,7 +60,7 @@ public class Stats {
 		speed = s;
 	}
 	
-	public void setDefense(double d) {
-		defense = d;
+	public void setDefence(double d) {
+		defence = d;
 	}
 }

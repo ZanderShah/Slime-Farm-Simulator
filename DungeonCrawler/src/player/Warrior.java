@@ -14,7 +14,7 @@ public class Warrior extends Player {
 	
 	public Warrior(){
 		super();
-		setStats(new Stats(Constants.WARRIOR_HEALTH, Constants.WARRIOR_ATTACK_SPEED, Constants.WARRIOR_ATTACK_LENGTH, Constants.WARRIOR_SPEED, Constants.WARRIOR_DEFENSE));
+		setStats(new Stats(Constants.WARRIOR_HEALTH, Constants.WARRIOR_ATTACK_SPEED, Constants.WARRIOR_ATTACK_LENGTH, Constants.WARRIOR_SPEED, Constants.WARRIOR_DEFENCE));
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ public class Tank extends Player {
 	
 	public Tank() {
 		super();
-		setStats(new Stats(Constants.TANK_HEALTH, Constants.TANK_ATTACK_SPEED, Constants.TANK_ATTACK_LENGTH, Constants.TANK_SPEED, Constants.TANK_DEFENSE));
+		setStats(new Stats(Constants.TANK_HEALTH, Constants.TANK_ATTACK_SPEED, Constants.TANK_ATTACK_LENGTH, Constants.TANK_SPEED, Constants.TANK_DEFENCE));
 	}
 	
 	@Override

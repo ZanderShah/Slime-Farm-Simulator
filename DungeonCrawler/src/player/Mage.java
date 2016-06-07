@@ -15,7 +15,7 @@ public class Mage extends Player {
 	
 	public Mage() {
 		super();
-		setStats(new Stats(Constants.MAGE_HEALTH, Constants.MAGE_ATTACK_SPEED, Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED, Constants.MAGE_DEFENSE));
+		setStats(new Stats(Constants.MAGE_HEALTH, Constants.MAGE_ATTACK_SPEED, Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED, Constants.MAGE_DEFENCE));
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class Mage extends Player {
 	public boolean attack(Point p, Room r) {
 		boolean attacked = super.attack(p, r);
 		if (attacked) {
-			r.addDamageSource(new Fireball(getPos().clone(), (new Vector2D(getAttackDir().getAngle() + ((int) (Math.random() * 21) - 10))), true));
+			r.addDamageSource(new Fireball(getPos().clone(), (new Vector2D(getAttackDir().getAngle() + ((int) (Math.random() * (Constants.MAGE_SPRAY + 1)) - Constants.MAGE_SPRAY / 2))), true));
 		}
 		return attacked;
 	}
