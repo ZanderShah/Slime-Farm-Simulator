@@ -1,4 +1,5 @@
 package world;
+
 import java.awt.Image;
 
 import utility.SpriteSheet;
@@ -168,13 +169,15 @@ public class DungeonFactory
 
 		for (int i = 0; i < 50; i++)
 		{
-			Image img; 
-			int x = room.randomX(), y = room.randomY();
+			Image img;
+
 			boolean blocks = Math.round(Math.random()) == 0;
-			if (!blocks)
-				img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES);
-			else
+			if (blocks)
 				img = SpriteSheet.random(SpriteSheet.BLOCKING_IMAGES);
+			else
+				img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES);
+
+			int x = room.randomX(img), y = room.randomY(img);
 
 			LevelObject lo = new LevelObject(new Vector2D(x, y), false, blocks,
 					img);

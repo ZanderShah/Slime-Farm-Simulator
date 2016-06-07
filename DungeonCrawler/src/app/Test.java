@@ -1,4 +1,5 @@
 package app;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,24 +9,27 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import player.Player;
 import player.Thief;
+import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
+import utility.Vector2D;
 import world.DungeonFactory;
 import world.Room;
 
-public class Test extends JFrame {
+public class Test extends JFrame
+{
 	public static Room entry;
+	public static Vector2D middle, totalOffset;
 	static Image floor;
 
-	public Test() {
+	public Test()
+	{
 		super("Procedural Generator Test");
 		TestPanel tp = new TestPanel();
 		setResizable(true);
@@ -34,16 +38,20 @@ public class Test extends JFrame {
 		pack();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
-		entry = DungeonFactory.generateMap(25, 0);
+		entry = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0);
 		entry.setCurrent(true);
+		// ******* Will need to reset totalOffset when switching rooms *******
+		totalOffset = new Vector2D(0, 0);
 		Test pdt = new Test();
 		pdt.setVisible(true);
 	}
 
-	static void drawRooms(Room t, Graphics g, boolean[] vis) {
+	static void drawRooms(Room t, Graphics g, boolean[] vis)
+	{
 		if (t == null || vis[t.id()])
 			return;
 
@@ -56,29 +64,21 @@ public class Test extends JFrame {
 		drawRooms(t.getLeft(), g, vis);
 	}
 
-	static void draw(Graphics g) {
-		try
-		{
-			floor = ImageIO.read(new File("img\\Floor1.png"));
-		} catch (Exception IOException) {
-
-		}
-
-		g.drawImage(floor, 0, 0, null);
-	}
-
 	static class TestPanel extends JPanel implements MouseListener,
-			MouseMotionListener, KeyListener {
+			MouseMotionListener, KeyListener
+	{
 
 		private ControlState cs;
 
 		// private Tank tankTest = new Tank();
-//		private Warrior warriorTest = new Warrior();
+		// private Warrior warriorTest = new Warrior();
 		private Thief thiefTest = new Thief();
-		// private Hunter hunterTest;
-//		private Mage mageTest = new Mage();
 
-		public TestPanel() {
+		// private Hunter hunterTest;
+		// private Mage mageTest = new Mage();
+
+		public TestPanel()
+		{
 			// try{
 			// hunterTest = new Hunter();
 			// }
@@ -94,34 +94,39 @@ public class Test extends JFrame {
 			cs = new ControlState();
 
 			// r.addPlayer(tankTest);
-//			entry.addPlayer(warriorTest);
+			// entry.addPlayer(warriorTest);
 			entry.addPlayer(thiefTest);
 			// entry.addPlayer(warriorTest);
 			// entry.addPlayer(thiefTest);
 			// r.addPlayer(hunterTest);
-//			entry.addPlayer(mageTest);
+			// entry.addPlayer(mageTest);
 
 			(new Thread() {
 				long lastUpdate;
 
-				public void run() {
+				public void run()
+				{
 					lastUpdate = System.currentTimeMillis();
-					while (true) {
+					while (true)
+					{
 						// tankTest.update(cs, r);
-//						warriorTest.update(cs, entry);
+						// warriorTest.update(cs, entry);
 						thiefTest.update(cs, entry);
 						// warriorTest.update(cs, entry);
 						// thiefTest.update(cs, entry);
 						// hunterTest.update(cs, r);
-//						mageTest.update(cs, entry);
+						// mageTest.update(cs, entry);
 						entry.update();
 						repaint(0);
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
 						lastUpdate = time;
-						try {
+						try
+						{
 							Thread.sleep(Math.max(0, 1000 / 60 - diff));
-						} catch (Exception e) {
+						}
+						catch (Exception e)
+						{
 							e.printStackTrace();
 						}
 					}
@@ -129,17 +134,20 @@ public class Test extends JFrame {
 			}).start();
 		}
 
-		public void paintComponent(Graphics g) {
+		public void paintComponent(Graphics g)
+		{
+			middle = new Vector2D(this.getWidth() / 2, this.getHeight() / 2);
+
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			entry.draw(g);
 			drawRooms(entry, g, new boolean[10000]);
-
 			drawHUD(thiefTest, g);
 		}
 
-		public void drawHUD(Player p, Graphics g) {
+		public void drawHUD(Player p, Graphics g)
+		{
 			g.setColor(Color.GRAY);
 			g.fillRect(0, getHeight() - 200, getWidth(), 200);
 
@@ -153,8 +161,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mousePressed(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.press(ControlState.KEY_ATTACK);
 				break;
@@ -165,8 +175,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mouseReleased(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.release(ControlState.KEY_ATTACK);
 				break;
@@ -177,18 +189,22 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e) {
+		public void mouseMoved(MouseEvent e)
+		{
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent e) {
+		public void mouseDragged(MouseEvent e)
+		{
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyPressed(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.press(ControlState.KEY_UP);
 				break;
@@ -211,8 +227,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyReleased(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.release(ControlState.KEY_UP);
 				break;
@@ -235,19 +253,23 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {
+		public void mouseEntered(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {
+		public void mouseExited(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped(KeyEvent e)
+		{
 		}
 	}
 }

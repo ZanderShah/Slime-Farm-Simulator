@@ -1,4 +1,5 @@
 package world;
+
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -20,14 +21,18 @@ public class LevelObject implements Drawable
 		this.destructable = destructable;
 		this.blocksPlayer = blocksPlayer;
 		this.img = img;
-		hitbox = new AABB(pos.add(new Vector2D(width() / 2, height() / 2)),
-				width(),
-				height());
+		setHitbox();
 	}
 
 	public Vector2D getPos()
 	{
 		return position;
+	}
+
+	public void setPos(Vector2D pos)
+	{
+		position = pos;
+		setHitbox();
 	}
 
 	public int x()
@@ -38,6 +43,13 @@ public class LevelObject implements Drawable
 	public int y()
 	{
 		return (int) position.getY();
+	}
+
+	public void setHitbox()
+	{
+		hitbox = new AABB(position.add(new Vector2D(width() / 2, height() / 2)),
+				width(),
+				height());
 	}
 
 	public boolean blocksPlayer()
@@ -68,6 +80,6 @@ public class LevelObject implements Drawable
 	@Override
 	public void draw(Graphics g)
 	{
-		g.drawImage(img, x(), y(), null);
+		g.drawImage(img, (int) position.getX(), (int) position.getY(), null);
 	}
 }

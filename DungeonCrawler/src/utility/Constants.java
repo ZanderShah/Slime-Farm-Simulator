@@ -1,5 +1,6 @@
 package utility;
 public class Constants {
+	public static final int NUMBER_OF_ROOMS = 25;
 	// I feel like putting all this stuff into a file makes balancing easier
 	
 	// Class max healths
