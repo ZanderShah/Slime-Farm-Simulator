@@ -204,10 +204,13 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	public void draw(Graphics g)
 	{
 		if (currentRoom)
+		{
 			detailedDraw(g);
+			g.setColor(Color.RED);
+		}
 		else
 			g.setColor(Color.GRAY);
-
+		
 		g.fillRect(x, y, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
