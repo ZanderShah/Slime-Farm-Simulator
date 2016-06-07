@@ -5,13 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
@@ -67,7 +65,6 @@ public class Test extends JFrame {
 
 	static class GameCanvas extends Canvas implements MouseListener, MouseMotionListener, KeyListener {
 		private ControlState cs;
-		private BufferStrategy bufferStrategy;
 
 		// private Tank tankTest = new Tank();
 		// private Warrior warriorTest = new Warrior();
