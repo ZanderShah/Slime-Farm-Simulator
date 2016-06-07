@@ -25,7 +25,7 @@ import world.Room;
 
 public class Test extends JFrame
 {
-	public static Room entry;
+	public static Room current;
 	public static Vector2D middle, totalOffset;
 	static Image floor;
 
@@ -43,8 +43,8 @@ public class Test extends JFrame
 	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
-		entry = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0);
-		entry.setCurrent(true);
+		current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0);
+		current.setCurrent();
 		// ******* Will need to reset totalOffset when switching rooms *******
 		totalOffset = new Vector2D(0, 0);
 		Test pdt = new Test();
@@ -96,11 +96,11 @@ public class Test extends JFrame
 
 			// r.addPlayer(tankTest);
 			// entry.addPlayer(warriorTest);
-			entry.addPlayer(thiefTest);
+			current.addPlayer(thiefTest);
 			// entry.addPlayer(warriorTest);
 			// entry.addPlayer(thiefTest);
 			// r.addPlayer(hunterTest);
-			entry.addPlayer(mageTest);
+			current.addPlayer(mageTest);
 
 			(new Thread() {
 				long lastUpdate;
@@ -112,12 +112,12 @@ public class Test extends JFrame
 					{
 						// tankTest.update(cs, r);
 						// warriorTest.update(cs, entry);
-						thiefTest.update(cs, entry);
+						thiefTest.update(cs, current);
 						// warriorTest.update(cs, entry);
 						// thiefTest.update(cs, entry);
 						// hunterTest.update(cs, r);
-						mageTest.update(cs, entry);
-						entry.update();
+						mageTest.update(cs, current);
+						current.update();
 						repaint(0);
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
@@ -142,8 +142,8 @@ public class Test extends JFrame
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
-			entry.draw(g);
-			drawRooms(entry, g, new boolean[10000]);
+			current.draw(g);
+			drawRooms(current, g, new boolean[10000]);
 			drawHUD(thiefTest, g);
 		}
 

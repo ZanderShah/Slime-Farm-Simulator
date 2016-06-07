@@ -26,7 +26,7 @@ public class DungeonFactory
 
 	public static Room generateMap(int numberOfRooms, int difficulty)
 	{
-		Room entry = new Room(850, 850, randomWidth(), randomHeight(),
+		Room entry = new Room(850, 200, randomWidth(), randomHeight(),
 				difficulty, 0);
 		totalRooms = 1;
 		generateConnections(entry, numberOfRooms - 1, difficulty);
@@ -66,11 +66,11 @@ public class DungeonFactory
 			}
 			else if (direction == UP && room.getUp() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
-							room.y() + room.height(), width,
-							height, new boolean[totalRooms]))
+							room.y() - height, width, height,
+							new boolean[totalRooms]))
 			{
 				room.setUp(new Room(room.x() + room.width() / 2 - width / 2,
-						room.y() + room.height(), width, height, difficulty,
+						room.y() - height, width, height, difficulty,
 						totalRooms));
 				room.getUp().setDown(room);
 				totalRooms++;
@@ -98,11 +98,12 @@ public class DungeonFactory
 			}
 			else if (direction == DOWN && room.getDown() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
-							room.y() - height, width, height,
-							new boolean[totalRooms]))
+							room.y() + room.height(), width,
+							height, new boolean[totalRooms]))
 			{
+
 				room.setDown(new Room(room.x() + room.width() / 2 - width / 2,
-						room.y() - height, width, height, difficulty,
+						room.y() + room.height(), width, height, difficulty,
 						totalRooms));
 				room.getDown().setUp(room);
 				totalRooms++;

@@ -3,7 +3,14 @@ package world;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import player.Player;
 import utility.SpriteSheet;
@@ -139,14 +146,20 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		return id;
 	}
 
+	public void clean()
+	{
+		damageSources = new ArrayList<DamageSource>();
+		players = new ArrayList<Player>();
+	}
+
 	public boolean isCurrent()
 	{
 		return currentRoom;
 	}
 
-	public void setCurrent(boolean newState)
+	public void setCurrent()
 	{
-		currentRoom = newState;
+		currentRoom = true;
 	}
 
 	public void addLevelObject(LevelObject o)
@@ -162,6 +175,27 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	public int randomY(Image img)
 	{
 		return (int) (Math.random() * (height - 1) * 64) + 64;
+	}
+
+	public void moveTo(Room r)
+	{
+		Test.totalOffset = new Vector2D(0, 0);
+
+		for (Player p : players)
+		{
+			p.setPos(Test.totalOffset.add(new Vector2D(64, 64)));
+			p.update(r);
+			r.addPlayer(p);
+		}
+		for (DamageSource d : damageSources)
+		{
+			d.update(r);
+			r.addDamageSource(d);
+		}
+		currentRoom = false;
+		r.setCurrent();
+		Test.current = r;
+		clean();
 	}
 
 	public void draw(Graphics g)
@@ -187,6 +221,17 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 						.getHeight() / 2)));
 
 		Test.totalOffset.addToThis(offset);
+
+		if (Test.middle.getY() - Test.totalOffset.getY() >= (height - 1) * 64
+				&& getDown() != null)
+				moveTo(getDown());
+		if (Test.middle.getY() -Test.totalOffset.getY() <= 0 && getUp() != null)
+			moveTo(getUp());
+		if (Test.middle.getX() -Test.totalOffset.getX() <= 0 && getLeft() != null)
+			moveTo(getLeft());
+		if (Test.middle.getX() - Test.totalOffset.getX() >= (width - 1) * 64 && getRight() != null)
+			moveTo(getRight());
+		
 
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
