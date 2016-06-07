@@ -91,8 +91,10 @@ public abstract class LivingEntity implements Drawable
 		AABB tempX = hitbox.clone();
 		AABB tempY = hitbox.clone();
 
-		tempX.updatePosition(position.add(new Vector2D(speed.getX() + 1, 0)));
-		tempY.updatePosition(position.add(new Vector2D(0, speed.getY() + 1)));
+		tempX.updatePosition(position.add(new Vector2D(speed.getX()
+				+ (speed.getX() < 0 ? -1 : 1), 0)));
+		tempY.updatePosition(position.add(new Vector2D(0, speed.getY()
+				+ (speed.getY() < 0 ? -1 : 1))));
 
 		Vector2D newSpeed = new Vector2D(0, 0);
 
