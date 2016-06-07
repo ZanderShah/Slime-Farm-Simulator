@@ -55,6 +55,11 @@ public abstract class LivingEntity implements Drawable
 	{
 		return stats;
 	}
+	
+	public void setHitbox(AABB hitbox)
+	{
+		this.hitbox = hitbox;
+	}
 
 	public ArrayList<StatusEffect> getEffects()
 	{
