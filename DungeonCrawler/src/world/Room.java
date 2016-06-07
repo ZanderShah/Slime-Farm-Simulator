@@ -179,11 +179,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public void moveTo(Room r)
 	{
-		Test.totalOffset = new Vector2D(0, 0);
-
 		for (Player p : players)
 		{
-			p.setPos(Test.totalOffset.add(new Vector2D(64, 64)));
+			p.setPos(new Vector2D(0, 0));
 			p.update(r);
 			r.addPlayer(p);
 		}
@@ -192,24 +190,44 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 			d.update(r);
 			r.addDamageSource(d);
 		}
+		for (LevelObject o : objects)
+			o.setPos(o.getPos().subtract(Test.totalOffset));
+
 		currentRoom = false;
 		r.setCurrent();
 		Test.current = r;
 		clean();
+
+		Test.totalOffset = new Vector2D(0, 0);
 	}
 
 	public void draw(Graphics g)
 	{
 		if (currentRoom)
-		{
-			g.setColor(Color.CYAN);
 			detailedDraw(g);
-		}
 		else
 			g.setColor(Color.GRAY);
+
 		g.fillRect(x, y, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
+
+		if (getUp() != null)
+		{
+			g.drawOval(x + width / 2, y, 4, 4);
+		}
+		if (getDown() != null)
+		{
+			g.drawOval(x + width / 2, y + height, 4, 4);
+		}
+		if (getLeft() != null)
+		{
+			g.drawOval(x, y + height / 2, 4, 4);
+		}
+		if (getRight() != null)
+		{
+			g.drawOval(x + width, y + height / 2, 4, 4);
+		}
 	}
 
 	public void detailedDraw(Graphics g)
@@ -224,14 +242,16 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 		if (Test.middle.getY() - Test.totalOffset.getY() >= (height - 1) * 64
 				&& getDown() != null)
-				moveTo(getDown());
-		if (Test.middle.getY() -Test.totalOffset.getY() <= 0 && getUp() != null)
+			moveTo(getDown());
+		if (Test.middle.getY() - Test.totalOffset.getY() <= 0
+				&& getUp() != null)
 			moveTo(getUp());
-		if (Test.middle.getX() -Test.totalOffset.getX() <= 0 && getLeft() != null)
+		if (Test.middle.getX() - Test.totalOffset.getX() <= 0
+				&& getLeft() != null)
 			moveTo(getLeft());
-		if (Test.middle.getX() - Test.totalOffset.getX() >= (width - 1) * 64 && getRight() != null)
+		if (Test.middle.getX() - Test.totalOffset.getX() >= (width - 1) * 64
+				&& getRight() != null)
 			moveTo(getRight());
-		
 
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
