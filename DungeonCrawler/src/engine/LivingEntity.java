@@ -1,4 +1,5 @@
 package engine;
+
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -74,12 +75,14 @@ public abstract class LivingEntity implements Drawable
 	{
 		return 0;
 	}
-	
-	public boolean getImmobile() {
+
+	public boolean getImmobile()
+	{
 		return immobile;
 	}
-	
-	public void setImmobile(boolean i) {
+
+	public void setImmobile(boolean i)
+	{
 		immobile = i;
 	}
 
@@ -87,18 +90,22 @@ public abstract class LivingEntity implements Drawable
 	{
 		AABB tempX = hitbox.clone();
 		AABB tempY = hitbox.clone();
-		AABB temp = hitbox.clone();
+
 		tempX.updatePosition(position.add(new Vector2D(speed.getX(), 0)));
 		tempY.updatePosition(position.add(new Vector2D(0, speed.getY())));
-		temp.updatePosition(position.add(speed));
+
 		Vector2D newSpeed = new Vector2D(0, 0);
+
 		if (!l.hasCollisionWith(tempX))
+		{
 			newSpeed.addToThis(new Vector2D(speed.getX(), 0));
-		if (!l.hasCollisionWith(tempY))
-			newSpeed.addToThis(new Vector2D(0, speed.getY()));
-		if (!l.hasCollisionWith(tempX) && !l.hasCollisionWith(tempY) && l.hasCollisionWith(temp)) {
-			newSpeed = new Vector2D(0, 0);
 		}
+
+		if (!l.hasCollisionWith(tempY))
+		{
+			newSpeed.addToThis(new Vector2D(0, speed.getY()));
+		}
+
 		speed = newSpeed;
 		position.addToThis(speed);
 	}

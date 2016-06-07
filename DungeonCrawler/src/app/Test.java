@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import player.Mage;
 import player.Player;
 import player.Thief;
 import utility.Constants;
@@ -75,7 +76,7 @@ public class Test extends JFrame
 		private Thief thiefTest = new Thief();
 
 		// private Hunter hunterTest;
-		// private Mage mageTest = new Mage();
+		private Mage mageTest = new Mage();
 
 		public TestPanel()
 		{
@@ -99,7 +100,7 @@ public class Test extends JFrame
 			// entry.addPlayer(warriorTest);
 			// entry.addPlayer(thiefTest);
 			// r.addPlayer(hunterTest);
-			// entry.addPlayer(mageTest);
+			entry.addPlayer(mageTest);
 
 			(new Thread() {
 				long lastUpdate;
@@ -115,7 +116,7 @@ public class Test extends JFrame
 						// warriorTest.update(cs, entry);
 						// thiefTest.update(cs, entry);
 						// hunterTest.update(cs, r);
-						// mageTest.update(cs, entry);
+						mageTest.update(cs, entry);
 						entry.update();
 						repaint(0);
 						long time = System.currentTimeMillis();

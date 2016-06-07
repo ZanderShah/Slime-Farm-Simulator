@@ -185,7 +185,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 				.getPos()
 				.add(new Vector2D(players.get(0).getWidth() / 2, players.get(0)
 						.getHeight() / 2)));
-		
+
 		Test.totalOffset.addToThis(offset);
 
 		for (int i = 0; i < width; i++)
@@ -209,7 +209,6 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		{
 			damageSources.get(i).draw(g);
 		}
-
 	}
 
 	public boolean hasCollisionWith(AABB hitbox)
@@ -223,9 +222,10 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public boolean hasSpaceFor(LevelObject n)
 	{
-		if (n.x() < 0 || n.x() + n.width() > width * 64 || n.y() < 0 || n.y() + n.height() > height * 64)
+		if (n.x() < 0 || n.x() + n.width() > width * 64 || n.y() < 0
+				|| n.y() + n.height() > height * 64)
 			return false;
-		
+
 		for (LevelObject o : objects)
 			if (n.hitbox().intersects(o.hitbox()))
 				return false;
