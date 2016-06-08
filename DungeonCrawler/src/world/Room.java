@@ -74,6 +74,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 						for (int e = 0; e < enemies.size(); e++) {
 							if (enemies.get(e).getHitbox().intersects(d.getHitbox())) {
 								enemies.get(e).damage(d.getDamage());
+								if (d.getEffect() != null) {
+									enemies.get(e).giveStatusEffect(d.getEffect());
+								}
 								if (d.isSingleHit()) {
 									damageSources.remove(i);
 									i--;
@@ -84,6 +87,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 						for (int p = 0; p < players.size(); p++) {
 							if (players.get(p).getHitbox().intersects(d.getHitbox())) {
 								players.get(p).damage(d.getDamage());
+								if (d.getEffect() != null) {
+									players.get(p).giveStatusEffect(d.getEffect());
+								}
 								if (d.isSingleHit()) {
 									damageSources.remove(i);
 									i--;
