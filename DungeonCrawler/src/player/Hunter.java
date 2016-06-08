@@ -11,42 +11,36 @@ import engine.Arrow;
 import engine.Stats;
 import utility.Constants;
 import utility.ControlState;
+import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
 
 public class Hunter extends Player {
-	private static final int SIZE = 64;
-	private Image img;
-
+	
 	public Hunter() {
 		super();
 		setStats(new Stats(Constants.HUNTER_HEALTH, Constants.HUNTER_ATTACK_SPEED, Constants.HUNTER_ATTACK_LENGTH, Constants.HUNTER_SPEED,
 				Constants.HUNTER_DEFENCE));
-		try {
-			img = ImageIO.read(new File("img\\HunterFront2.png"));
-		} catch (Exception IOException) {
-			System.out.print("cant find");
-		}
-
 	}
 
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
+		Vector2D shifted = getPos().add(offset);
+		g.drawImage(SpriteSheet.HUNTER_IMAGES[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		
 		// g.setColor(Color.GREEN.darker().darker());
 		// g.fillRect((int) getPos().getX() - getWidth() / 2, (int)
 		// getPos().getY() - getHeight() / 2, getWidth(), getHeight());
-		Vector2D shifted = getPos().add(offset);
-		g.drawImage(img, (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 	}
 
 	@Override
 	public int getWidth() {
-		return SIZE;
+		return SpriteSheet.HUNTER_IMAGES[0].getWidth(null);
 	}
 
 	@Override
 	public int getHeight() {
-		return SIZE;
+		return SpriteSheet.HUNTER_IMAGES[0].getHeight(null);
 	}
 
 	@Override
