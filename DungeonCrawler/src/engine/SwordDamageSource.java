@@ -16,12 +16,13 @@ public class SwordDamageSource extends DamageSource
 	}
 
 	@Override
-	public void draw(Graphics g)
+	public void draw(Graphics g, Vector2D offset)
 	{
-		g.setColor(Color.LIGHT_GRAY);
 		SwordHitbox sh = (SwordHitbox) getHitbox();
-		g.fillArc((int) sh.getPosition().getX() - sh.getRadius(),
-				(int) sh.getPosition().getY() - sh.getRadius(), sh.getRadius() * 2,
+		Vector2D shifted = sh.getPosition().add(offset);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillArc((int) shifted.getX() - sh.getRadius(),
+				(int) shifted.getY() - sh.getRadius(), sh.getRadius() * 2,
 				sh.getRadius() * 2, sh.getStart(), sh.getAngle());
 	}
 }

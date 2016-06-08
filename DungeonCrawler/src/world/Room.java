@@ -3,14 +3,7 @@ package world;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import player.Player;
 import utility.SpriteSheet;
@@ -181,7 +174,6 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	{
 		for (Player p : players)
 		{
-			p.setPos(new Vector2D(0, 0));
 			p.update(r);
 			r.addPlayer(p);
 		}
@@ -190,22 +182,17 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 			d.update(r);
 			r.addDamageSource(d);
 		}
-		for (LevelObject o : objects)
-			o.setPos(o.getPos().subtract(Test.totalOffset));
 
 		currentRoom = false;
 		r.setCurrent();
-		Test.current = r;
 		clean();
-
-		Test.totalOffset = new Vector2D(0, 0);
 	}
 
-	public void draw(Graphics g)
+	public void draw(Graphics g, Vector2D offset)
 	{
 		if (currentRoom)
 		{
-			detailedDraw(g);
+			detailedDraw(g, offset);
 			g.setColor(Color.RED);
 		}
 		else
@@ -217,65 +204,42 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 		if (getUp() != null)
 		{
-			g.drawOval(x + width / 2, y, 4, 4);
+			g.fillOval(x + width / 2, y - 2, 4, 4);
 		}
 		if (getDown() != null)
 		{
-			g.drawOval(x + width / 2, y + height, 4, 4);
+			g.fillOval(x + width / 2, y + height - 2, 4, 4);
 		}
 		if (getLeft() != null)
 		{
-			g.drawOval(x, y + height / 2, 4, 4);
+			g.fillOval(x - 2, y + height / 2, 4, 4);
 		}
 		if (getRight() != null)
 		{
-			g.drawOval(x + width, y + height / 2, 4, 4);
+			g.fillOval(x + width - 2, y + height / 2, 4, 4);
 		}
 	}
 
-	public void detailedDraw(Graphics g)
+	public void detailedDraw(Graphics g, Vector2D offset)
 	{
-		Vector2D offset = Test.middle.subtract(players
-				.get(0)
-				.getPos()
-				.add(new Vector2D(players.get(0).getWidth() / 2, players.get(0)
-						.getHeight() / 2)));
-
-		Test.totalOffset.addToThis(offset);
-
-		if (Test.middle.getY() - Test.totalOffset.getY() >= (height - 1) * 64
-				&& getDown() != null)
-			moveTo(getDown());
-		if (Test.middle.getY() - Test.totalOffset.getY() <= 0
-				&& getUp() != null)
-			moveTo(getUp());
-		if (Test.middle.getX() - Test.totalOffset.getX() <= 0
-				&& getLeft() != null)
-			moveTo(getLeft());
-		if (Test.middle.getX() - Test.totalOffset.getX() >= (width - 1) * 64
-				&& getRight() != null)
-			moveTo(getRight());
-
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
 				g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64
-						+ (int) Test.totalOffset.getX(), j * 64
-						+ (int) Test.totalOffset.getY(),
+						+ (int) offset.getX(), j * 64
+						+ (int) offset.getY(),
 						null);
 
 		for (int i = 0; i < objects.size(); i++)
 		{
-			objects.get(i).setPos(objects.get(i).getPos().add(offset));
-			objects.get(i).draw(g);
+			objects.get(i).draw(g, offset);
 		}
 		for (int i = 0; i < players.size(); i++)
 		{
-			players.get(i).setPos(players.get(i).getPos().add(offset));
-			players.get(i).draw(g);
+			players.get(i).draw(g, offset);
 		}
 		for (int i = 0; i < damageSources.size(); i++)
 		{
-			damageSources.get(i).draw(g);
+			damageSources.get(i).draw(g, offset);
 		}
 	}
 

@@ -21,11 +21,12 @@ public class Tank extends Player
 	}
 
 	@Override
-	public void draw(Graphics g)
+	public void draw(Graphics g, Vector2D offset)
 	{
+		Vector2D shifted = getPos().add(offset);
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect((int) getPos().getX() - getWidth() / 2,
-				(int) getPos().getY() - getHeight() / 2, getWidth(),
+		g.fillRect((int) shifted.getX() - getWidth() / 2,
+				(int) shifted.getY() - getHeight() / 2, getWidth(),
 				getHeight());
 	}
 

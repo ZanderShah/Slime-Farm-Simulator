@@ -78,8 +78,9 @@ public class LevelObject implements Drawable
 	}
 
 	@Override
-	public void draw(Graphics g)
+	public void draw(Graphics g, Vector2D offset)
 	{
-		g.drawImage(img, (int) position.getX(), (int) position.getY(), null);
+		Vector2D shifted = position.add(offset);
+		g.drawImage(img, (int) shifted.getX(), (int) shifted.getY(), null);
 	}
 }

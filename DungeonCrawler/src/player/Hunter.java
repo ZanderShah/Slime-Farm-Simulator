@@ -37,13 +37,14 @@ public class Hunter extends Player
 	}
 
 	@Override
-	public void draw(Graphics g)
+	public void draw(Graphics g, Vector2D offset)
 	{
 		// g.setColor(Color.GREEN.darker().darker());
 		// g.fillRect((int) getPos().getX() - getWidth() / 2, (int)
 		// getPos().getY() - getHeight() / 2, getWidth(), getHeight());
-		g.drawImage(img, (int) getPos().getX() - getWidth() / 2,
-				(int) getPos().getY() - getHeight() / 2, null);
+		Vector2D shifted = getPos().add(offset);
+		g.drawImage(img, (int) shifted.getX() - getWidth() / 2,
+				(int) shifted.getY() - getHeight() / 2, null);
 	}
 
 	@Override

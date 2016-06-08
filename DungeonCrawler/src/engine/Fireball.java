@@ -17,10 +17,11 @@ public class Fireball extends Projectile
 	}
 
 	@Override
-	public void draw(Graphics g)
+	public void draw(Graphics g, Vector2D offset)
 	{
+		Vector2D shifted = getPosition().add(offset);
 		g.setColor(Color.RED);
-		g.fillRect((int) getPosition().getX() - 2, (int) getPosition().getY() - 2, 4,
+		g.fillRect((int) shifted.getX() - 2, (int) shifted.getY() - 2, 4,
 				4);
 	}
 }

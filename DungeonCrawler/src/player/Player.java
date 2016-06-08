@@ -2,12 +2,13 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import engine.LivingEntity;
-import engine.Stats;
-import engine.StatusEffect;
 import utility.ControlState;
 import utility.Vector2D;
 import world.Room;
+import app.Test;
+import engine.LivingEntity;
+import engine.Stats;
+import engine.StatusEffect;
 
 public abstract class Player extends LivingEntity {
 	private Vector2D attackDirection;
@@ -96,13 +97,13 @@ public abstract class Player extends LivingEntity {
 	}
 
 	@Override
-	public abstract void draw(Graphics g);
+	public abstract void draw(Graphics g, Vector2D offset);
 	
 	public boolean attack(Point p, Room r) {
 		if (cooldowns[0] == 0) {
 			attacking = getStats().getAttackTime();
 			cooldowns[0] = getStats().getAttackSpeed();
-			Vector2D direction = (new Vector2D(p)).subtract(getPos());
+			Vector2D direction = (new Vector2D(p).subtract(Test.middle));
 			direction.normalize();
 			attackDirection = direction;
 			return true;

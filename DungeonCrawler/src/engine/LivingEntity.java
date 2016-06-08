@@ -118,5 +118,5 @@ public abstract class LivingEntity implements Drawable
 	}
 
 	@Override
-	public abstract void draw(Graphics g);
+	public abstract void draw(Graphics g, Vector2D offset);
 }

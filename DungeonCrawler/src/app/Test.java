@@ -25,13 +25,12 @@ import world.Room;
 
 public class Test extends JFrame
 {
-	public static Room current;
-	public static Vector2D middle, totalOffset;
-	static Image floor;
+	public static Vector2D middle;
 
 	public Test()
 	{
 		super("Procedural Generator Test");
+
 		GameCanvas gc = new GameCanvas();
 		getContentPane().add(gc);
 		pack();
@@ -45,26 +44,22 @@ public class Test extends JFrame
 	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
-		current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0);
-		current.setCurrent();
-		// ******* Will need to reset totalOffset when switching rooms *******
-		totalOffset = new Vector2D(0, 0);
 		Test pdt = new Test();
 		pdt.setVisible(true);
 	}
 
-	static void drawRooms(Room t, Graphics g, boolean[] vis)
+	static void drawRooms(Room t, Graphics g, Vector2D offset, boolean[] vis)
 	{
 		if (t == null || vis[t.id()])
 			return;
 
-		t.draw(g);
+		t.draw(g, offset);
 		vis[t.id()] = true;
 
-		drawRooms(t.getUp(), g, vis);
-		drawRooms(t.getDown(), g, vis);
-		drawRooms(t.getRight(), g, vis);
-		drawRooms(t.getLeft(), g, vis);
+		drawRooms(t.getUp(), g, offset, vis);
+		drawRooms(t.getDown(), g, offset, vis);
+		drawRooms(t.getRight(), g, offset, vis);
+		drawRooms(t.getLeft(), g, offset, vis);
 	}
 
 	static class GameCanvas extends Canvas implements MouseListener,
@@ -79,8 +74,13 @@ public class Test extends JFrame
 		// private Hunter hunterTest;
 		private Mage mageTest = new Mage();
 
+		private Room current;
+
 		public GameCanvas()
 		{
+			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0);
+			current.setCurrent();
+
 			setPreferredSize(new Dimension(1000, 1000));
 			setFocusable(true);
 			addMouseListener(this);
@@ -110,12 +110,13 @@ public class Test extends JFrame
 					{
 						// tankTest.update(cs, r);
 						// warriorTest.update(cs, entry);
-						thiefTest.update(cs, current);
+						// thiefTest.update(cs, current);
 						// warriorTest.update(cs, entry);
 						// thiefTest.update(cs, entry);
 						// hunterTest.update(cs, r);
-						// mageTest.update(cs, current);
+						mageTest.update(cs, current);
 						current.update();
+
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
 						lastUpdate = time;
@@ -144,7 +145,8 @@ public class Test extends JFrame
 							{
 								Graphics graphics = GameCanvas.this
 										.getBufferStrategy().getDrawGraphics();
-								drawGame(graphics);
+								// Replace with actual current player
+								drawGame(graphics, mageTest);
 								graphics.dispose();
 							}
 							while (GameCanvas.this.getBufferStrategy()
@@ -158,15 +160,17 @@ public class Test extends JFrame
 			}).start();
 		}
 
-		public void drawGame(Graphics g)
+		public void drawGame(Graphics g, Player p)
 		{
 			middle = new Vector2D(getWidth() / 2, getHeight() / 2);
+			Vector2D offset = middle.subtract(p.getPos());
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
-			current.draw(g);
-			drawRooms(current, g, new boolean[10000]);
-			drawHUD(thiefTest, g);
+			current.draw(g, offset);
+			drawRooms(current, g, offset,
+					new boolean[Constants.NUMBER_OF_ROOMS]);
+			drawHUD(p, g);
 		}
 
 		public void drawHUD(Player p, Graphics g)

@@ -16,10 +16,11 @@ public class Arrow extends Projectile
 	}
 
 	@Override
-	public void draw(Graphics g)
+	public void draw(Graphics g, Vector2D offset)
 	{
+		Vector2D shifted = getPosition().add(offset);
 		g.setColor(Color.BLACK);
-		g.fillRect((int) getPosition().getX() - 4, (int) getPosition().getY() - 4, 8,
+		g.fillRect((int) shifted.getX() - 4, (int) shifted.getY() - 4, 8,
 				8);
 	}
 }
