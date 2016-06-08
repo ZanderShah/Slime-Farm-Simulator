@@ -94,13 +94,13 @@ public class Test extends JFrame
 			// current.addPlayer(tankTest);
 			// current.addPlayer(warriorTest);
 			current.addPlayer(thiefTest);
-			thiefTest.setPos(new Vector2D(20, 20));
 			// current.addPlayer(hunterTest);
 			current.addPlayer(mageTest);
 
 			// Change controlled to test other players without having to change
 			// everything
 			controlled = thiefTest;
+			controlled.setPos(new Vector2D(30, 30));
 		}
 
 		public void startGame()
@@ -113,11 +113,7 @@ public class Test extends JFrame
 					lastUpdate = System.currentTimeMillis();
 					while (true)
 					{
-						// tankTest.update(cs, current);
-						// warriorTest.update(cs, current);
-						thiefTest.update(cs, current);
-						// hunterTest.update(cs, current);
-						//mageTest.update(cs, current);
+						controlled.update(cs, current);
 						current.update();
 
 						int roomCheck = current.atDoor(controlled);

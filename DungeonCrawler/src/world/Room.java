@@ -9,6 +9,7 @@ import player.Player;
 import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
+import app.Test;
 import engine.AABB;
 import engine.DamageSource;
 
@@ -266,7 +267,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		{
 			if (players.get(i) == p)
 			{
-				
+				p.draw(g, Test.middle.subtract(p.getPos()));
 			}
 			else
 			{
