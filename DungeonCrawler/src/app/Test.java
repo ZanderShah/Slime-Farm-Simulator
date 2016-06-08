@@ -123,19 +123,19 @@ public class Test extends JFrame
 						int roomCheck = current.atDoor(controlled);
 						if (roomCheck == Constants.LEFT)
 						{
-							current = current.moveTo(current.getLeft());
+							current = current.moveTo(current.getLeft(), roomCheck);
 						}
 						else if (roomCheck == Constants.RIGHT)
 						{
-							current = current.moveTo(current.getRight());
+							current = current.moveTo(current.getRight(), roomCheck);
 						}
 						else if (roomCheck == Constants.UP)
 						{
-							current = current.moveTo(current.getUp());
+							current = current.moveTo(current.getUp(), roomCheck);
 						}
 						else if (roomCheck == Constants.DOWN)
 						{
-							current = current.moveTo(current.getDown());
+							current = current.moveTo(current.getDown(), roomCheck);
 						}
 
 						long time = System.currentTimeMillis();

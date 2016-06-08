@@ -162,6 +162,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		objects.add(o);
 	}
 
+	public LevelObject getDoor(int index)
+	{
+		return doors[index];
+	}
+
 	public void setDoor(LevelObject o, int index)
 	{
 		doors[index] = o;
@@ -177,12 +182,23 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		return (int) (Math.random() * (height - 1) * 64) + 64;
 	}
 
-	public Room moveTo(Room r)
+	public Room moveTo(Room r, int direction)
 	{
+		Vector2D newPos;
+		if (direction == Constants.LEFT)
+			newPos = new Vector2D(20, 20);
+		else if (direction == Constants.RIGHT)
+			newPos = new Vector2D(20, 20);
+		else if (direction == Constants.UP)
+			newPos = new Vector2D(20, 20);
+		else
+			newPos = new Vector2D(20, 20);
+
 		for (Player p : players)
 		{
-			p.update(r);
 			r.addPlayer(p);
+			p.update(r);
+			p.setPos(newPos);
 		}
 		for (DamageSource d : damageSources)
 		{
@@ -210,19 +226,19 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 		if (getUp() != null)
 		{
-			g.fillOval(x + width / 2, y - 4, 8, 8);
+			g.fillOval(x + width / 2 - 4, y - 4, 8, 8);
 		}
 		if (getDown() != null)
 		{
-			g.fillOval(x + width / 2, y + height - 4, 8, 8);
+			g.fillOval(x + width / 2 - 4, y + height - 4, 8, 8);
 		}
 		if (getLeft() != null)
 		{
-			g.fillOval(x - 4, y + height / 2, 8, 8);
+			g.fillOval(x - 4, y + height / 2 - 4, 8, 8);
 		}
 		if (getRight() != null)
 		{
-			g.fillOval(x + width - 4, y + height / 2, 8, 8);
+			g.fillOval(x + width - 4, y + height / 2 - 4, 8, 8);
 		}
 	}
 
@@ -284,8 +300,8 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public boolean hasSpaceFor(LevelObject n)
 	{
-		if (n.x() < 0 || n.x() + n.width() > width * 64 || n.y() < 0
-				|| n.y() + n.height() > height * 64)
+		if (n.x() < 64 || n.x() + n.width() > (width - 1) * 64 || n.y() < 64
+				|| n.y() + n.height() > (height - 1) * 64)
 			return false;
 
 		for (LevelObject o : objects)

@@ -39,6 +39,7 @@ public abstract class LivingEntity implements Drawable
 	public void setPos(Vector2D v)
 	{
 		position = v.clone();
+		hitbox.updatePosition(position);
 	}
 
 	public void setSpeed(Vector2D v)
@@ -113,8 +114,7 @@ public abstract class LivingEntity implements Drawable
 		}
 
 		speed = newSpeed;
-		position.addToThis(speed);
-		hitbox.updatePosition(position);
+		setPos(position.add(speed));
 	}
 
 	@Override
