@@ -239,7 +239,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		for (int i = 1; i < doors.length; i++)
 			if (doors[i] != null)
 				g.drawImage(doors[i].image(), doors[i].x(),
-						doors[i].y(), null);ds
+						doors[i].y(), null);
 
 		nonMovingStuffLevelObject = new LevelObject(new Vector2D(0, 0), false, false, nonMovingStuff);
 	}
