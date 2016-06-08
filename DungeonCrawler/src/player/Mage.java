@@ -31,11 +31,10 @@ public class Mage extends Player
 	}
 
 	@Override
-	public void draw(Graphics g, Vector2D offset)
+	public void draw(Graphics g)
 	{
 		g.setColor(Color.RED);
-		Vector2D shifted = getPos().add(offset);
-		g.drawImage(img[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(img[0], (int) getPos().getX() - getWidth() / 2, (int) getPos().getY() - getHeight() / 2, null);
 		
 		//g.fillRect((int) getPos().getX() - getWidth() / 2,
 		//		(int) getPos().getY() - getHeight() / 2, getWidth(),
@@ -45,8 +44,7 @@ public class Mage extends Player
 	@Override
 	public int getWidth()
 	{
-		return img[0].getWidth(null);
-	}
+		return img[0].getWidth(null);	}
 
 	@Override
 	public int getHeight()
