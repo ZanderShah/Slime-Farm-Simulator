@@ -25,12 +25,12 @@ public class SpriteSheet
 			for (int i = 1; i < 5; i++)
 				DECORATIVE_IMAGES[i-1] = ImageIO.read(new File("img//DecorativeImage" + i + ".png"));
 			
-			BLOCKING_IMAGES = new Image[3];
-			for (int i = 1; i < 4; i++)
+			BLOCKING_IMAGES = new Image[4];
+			for (int i = 1; i < 5; i++)
 				BLOCKING_IMAGES[i-1] = ImageIO.read(new File("img//BlockingImage" + i + ".png"));
 			
 			MAGE_IMAGES = new Image[4];
-			for (int i = 1; i < 4; i++)
+			for (int i = 1; i < 5; i++)
 				MAGE_IMAGES[i-1] = ImageIO.read(new File("img//Mage" + i + ".png"));
 			
 			DOORS = new Image[2];
