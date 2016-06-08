@@ -245,9 +245,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public void detailedDraw(Graphics g, Vector2D offset, Player p)
 	{
-		for (int i = 0; i < width; i++)
-			for (int j = 0; j < height; j++)
-				g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64
+		for (int i = 0; i < width + 2; i++)
+			for (int j = 0; j < height + 2 ; j++)
+				g.drawImage(SpriteSheet.WALLS[difficulty], i * 64
 						+ (int) offset.getX(), j * 64
 						+ (int) offset.getY(),
 						null);
