@@ -242,7 +242,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		}
 	}
 
-	public void detailedDraw(Graphics g, Vector2D offset)
+	public void detailedDraw(Graphics g, Vector2D offset, Player p)
 	{
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
@@ -264,7 +264,14 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		}
 		for (int i = 0; i < players.size(); i++)
 		{
-			players.get(i).draw(g, offset);
+			if (players.get(i) == p)
+			{
+				
+			}
+			else
+			{
+				players.get(i).draw(g, offset);
+			}
 		}
 	}
 

@@ -96,7 +96,7 @@ public class Test extends JFrame
 			current.addPlayer(thiefTest);
 			thiefTest.setPos(new Vector2D(20, 20));
 			// current.addPlayer(hunterTest);
-			// current.addPlayer(mageTest);
+			current.addPlayer(mageTest);
 
 			// Change controlled to test other players without having to change
 			// everything
@@ -117,25 +117,29 @@ public class Test extends JFrame
 						// warriorTest.update(cs, current);
 						thiefTest.update(cs, current);
 						// hunterTest.update(cs, current);
-						// mageTest.update(cs, current);
+						//mageTest.update(cs, current);
 						current.update();
 
 						int roomCheck = current.atDoor(controlled);
 						if (roomCheck == Constants.LEFT)
 						{
-							current = current.moveTo(current.getLeft(), roomCheck);
+							current = current.moveTo(current.getLeft(),
+									roomCheck);
 						}
 						else if (roomCheck == Constants.RIGHT)
 						{
-							current = current.moveTo(current.getRight(), roomCheck);
+							current = current.moveTo(current.getRight(),
+									roomCheck);
 						}
 						else if (roomCheck == Constants.UP)
 						{
-							current = current.moveTo(current.getUp(), roomCheck);
+							current = current
+									.moveTo(current.getUp(), roomCheck);
 						}
 						else if (roomCheck == Constants.DOWN)
 						{
-							current = current.moveTo(current.getDown(), roomCheck);
+							current = current.moveTo(current.getDown(),
+									roomCheck);
 						}
 
 						long time = System.currentTimeMillis();
@@ -189,7 +193,7 @@ public class Test extends JFrame
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
-			current.detailedDraw(g, offset);
+			current.detailedDraw(g, offset, controlled);
 			drawRooms(current, g, offset,
 					new boolean[Constants.NUMBER_OF_ROOMS]);
 
