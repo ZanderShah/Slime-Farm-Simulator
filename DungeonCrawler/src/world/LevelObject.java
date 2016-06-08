@@ -44,6 +44,11 @@ public class LevelObject implements Drawable
 	{
 		return (int) position.getY();
 	}
+	
+	public Image image()
+	{
+		return img;
+	}
 
 	public void setHitbox()
 	{
