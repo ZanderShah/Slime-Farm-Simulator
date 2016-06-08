@@ -54,4 +54,16 @@ public class Tank extends Player
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public int getWidth()
+	{
+		return 0;
+	}
+
+	@Override
+	public int getHeight()
+	{
+		return 0;
+	}
 }

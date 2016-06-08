@@ -1,6 +1,9 @@
 package utility;
 public class Constants {
 	public static final int NUMBER_OF_ROOMS = 25;
+	public static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
+	public static final int MIN_ROOM_WIDTH = 20, MAX_ROOM_WIDTH = 30,
+			MIN_ROOM_HEIGHT = 20, MAX_ROOM_HEIGHT = 30;
 	// I feel like putting all this stuff into a file makes balancing easier
 	
 	// Class max healths

@@ -55,10 +55,15 @@ public abstract class LivingEntity implements Drawable
 	{
 		return stats;
 	}
-	
+
 	public void setHitbox(AABB hitbox)
 	{
 		this.hitbox = hitbox;
+	}
+
+	public AABB getHitbox()
+	{
+		return hitbox;
 	}
 
 	public ArrayList<StatusEffect> getEffects()
@@ -71,15 +76,9 @@ public abstract class LivingEntity implements Drawable
 		effects.add(s);
 	}
 
-	public int getWidth()
-	{
-		return 0;
-	}
+	public abstract int getWidth();
 
-	public int getHeight()
-	{
-		return 0;
-	}
+	public abstract int getHeight();
 
 	public boolean getImmobile()
 	{
@@ -115,6 +114,7 @@ public abstract class LivingEntity implements Drawable
 
 		speed = newSpeed;
 		position.addToThis(speed);
+		hitbox.updatePosition(position);
 	}
 
 	@Override

@@ -6,9 +6,9 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 import player.Player;
+import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
-import app.Test;
 import engine.AABB;
 import engine.DamageSource;
 
@@ -22,6 +22,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	private boolean cleared, currentRoom;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
+	private LevelObject[] doors;
 	private ArrayList<DamageSource> damageSources;
 	// For now, players[0] will be the player that the user is controlling
 	private ArrayList<Player> players;
@@ -38,6 +39,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		cleared = currentRoom = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
+		doors = new LevelObject[5];
 		damageSources = new ArrayList<DamageSource>();
 		players = new ArrayList<Player>();
 	}
@@ -160,6 +162,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		objects.add(o);
 	}
 
+	public void setDoor(LevelObject o, int index)
+	{
+		doors[index] = o;
+	}
+
 	public int randomX(Image img)
 	{
 		return (int) (Math.random() * (width - 1) * 64) + 64;
@@ -170,7 +177,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		return (int) (Math.random() * (height - 1) * 64) + 64;
 	}
 
-	public void moveTo(Room r)
+	public Room moveTo(Room r)
 	{
 		for (Player p : players)
 		{
@@ -186,37 +193,36 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		currentRoom = false;
 		r.setCurrent();
 		clean();
+
+		return r;
 	}
 
 	public void draw(Graphics g, Vector2D offset)
 	{
 		if (currentRoom)
-		{
-			detailedDraw(g, offset);
 			g.setColor(Color.RED);
-		}
 		else
 			g.setColor(Color.GRAY);
-		
+
 		g.fillRect(x, y, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
 
 		if (getUp() != null)
 		{
-			g.fillOval(x + width / 2, y - 2, 4, 4);
+			g.fillOval(x + width / 2, y - 4, 8, 8);
 		}
 		if (getDown() != null)
 		{
-			g.fillOval(x + width / 2, y + height - 2, 4, 4);
+			g.fillOval(x + width / 2, y + height - 4, 8, 8);
 		}
 		if (getLeft() != null)
 		{
-			g.fillOval(x - 2, y + height / 2, 4, 4);
+			g.fillOval(x - 4, y + height / 2, 8, 8);
 		}
 		if (getRight() != null)
 		{
-			g.fillOval(x + width - 2, y + height / 2, 4, 4);
+			g.fillOval(x + width - 4, y + height / 2, 8, 8);
 		}
 	}
 
@@ -233,18 +239,42 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		{
 			objects.get(i).draw(g, offset);
 		}
-		for (int i = 0; i < players.size(); i++)
-		{
-			players.get(i).draw(g, offset);
-		}
+		for (int i = 1; i < doors.length; i++)
+			if (doors[i] != null)
+				doors[i].draw(g, offset);
 		for (int i = 0; i < damageSources.size(); i++)
 		{
 			damageSources.get(i).draw(g, offset);
 		}
+		for (int i = 0; i < players.size(); i++)
+		{
+			players.get(i).draw(g, offset);
+		}
+	}
+
+	public int atDoor(Player p)
+	{
+		for (int i = 1; i < doors.length; i++)
+		{
+			if (doors[i] != null && p.getHitbox().intersects(doors[i].hitbox()))
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	public boolean hasCollisionWith(AABB hitbox)
 	{
+		// Outside of map
+		if ((hitbox.getPosition().getX() - hitbox.getWidth() / 2)
+				* (hitbox.getPosition().getY() - hitbox.getHeight() / 2) < 0
+				|| (hitbox.getPosition().getX() + hitbox.getWidth() / 2) > width * 64
+				|| (hitbox.getPosition().getY() + hitbox.getHeight() / 2) > height * 64)
+		{
+			return true;
+		}
+
 		for (LevelObject l : objects)
 			if (l.blocksPlayer() && l.hitbox().intersects(hitbox))
 				return true;
@@ -260,6 +290,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 		for (LevelObject o : objects)
 			if (n.hitbox().intersects(o.hitbox()))
+				return false;
+		for (int i = 1; i < doors.length; i++)
+			if (doors[i] != null && n.hitbox().intersects(doors[i].hitbox()))
 				return false;
 
 		return true;

@@ -2,26 +2,26 @@ package world;
 
 import java.awt.Image;
 
+import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
 public class DungeonFactory
 {
-	private static final int MIN_ROOM_WIDTH = 20, MAX_ROOM_WIDTH = 30,
-			MIN_ROOM_HEIGHT = 20, MAX_ROOM_HEIGHT = 30;
-	private static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	private static int totalRooms;
 
 	private static int randomWidth()
 	{
-		return (int) (Math.random() * (MAX_ROOM_WIDTH - MIN_ROOM_WIDTH + 1))
-				+ MIN_ROOM_WIDTH;
+		return (int) (Math.random() * (Constants.MAX_ROOM_WIDTH
+				- Constants.MIN_ROOM_WIDTH + 1))
+				+ Constants.MIN_ROOM_WIDTH;
 	}
 
 	private static int randomHeight()
 	{
-		return (int) (Math.random() * (MAX_ROOM_HEIGHT - MIN_ROOM_HEIGHT + 1))
-				+ MIN_ROOM_HEIGHT;
+		return (int) (Math.random() * (Constants.MAX_ROOM_HEIGHT
+				- Constants.MIN_ROOM_HEIGHT + 1))
+				+ Constants.MIN_ROOM_HEIGHT;
 	}
 
 	public static Room generateMap(int numberOfRooms, int difficulty)
@@ -30,7 +30,9 @@ public class DungeonFactory
 				difficulty, 0);
 		totalRooms = 1;
 		generateConnections(entry, numberOfRooms - 1, difficulty);
+		addDoors(entry, new boolean[totalRooms]);
 		fillWithObjects(entry, difficulty, new boolean[totalRooms]);
+
 		return entry;
 	}
 
@@ -49,7 +51,7 @@ public class DungeonFactory
 
 			int width = randomWidth(), height = randomHeight();
 
-			if (direction == LEFT && room.getLeft() == null
+			if (direction == Constants.LEFT && room.getLeft() == null
 					&& fits(room, room.x() - width, room.y() + room.height()
 							/ 2 - height / 2, width, height,
 							new boolean[totalRooms]))
@@ -64,7 +66,7 @@ public class DungeonFactory
 				// System.out.printf("Room %d placed LEFT of Room %d%n",
 				// room.getLeft().id(), room.id());
 			}
-			else if (direction == UP && room.getUp() == null
+			else if (direction == Constants.UP && room.getUp() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
 							room.y() - height, width, height,
 							new boolean[totalRooms]))
@@ -79,7 +81,7 @@ public class DungeonFactory
 				// System.out.printf("Room %d placed UP of Room %d%n",
 				// room.getUp().id(), room.id());
 			}
-			else if (direction == RIGHT && room.getRight() == null
+			else if (direction == Constants.RIGHT && room.getRight() == null
 					&& fits(room, room.x() + room.width(),
 							room.y() + room.height()
 									/ 2 - height / 2, width, height,
@@ -96,7 +98,7 @@ public class DungeonFactory
 				// System.out.printf("Room %d placed RIGHT of Room %d%n",
 				// room.getRight().id(), room.id());
 			}
-			else if (direction == DOWN && room.getDown() == null
+			else if (direction == Constants.DOWN && room.getDown() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
 							room.y() + room.height(), width,
 							height, new boolean[totalRooms]))
@@ -159,6 +161,49 @@ public class DungeonFactory
 		// room.y(), room.width(), room.height(), x, y, width, height);
 
 		return false;
+	}
+
+	private static void addDoors(Room room, boolean[] vis)
+	{
+		if (room == null || vis[room.id()])
+			return;
+
+		vis[room.id()] = true;
+
+		if (room.getLeft() != null)
+			room.setDoor(
+					new LevelObject(new Vector2D(-SpriteSheet.DOORS[0]
+							.getWidth(null) / 2, room.height() * 64 / 2
+							- SpriteSheet.DOORS[0].getHeight(null) / 2), false,
+							false, SpriteSheet.DOORS[0]), Constants.LEFT);
+		if (room.getRight() != null)
+			room.setDoor(
+					new LevelObject(new Vector2D(room.width() * 64
+							- SpriteSheet.DOORS[0]
+									.getWidth(null) / 2, room
+							.height() * 64 / 2
+							- SpriteSheet.DOORS[0].getHeight(null) / 2), false,
+							false,
+							SpriteSheet.DOORS[0]), Constants.RIGHT);
+		if (room.getUp() != null)
+			room.setDoor(new LevelObject(new Vector2D(room.width() * 64 / 2
+					- SpriteSheet.DOORS[1].getWidth(null) / 2,
+					-SpriteSheet.DOORS[1].getHeight(null) / 2), false,
+					false,
+					SpriteSheet.DOORS[1]), Constants.UP);
+		if (room.getDown() != null)
+			room.setDoor(new LevelObject(new Vector2D(room.width() * 64 / 2
+					- SpriteSheet.DOORS[1].getWidth(null) / 2, room.height()
+					* 64
+					- SpriteSheet.DOORS[1].getHeight(null) / 2),
+					false,
+					false,
+					SpriteSheet.DOORS[1]), Constants.DOWN);
+
+		addDoors(room.getUp(), vis);
+		addDoors(room.getDown(), vis);
+		addDoors(room.getLeft(), vis);
+		addDoors(room.getRight(), vis);
 	}
 
 	private static void fillWithObjects(Room room, int difficulty, boolean[] vis)

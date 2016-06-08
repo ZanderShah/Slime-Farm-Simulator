@@ -4,7 +4,6 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,9 +12,12 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 
+import player.Hunter;
 import player.Mage;
 import player.Player;
+import player.Tank;
 import player.Thief;
+import player.Warrior;
 import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
@@ -27,7 +29,8 @@ public class Test extends JFrame
 {
 	public static Vector2D middle;
 
-	public Test() {
+	public Test()
+	{
 		super("Procedural Generator Test");
 
 		GameCanvas gc = new GameCanvas();
@@ -39,7 +42,8 @@ public class Test extends JFrame
 		gc.startGame();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
 		Test pdt = new Test();
@@ -61,15 +65,16 @@ public class Test extends JFrame
 	}
 
 	static class GameCanvas extends Canvas implements MouseListener,
-			MouseMotionListener, KeyListener {
+			MouseMotionListener, KeyListener
+	{
 		private ControlState cs;
 
-		// private Tank tankTest = new Tank();
-		// private Warrior warriorTest = new Warrior();
+		private Tank tankTest = new Tank();
+		private Warrior warriorTest = new Warrior();
 		private Thief thiefTest = new Thief();
-
-		// private Hunter hunterTest;
+		private Hunter hunterTest;
 		private Mage mageTest = new Mage();
+		private Player controlled;
 
 		private Room current;
 
@@ -86,38 +91,62 @@ public class Test extends JFrame
 
 			cs = new ControlState();
 
-			// r.addPlayer(tankTest);
-			// entry.addPlayer(warriorTest);
+			// current.addPlayer(tankTest);
+			// current.addPlayer(warriorTest);
 			current.addPlayer(thiefTest);
-			// entry.addPlayer(warriorTest);
-			// entry.addPlayer(thiefTest);
-			// r.addPlayer(hunterTest);
-			current.addPlayer(mageTest);
+			thiefTest.setPos(new Vector2D(20, 20));
+			// current.addPlayer(hunterTest);
+			// current.addPlayer(mageTest);
+
+			// Change controlled to test other players without having to change
+			// everything
+			controlled = thiefTest;
 		}
 
-		public void startGame() {
+		public void startGame()
+		{
 			(new Thread() {
 				long lastUpdate;
 
-				public void run() {
+				public void run()
+				{
 					lastUpdate = System.currentTimeMillis();
-					while (true) {
-						// tankTest.update(cs, r);
-						// warriorTest.update(cs, entry);
-						// thiefTest.update(cs, current);
-						// warriorTest.update(cs, entry);
-						// thiefTest.update(cs, entry);
-						// hunterTest.update(cs, r);
-						mageTest.update(cs, current);
+					while (true)
+					{
+						// tankTest.update(cs, current);
+						// warriorTest.update(cs, current);
+						thiefTest.update(cs, current);
+						// hunterTest.update(cs, current);
+						// mageTest.update(cs, current);
 						current.update();
+
+						int roomCheck = current.atDoor(controlled);
+						if (roomCheck == Constants.LEFT)
+						{
+							current = current.moveTo(current.getLeft());
+						}
+						else if (roomCheck == Constants.RIGHT)
+						{
+							current = current.moveTo(current.getRight());
+						}
+						else if (roomCheck == Constants.UP)
+						{
+							current = current.moveTo(current.getUp());
+						}
+						else if (roomCheck == Constants.DOWN)
+						{
+							current = current.moveTo(current.getDown());
+						}
 
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
 						lastUpdate = time;
-						try {
+						try
+						{
 							Thread.sleep(Math.max(0, 1000 / 60 - diff));
 						}
-						catch (Exception e) {
+						catch (Exception e)
+						{
 							e.printStackTrace();
 						}
 					}
@@ -127,14 +156,18 @@ public class Test extends JFrame
 			createBufferStrategy(2);
 
 			(new Thread() {
-				public void run() {
-					while (true) {
-						do {
-							do {
+				public void run()
+				{
+					while (true)
+					{
+						do
+						{
+							do
+							{
 								Graphics graphics = GameCanvas.this
 										.getBufferStrategy().getDrawGraphics();
 								// Replace with actual current player
-								drawGame(graphics, mageTest);
+								drawGame(graphics, controlled);
 								graphics.dispose();
 							}
 							while (GameCanvas.this.getBufferStrategy()
@@ -152,16 +185,19 @@ public class Test extends JFrame
 		{
 			middle = new Vector2D(getWidth() / 2, getHeight() / 2);
 			Vector2D offset = middle.subtract(p.getPos());
+
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
-			current.draw(g, offset);
+			current.detailedDraw(g, offset);
 			drawRooms(current, g, offset,
 					new boolean[Constants.NUMBER_OF_ROOMS]);
+
 			drawHUD(p, g);
 		}
 
-		public void drawHUD(Player p, Graphics g) {
+		public void drawHUD(Player p, Graphics g)
+		{
 			g.setColor(Color.GRAY);
 			g.fillRect(0, getHeight() - 200, getWidth(), 200);
 
@@ -181,8 +217,10 @@ public class Test extends JFrame
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mousePressed(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.press(ControlState.KEY_ATTACK);
 				break;
@@ -193,8 +231,10 @@ public class Test extends JFrame
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mouseReleased(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.release(ControlState.KEY_ATTACK);
 				break;
@@ -205,18 +245,22 @@ public class Test extends JFrame
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e) {
+		public void mouseMoved(MouseEvent e)
+		{
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent e) {
+		public void mouseDragged(MouseEvent e)
+		{
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyPressed(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.press(ControlState.KEY_UP);
 				break;
@@ -239,8 +283,10 @@ public class Test extends JFrame
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyReleased(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.release(ControlState.KEY_UP);
 				break;
@@ -263,19 +309,23 @@ public class Test extends JFrame
 		}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {
+		public void mouseEntered(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {
+		public void mouseExited(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped(KeyEvent e)
+		{
 		}
 	}
 }
