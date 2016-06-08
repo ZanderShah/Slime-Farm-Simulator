@@ -99,7 +99,7 @@ public class Test extends JFrame {
 //			current.addPlayer(hunterTest);
 //			current.addPlayer(clericTest);
 //			current.addPlayer(mageTest);
-
+			
 			// Change controlled to test other players without having to change
 			// everything
 //			controlled = hunterTest;
@@ -108,6 +108,7 @@ public class Test extends JFrame {
 			controlled = thiefTest;
 //			controlled = tankTest;
 //			controlled = clericTest;
+			
 		}
 
 		public void startGame() {

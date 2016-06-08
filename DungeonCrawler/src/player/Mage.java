@@ -16,15 +16,12 @@ import world.Room;
 
 public class Mage extends Player
 {
-	private Image[] img;
-
 	public Mage()
 	{
 		super();
 		setStats(new Stats(Constants.MAGE_HEALTH, Constants.MAGE_ATTACK_SPEED,
 				Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED,
 				Constants.MAGE_DEFENCE));
-		this.img = SpriteSheet.MAGE_IMAGES;
 		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)),
 				getWidth(),
 				getHeight()));
@@ -35,7 +32,7 @@ public class Mage extends Player
 	{
 		Vector2D shifted = getPos().add(offset);
 		g.setColor(Color.RED);
-		g.drawImage(img[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.MAGE_IMAGES[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 		
 		//g.fillRect((int) getPos().getX() - getWidth() / 2,
 		//		(int) getPos().getY() - getHeight() / 2, getWidth(),
@@ -45,12 +42,13 @@ public class Mage extends Player
 	@Override
 	public int getWidth()
 	{
-		return img[0].getWidth(null);	}
+		return SpriteSheet.MAGE_IMAGES[0].getWidth(null);	
+	}
 
 	@Override
 	public int getHeight()
 	{
-		return img[0].getHeight(null);
+		return SpriteSheet.MAGE_IMAGES[0].getHeight(null);
 	}
 
 	@Override

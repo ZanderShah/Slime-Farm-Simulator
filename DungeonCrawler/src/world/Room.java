@@ -9,7 +9,9 @@ import player.Player;
 import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
+
 import enemy.Enemy;
+import app.Test;
 import engine.AABB;
 import engine.DamageSource;
 import engine.Projectile;
@@ -256,7 +258,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		}
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i) == p) {
-
+				p.draw(g, Test.middle.subtract(p.getPos()));
 			} else {
 				players.get(i).draw(g, offset);
 			}
