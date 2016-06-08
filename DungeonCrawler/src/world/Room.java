@@ -229,14 +229,17 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
 				g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64, j * 64, null);
-
-		for (int i = 0; i < objects.size(); i++) {
-			g.drawImage(objects.get(i).image(), objects.get(i).x() + objects.get(i).width() - 32, objects.get(i).y() + objects.get(i).height() - 32, null);
+		
+		for (int i = 0; i < objects.size(); i++)
+		{
+			g.drawImage(objects.get(i).image(), objects.get(i).x(), objects
+					.get(i).y(), null);
 		}
 
 		for (int i = 1; i < doors.length; i++)
 			if (doors[i] != null)
-				g.drawImage(doors[i].image(), doors[i].x() + doors[i].width() - 32, doors[i].y() + doors[i].height() - 32, null);
+				g.drawImage(doors[i].image(), doors[i].x(),
+						doors[i].y(), null);ds
 
 		nonMovingStuffLevelObject = new LevelObject(new Vector2D(0, 0), false, false, nonMovingStuff);
 	}
