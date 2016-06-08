@@ -31,7 +31,7 @@ public class Test extends JFrame
 
 	public Test()
 	{
-		super("Procedural Generator Test");
+		super("Dungeon Crawler");
 
 		GameCanvas gc = new GameCanvas();
 		getContentPane().add(gc);
