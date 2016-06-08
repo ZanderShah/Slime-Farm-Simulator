@@ -3,6 +3,7 @@ package world;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import player.Player;
@@ -27,6 +28,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	private ArrayList<DamageSource> damageSources;
 	// For now, players[0] will be the player that the user is controlling
 	private ArrayList<Player> players;
+	private BufferedImage nonMovingStuff;
 
 	public Room(int x, int y, int width, int height, int difficulty, int id)
 	{
@@ -187,24 +189,24 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	{
 		Vector2D newPos;
 		if (direction == Constants.LEFT)
-			newPos = new Vector2D(20, 20);
+			newPos = new Vector2D(30, 30);
 		else if (direction == Constants.RIGHT)
-			newPos = new Vector2D(20, 20);
+			newPos = new Vector2D(30, 30);
 		else if (direction == Constants.UP)
-			newPos = new Vector2D(20, 20);
+			newPos = new Vector2D(30, 30);
 		else
-			newPos = new Vector2D(20, 20);
+			newPos = new Vector2D(30, 30);
 
-		for (Player p : players)
+		for (int i = 0; i < players.size(); i++)
 		{
-			r.addPlayer(p);
-			p.update(r);
-			p.setPos(newPos);
+			r.addPlayer(players.get(i));
+			players.get(i).update(r);
+			players.get(i).setPos(newPos);
 		}
-		for (DamageSource d : damageSources)
+		for (int i = 0; i < damageSources.size(); i++)
 		{
-			d.update(r);
-			r.addDamageSource(d);
+			damageSources.get(i).update(r);
+			r.addDamageSource(damageSources.get(i));
 		}
 
 		currentRoom = false;
@@ -212,6 +214,28 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		clean();
 
 		return r;
+	}
+	
+	public void stopTearing2017()
+	{
+		nonMovingStuff = new BufferedImage(width * 64, height * 64, BufferedImage.TYPE_INT_RGB);
+		
+//		for (int i = 0; i < width; i++)
+//			for (int j = 0; j < height; j++)
+//				g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64
+//						+ (int) offset.getX(), j * 64
+//						+ (int) offset.getY(),
+//						null);
+//
+//		for (int i = 0; i < objects.size(); i++)
+//			if (true || isRelevant(objects.get(i), p))
+//			{
+//				objects.get(i).draw(g, offset);
+//			}
+//
+//		for (int i = 1; i < doors.length; i++)
+//			if (doors[i] != null)
+//				doors[i].draw(g, offset);
 	}
 
 	public void draw(Graphics g, Vector2D offset)
@@ -245,24 +269,13 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public void detailedDraw(Graphics g, Vector2D offset, Player p)
 	{
-		for (int i = 0; i < width; i++)
-			for (int j = 0; j < height; j++)
-				g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64
-						+ (int) offset.getX(), j * 64
-						+ (int) offset.getY(),
-						null);
+		g.drawImage(nonMovingStuff, 0, 0, null);
 
-		for (int i = 0; i < objects.size(); i++)
-		{
-			objects.get(i).draw(g, offset);
-		}
-		for (int i = 1; i < doors.length; i++)
-			if (doors[i] != null)
-				doors[i].draw(g, offset);
 		for (int i = 0; i < damageSources.size(); i++)
 		{
 			damageSources.get(i).draw(g, offset);
 		}
+
 		for (int i = 0; i < players.size(); i++)
 		{
 			if (players.get(i) == p)
@@ -274,6 +287,13 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 				players.get(i).draw(g, offset);
 			}
 		}
+	}
+
+	private boolean isRelevant(LevelObject o, Player p)
+	{
+		AABB test = new AABB(p.getPos(),
+				(int) (Test.middle.getX()), (int) (Test.middle.getY()));
+		return o.hitbox().intersects(test);
 	}
 
 	public int atDoor(Player p)
