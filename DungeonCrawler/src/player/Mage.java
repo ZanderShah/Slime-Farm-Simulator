@@ -103,7 +103,7 @@ public class Mage extends Player {
 			currentDebuff = new MageDebuff(getPos(), Constants.MAGE_DEBUFF_RANGE, Constants.MAGE_DEBUFF_LENGTH, true);
 			r.addDamageSource(currentDebuff);
 			setCooldown(2, Constants.MAGE_AB2_COOLDOWN + Constants.MAGE_DEBUFF_LENGTH);
-			giveStatusEffect(new StatusEffect(Constants.MAGE_DEBUFF_LENGTH, 0.6, StatusEffect.SPEED));
+			giveStatusEffect(new StatusEffect(Constants.MAGE_DEBUFF_LENGTH, 0, 0.6, StatusEffect.SPEED, true));
 		}
 	}
 

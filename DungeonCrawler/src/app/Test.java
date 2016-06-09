@@ -98,15 +98,15 @@ public class Test extends JFrame {
 //			current.addPlayer(tankTest);
 //			current.addPlayer(warriorTest);
 //			current.addPlayer(thiefTest);
-//			current.addPlayer(hunterTest);
+			current.addPlayer(hunterTest);
 //			current.addPlayer(clericTest);
-			current.addPlayer(mageTest);
+//			current.addPlayer(mageTest);
 			
 			// Change controlled to test other players without having to change
 			// everything
-//			controlled = hunterTest;
+			controlled = hunterTest;
 //			controlled = warriorTest;
-			controlled = mageTest;
+//			controlled = mageTest;
 //			controlled = thiefTest;
 //			controlled = tankTest;
 //			controlled = clericTest;

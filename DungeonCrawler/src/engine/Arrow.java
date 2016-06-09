@@ -9,10 +9,9 @@ import utility.Vector2D;
 public class Arrow extends Projectile
 {
 
-	public Arrow(Vector2D pos, Vector2D dir, boolean player)
+	public Arrow(Vector2D pos, Vector2D dir, boolean piercing, boolean player)
 	{
-		super(new AABB(pos, 8, 8), -1, pos, dir.getNormalized().multiply(
-				Constants.ARROW_SPEED), true, player, Constants.ARROW_DAMAGE);
+		super(new AABB(pos, 8, 8), -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), piercing, player, Constants.ARROW_DAMAGE);
 	}
 
 	@Override

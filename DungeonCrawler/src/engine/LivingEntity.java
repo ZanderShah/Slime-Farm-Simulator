@@ -97,6 +97,8 @@ public abstract class LivingEntity implements Drawable {
 			if (effects.get(s).getTime() == 0) {
 				effects.remove(s);
 				s--;
+			} else if (effects.get(s).getType() == StatusEffect.HEALTH) {
+				stats.setHealth(stats.getHealth() + (int) effects.get(s).getStrength());
 			}
 		}
 		

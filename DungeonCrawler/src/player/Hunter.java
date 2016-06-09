@@ -3,7 +3,9 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import app.Test;
 import engine.Arrow;
+import engine.PoisonArrow;
 import engine.Stats;
 import utility.Constants;
 import utility.ControlState;
@@ -13,10 +15,15 @@ import world.Room;
 
 public class Hunter extends Player {
 	
+	private boolean poisonLoaded;
+	private boolean piercingLoaded;
+	
 	public Hunter() {
 		super();
 		setStats(new Stats(Constants.HUNTER_HEALTH, Constants.HUNTER_ATTACK_SPEED, Constants.HUNTER_ATTACK_LENGTH, Constants.HUNTER_SPEED,
 				Constants.HUNTER_DEFENCE));
+		poisonLoaded = false;
+		piercingLoaded = false;
 	}
 
 	@Override
@@ -44,19 +51,42 @@ public class Hunter extends Player {
 	public boolean attack(Point p, Room r) {
 		boolean attacked = super.attack(p, r);
 		if (attacked) {
-			r.addDamageSource(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(getPos()), false));
+			if (poisonLoaded) {
+				r.addDamageSource(new PoisonArrow(getPos().clone(), (new Vector2D(p)).subtract(Test.middle), true));
+				poisonLoaded = false;
+				setCooldown(1, Constants.HUNTER_AB1_COOLDOWN);
+			} else if (piercingLoaded) {
+				r.addDamageSource(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(Test.middle), true, true));
+				piercingLoaded = false;
+				setCooldown(2, Constants.HUNTER_AB2_COOLDOWN);
+			} else {
+				r.addDamageSource(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(Test.middle), false, true));
+			}
 		}
 		return attacked;
 	}
 
+	// Poison arrow: while active, the next arrow fired inflicts poison
+	// Cooldown: 10 seconds
 	@Override
 	public void ability1(Point p, Room r) {
-
+		if (getCooldown(1) == 0) {
+			poisonLoaded = true;
+			piercingLoaded = false;
+		} else if (poisonLoaded) {
+			poisonLoaded = false;
+		}
 	}
 
+	// Piercing arrow: while active, the next arrow fired will pierce through multiple enemies
 	@Override
 	public void ability2(Point p, Room r) {
-
+		if (getCooldown(2) == 0) {
+			piercingLoaded = true;
+			poisonLoaded = false;
+		} else {
+			piercingLoaded = false;
+		}
 	}
 
 	@Override

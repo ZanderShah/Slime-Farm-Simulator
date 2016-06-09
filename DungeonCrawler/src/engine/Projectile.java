@@ -13,6 +13,12 @@ public abstract class Projectile extends DamageSource {
 		speed = spd;
 	}
 	
+	public Projectile(Hitbox h, int duration, Vector2D pos, Vector2D spd, boolean single, boolean player, int damage, StatusEffect effect) {
+		super(h, 0, duration, single, player, damage, effect);
+		position = pos;
+		speed = spd;
+	}
+
 	@Override
 	public void update(Room r) {
 		super.update(r);
