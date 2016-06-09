@@ -17,6 +17,6 @@ public class Fireball extends Projectile {
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPosition().add(offset);
 		g.setColor(Color.RED);
-		g.drawImage(SpriteSheet.PROJECTILES[0], (int) shifted.getX() - 2, (int) shifted.getY() - 2, null);
+		g.drawImage(SpriteSheet.PROJECTILES[(int) (Math.random() * 3)], (int) shifted.getX() - 2, (int) shifted.getY() - 2, null);
 	}
 }
