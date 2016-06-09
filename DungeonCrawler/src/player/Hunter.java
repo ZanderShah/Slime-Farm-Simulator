@@ -52,15 +52,15 @@ public class Hunter extends Player {
 		boolean attacked = super.attack(p, r);
 		if (attacked) {
 			if (poisonLoaded) {
-				r.addDamageSource(new PoisonArrow(getPos().clone(), (new Vector2D(p)).subtract(Test.middle), true));
+				r.addDamageSource(new PoisonArrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), true));
 				poisonLoaded = false;
 				setCooldown(1, Constants.HUNTER_AB1_COOLDOWN);
 			} else if (piercingLoaded) {
-				r.addDamageSource(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(Test.middle), true, true));
+				r.addDamageSource(new Arrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), true, true));
 				piercingLoaded = false;
 				setCooldown(2, Constants.HUNTER_AB2_COOLDOWN);
 			} else {
-				r.addDamageSource(new Arrow(getPos().clone(), (new Vector2D(p)).subtract(Test.middle), false, true));
+				r.addDamageSource(new Arrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), false, false));
 			}
 		}
 		return attacked;
