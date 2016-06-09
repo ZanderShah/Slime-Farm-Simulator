@@ -53,11 +53,11 @@ public class SpriteSheet
 			WALLS[0] = ImageIO.read(new File("img//Wall.png"));
 			
 			PROJECTILES = new Image[5];
-			for (int i = 1; i <= 3; i++) {
+			for (int i = 1; i <= 3; i++) 
 				PROJECTILES[i-1] = ImageIO.read(new File("img//Flame" + i + ".png"));
-			}
 			PROJECTILES[3] = ImageIO.read(new File("img//MageQ.png"));
-			PROJECTILES[4] = ImageIO.read(new File("img//Arrow.png"));
+			for (int i = 1; i <= 2; i++) 
+				PROJECTILES[i-1] = ImageIO.read(new File("img//Arrow" + i + ".png"));
 			
 		}
 		catch (IOException e)
