@@ -204,7 +204,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	{
 		currentRoom = true;
 	}
-	
+
 	public boolean isBossRoom()
 	{
 		return bossRoom;
@@ -213,9 +213,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	public void setBossRoom()
 	{
 		bossRoom = true;
-		
+
 	}
-	
+
 	public void addLevelObject(LevelObject o)
 	{
 		objects.add(o);
