@@ -20,9 +20,6 @@ public class Arrow extends Projectile
 	public void draw(Graphics g, Vector2D offset)
 	{
 		Vector2D shifted = getPosition().add(offset);
-//		g.setColor(Color.BLACK);
-//		g.fillRect((int) shifted.getX() - 4, (int) shifted.getY() - 4, 8,
-//				8);
 		AffineTransform af = new AffineTransform();
 		af.rotate(-Math.toRadians(getSpeed().getAngle()), shifted.getX(), shifted.getY());
 		af.translate(shifted.getX(), shifted.getY());
