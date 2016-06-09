@@ -286,7 +286,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	public void draw(Graphics g, Vector2D offset)
 	{
 		if (currentRoom)
-			g.setColor(Color.RED);
+			g.setColor(Color.GREEN);
+		else if (cleared)
+			g.setColor(Color.GRAY.brighter());
 		else
 			g.setColor(Color.GRAY);
 
@@ -316,8 +318,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	{
 		if (nonMovingStuffLevelObject == null)
 			stopTearing2017();
-		else
-			nonMovingStuffLevelObject.draw(g, offset);
+		nonMovingStuffLevelObject.draw(g, offset);
 
 		for (int i = 0; i < damageSources.size(); i++)
 		{
