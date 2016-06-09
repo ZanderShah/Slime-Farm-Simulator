@@ -43,7 +43,9 @@ public class AABB implements Hitbox {
 			
 			return this.getRect().intersects(o.getRect());
 		} else if (other instanceof SwordHitbox) {
-			
+			// lol how
+		} else if (other instanceof CircleHitbox) {
+			// ok this shouldn't be too bad
 		}
 		
 		return false;

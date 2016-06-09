@@ -65,6 +65,8 @@ public class Constants {
 	// Mage specific stats
 	public static final int MAGE_SPRAY = 20;
 	public static final int MAGE_DAMAGE = 1;
+	public static final int MAGE_DEBUFF_RANGE = 250;
+	public static final int MAGE_DEBUFF_LENGTH = 480;
 	public static final int MAGE_AB1_COOLDOWN = 600;
 	public static final int MAGE_AB2_COOLDOWN = 900;
 	public static final int MAGE_AB3_COOLDOWN = 300;

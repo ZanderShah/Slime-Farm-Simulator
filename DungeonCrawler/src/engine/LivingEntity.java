@@ -35,7 +35,7 @@ public abstract class LivingEntity implements Drawable {
 	}
 
 	public void setPos(Vector2D v) {
-		position = v.clone();
+		position = v;
 		hitbox.updatePosition(position);
 	}
 
@@ -92,6 +92,14 @@ public abstract class LivingEntity implements Drawable {
 	}
 
 	public void update(Room l) {
+		for (int s = 0; s < effects.size(); s++) {
+			effects.get(s).elapseTime();
+			if (effects.get(s).getTime() == 0) {
+				effects.remove(s);
+				s--;
+			}
+		}
+		
 		AABB tempX = hitbox.clone();
 		AABB tempY = hitbox.clone();
 

@@ -7,7 +7,9 @@ import app.Test;
 import engine.AABB;
 import engine.BeamParticle;
 import engine.Fireball;
+import engine.MageDebuff;
 import engine.Stats;
+import engine.StatusEffect;
 import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
@@ -18,6 +20,7 @@ public class Mage extends Player {
 	
 	private int beaming;
 	private Vector2D beamDirection;
+	private MageDebuff currentDebuff;
 	
 	public Mage() {
 		super();
@@ -66,6 +69,9 @@ public class Mage extends Player {
 			}
 		}
 		super.update(cs, r);
+		if (currentDebuff != null) {
+			currentDebuff.getHitbox().updatePosition(getPos());
+		}
 	}
 
 	@Override
@@ -89,12 +95,15 @@ public class Mage extends Player {
 		}
 	}
 
-	// AoE enemy defence debuff: Reduces enemies defence in an area around the mage
+	// AoE enemy defence debuff: Reduces enemies defence in an area around the mage, but also slows the mage
 	// Cooldown: 15 seconds
 	@Override
 	public void ability2(Point p, Room r) {
 		if (getCooldown(2) == 0) {
-//			r.addDamageSource();
+			currentDebuff = new MageDebuff(getPos(), Constants.MAGE_DEBUFF_RANGE, Constants.MAGE_DEBUFF_LENGTH, true);
+			r.addDamageSource(currentDebuff);
+			setCooldown(2, Constants.MAGE_AB2_COOLDOWN + Constants.MAGE_DEBUFF_LENGTH);
+			giveStatusEffect(new StatusEffect(Constants.MAGE_DEBUFF_LENGTH, 0.6, StatusEffect.SPEED));
 		}
 	}
 

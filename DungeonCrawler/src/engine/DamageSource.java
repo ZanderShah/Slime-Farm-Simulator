@@ -60,11 +60,14 @@ public abstract class DamageSource implements Drawable {
 		return player;
 	}
 	
-	public int getDamage() {
-		return damage;
-	}
-	
-	public StatusEffect getEffect() {
-		return effect;
+	public boolean hit(LivingEntity le) {
+		if (le.getHitbox().intersects(hitbox)) {
+			le.damage(damage);
+			if (effect != null) {
+				le.giveStatusEffect(effect);
+			}
+			return true;
+		}
+		return false;
 	}
 }

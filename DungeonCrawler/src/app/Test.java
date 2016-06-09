@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -164,6 +166,7 @@ public class Test extends JFrame {
 		}
 
 		public void drawGame(Graphics g, Player p) {
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			middle = new Vector2D(getWidth() / 2, getHeight() / 2);
 			Vector2D offset = middle.subtract(p.getPos());
 
