@@ -84,9 +84,9 @@ public class Constants
 	// Hunter specific stats
 	public static final double ARROW_SPEED = 4.0;
 	public static final int ARROW_DAMAGE = 25;
-	public static final int HUNTER_AB1_COOLDOWN = 300;
-	public static final int HUNTER_AB2_COOLDOWN = 300;
-	public static final int HUNTER_AB3_COOLDOWN = 300;
+	public static final int HUNTER_AB1_COOLDOWN = 600;
+	public static final int HUNTER_AB2_COOLDOWN = 600;
+	public static final int HUNTER_AB3_COOLDOWN = 600;
 
 	// Cleric specific stats
 	public static final int CLERIC_SWORD_SIZE = 60;

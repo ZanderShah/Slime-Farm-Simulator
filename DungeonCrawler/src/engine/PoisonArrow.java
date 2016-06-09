@@ -14,7 +14,7 @@ public class PoisonArrow extends Projectile {
 		super(new AABB(pos, 3, 3), -1, pos,
 				dir.getNormalized().multiply(Constants.ARROW_SPEED), true,
 				player, Constants.ARROW_DAMAGE,
-				new StatusEffect(120, 20, -4, StatusEffect.HEALTH, false));
+				new StatusEffect(1200, 40, -2, StatusEffect.HEALTH, false));
 	}
 
 	@Override
