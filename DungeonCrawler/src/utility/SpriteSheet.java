@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class SpriteSheet
 {
-	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES, MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, DOORS, WALLS;
+	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES, MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, DOORS, WALLS, PROJECTILES;
 	public static Image[][] THIEF_IMAGES;
 
 	public static Image random(Image[] source)
@@ -51,6 +51,12 @@ public class SpriteSheet
 			
 			WALLS = new Image[1];
 			WALLS[0] = ImageIO.read(new File("img//Wall.png"));
+			
+			PROJECTILES = new Image[3];
+			PROJECTILES[0] = ImageIO.read(new File("img//Flame2.png"));
+			PROJECTILES[1] = ImageIO.read(new File("img//Flame.png"));
+			PROJECTILES[2] = ImageIO.read(new File("img//Arrow.png"));
+			
 		}
 		catch (IOException e)
 		{
