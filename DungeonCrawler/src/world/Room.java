@@ -296,7 +296,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public void draw(Graphics g, Vector2D offset)
 	{
-		if (currentRoom)
+		if (bossRoom && !cleared)
+			g.setColor(Color.RED);
+		else if (currentRoom)
 			g.setColor(Color.GREEN);
 		else if (cleared)
 			g.setColor(Color.GRAY.brighter());
