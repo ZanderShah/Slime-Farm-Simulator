@@ -73,12 +73,13 @@ public class Test extends JFrame {
 		private Mage mageTest = new Mage();
 		private Cleric clericTest = new Cleric();
 		private Player controlled;
-
-		private Room current;
+		private Room current[];
+		private int currentFloor;
 
 		public GameCanvas() {
-			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0);
-			current.setCurrent();
+			currentFloor = 0;
+			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS);
+			current[currentFloor].setCurrent();
 
 			setPreferredSize(new Dimension(1000, 1000));
 			setFocusable(true);
@@ -100,7 +101,7 @@ public class Test extends JFrame {
 //			current.addPlayer(thiefTest);
 //			current.addPlayer(hunterTest);
 //			current.addPlayer(clericTest);
-			current.addPlayer(mageTest);
+			current[currentFloor].addPlayer(mageTest);
 			
 			// Change controlled to test other players without having to change
 			// everything
@@ -120,18 +121,18 @@ public class Test extends JFrame {
 				public void run() {
 					lastUpdate = System.currentTimeMillis();
 					while (true) {
-						controlled.update(cs, current);
-						current.update();
+						controlled.update(cs, current[currentFloor]);
+						current[currentFloor].update();
 
-						int roomCheck = current.atDoor(controlled);
+						int roomCheck = current[currentFloor].atDoor(controlled);
 						if (roomCheck == Constants.LEFT) {
-							current = current.moveTo(current.getLeft(), roomCheck);
+							current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getLeft(), roomCheck);
 						} else if (roomCheck == Constants.RIGHT) {
-							current = current.moveTo(current.getRight(), roomCheck);
+							current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getRight(), roomCheck);
 						} else if (roomCheck == Constants.UP) {
-							current = current.moveTo(current.getUp(), roomCheck);
+							current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getUp(), roomCheck);
 						} else if (roomCheck == Constants.DOWN) {
-							current = current.moveTo(current.getDown(), roomCheck);
+							current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getDown(), roomCheck);
 						}
 
 						long time = System.currentTimeMillis();
@@ -181,8 +182,8 @@ public class Test extends JFrame {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
-			current.detailedDraw(g, offset, controlled);
-			drawRooms(current, g, offset, new boolean[Constants.NUMBER_OF_ROOMS]);
+			current[currentFloor].detailedDraw(g, offset, controlled);
+			drawRooms(current[currentFloor], g, offset, new boolean[Constants.NUMBER_OF_ROOMS]);
 
 			drawHUD(p, g);
 		}
