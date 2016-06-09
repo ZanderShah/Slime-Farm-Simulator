@@ -8,7 +8,7 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 
 public class Fireball extends Projectile {
-
+	
 	public Fireball(Vector2D pos, Vector2D spd, boolean player) {
 		super(new AABB(pos, 3, 3), 80 + ((int) (Math.random() * 21) - 10), pos, spd.getNormalized().multiply(1.5), true, player, Constants.MAGE_DAMAGE);
 	}
