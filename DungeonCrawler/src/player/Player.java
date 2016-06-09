@@ -100,7 +100,7 @@ public abstract class Player extends LivingEntity {
 	public abstract void draw(Graphics g, Vector2D offset);
 	
 	public boolean attack(Point p, Room r) {
-		if (cooldowns[0] == 0) {
+		if (cooldowns[0] == 0 && attacking == 0) {
 			attacking = getStats().getAttackTime();
 			cooldowns[0] = getStats().getAttackSpeed();
 			Vector2D direction = (new Vector2D(p).subtract(Test.middle));
