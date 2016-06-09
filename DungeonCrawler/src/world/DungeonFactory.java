@@ -24,14 +24,20 @@ public class DungeonFactory
 				+ Constants.MIN_ROOM_HEIGHT;
 	}
 
-	public static Room generateMap(int numberOfRooms, int difficulty)
+	public static Room[] generateMap(int numberOfRooms, int difficulty,
+			int numberOfFloors)
 	{
-		Room entry = new Room(850, 200, randomWidth(), randomHeight(),
-				difficulty, 0);
-		totalRooms = 1;
-		generateConnections(entry, numberOfRooms - 1, difficulty);
-		addDoors(entry, new boolean[totalRooms]);
-		fillWithObjects(entry, difficulty, new boolean[totalRooms]);
+		Room entry[] = new Room[numberOfFloors];
+
+		for (int floor = 0; floor < numberOfFloors; floor++)
+		{
+			entry[floor] = new Room(850, 200, randomWidth(), randomHeight(),
+					difficulty, 0);
+			totalRooms = 1;
+			generateConnections(entry[floor], numberOfRooms - 1, difficulty);
+			addDoors(entry[floor], new boolean[totalRooms]);
+			fillWithObjects(entry[floor], difficulty, new boolean[totalRooms]);
+		}
 
 		return entry;
 	}
