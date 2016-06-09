@@ -24,7 +24,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	// the room individually,
 	// bottom left is (0, 0) and top right is (width, height)
 	private int x, y, width, height, difficulty, id;
-	private boolean cleared, currentRoom;
+	private boolean cleared, currentRoom, bossRoom;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
 	private LevelObject[] doors;
@@ -43,7 +43,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		this.difficulty = difficulty;
 		this.id = id;
 
-		cleared = currentRoom = false;
+		cleared = currentRoom = bossRoom = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
 		doors = new LevelObject[5];
@@ -204,7 +204,18 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	{
 		currentRoom = true;
 	}
+	
+	public boolean isBossRoom()
+	{
+		return bossRoom;
+	}
 
+	public void setBossRoom()
+	{
+		bossRoom = true;
+		
+	}
+	
 	public void addLevelObject(LevelObject o)
 	{
 		objects.add(o);
