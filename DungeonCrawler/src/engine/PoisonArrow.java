@@ -24,6 +24,7 @@ public class PoisonArrow extends Projectile {
 		AffineTransform af = new AffineTransform();
 		af.rotate(-Math.toRadians(getSpeed().getAngle()), shifted.getX(), shifted.getY());
 		af.translate(shifted.getX(), shifted.getY());
+		af.translate(100, 100);
 		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[5], af, null);
 	}
 }
