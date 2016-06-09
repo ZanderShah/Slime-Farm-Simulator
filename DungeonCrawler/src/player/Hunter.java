@@ -23,10 +23,6 @@ public class Hunter extends Player {
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
 		g.drawImage(SpriteSheet.HUNTER_IMAGES[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
-		
-		// g.setColor(Color.GREEN.darker().darker());
-		// g.fillRect((int) getPos().getX() - getWidth() / 2, (int)
-		// getPos().getY() - getHeight() / 2, getWidth(), getHeight());
 	}
 
 	@Override
