@@ -28,10 +28,12 @@ import utility.Vector2D;
 import world.DungeonFactory;
 import world.Room;
 
-public class Test extends JFrame {
+public class Test extends JFrame
+{
 	public static Vector2D middle;
 
-	public Test() {
+	public Test()
+	{
 		super("Dungeon Crawler");
 
 		GameCanvas gc = new GameCanvas();
@@ -43,14 +45,16 @@ public class Test extends JFrame {
 		gc.startGame();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
 		Test pdt = new Test();
 		pdt.setVisible(true);
 	}
 
-	static void drawRooms(Room t, Graphics g, Vector2D offset, boolean[] vis) {
+	static void drawRooms(Room t, Graphics g, Vector2D offset, boolean[] vis)
+	{
 		if (t == null || vis[t.id()])
 			return;
 
@@ -64,7 +68,8 @@ public class Test extends JFrame {
 	}
 
 	static class GameCanvas extends Canvas implements MouseListener,
-			MouseMotionListener, KeyListener {
+			MouseMotionListener, KeyListener
+	{
 		private ControlState cs;
 
 		private Tank tankTest = new Tank();
@@ -77,7 +82,8 @@ public class Test extends JFrame {
 		private Room current[];
 		private int currentFloor;
 
-		public GameCanvas() {
+		public GameCanvas()
+		{
 			currentFloor = 0;
 			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
 					Constants.NUMBER_OF_FLOORS);
@@ -116,34 +122,41 @@ public class Test extends JFrame {
 
 		}
 
-		public void startGame() {
+		public void startGame()
+		{
 			(new Thread() {
 				long lastUpdate;
 
-				public void run() {
+				public void run()
+				{
 					lastUpdate = System.currentTimeMillis();
-					while (true) {
+					while (true)
+					{
 						controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
 
 						int roomCheck = current[currentFloor]
 								.atDoor(controlled);
-						if (roomCheck == Constants.LEFT) {
+						if (roomCheck == Constants.LEFT)
+						{
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getLeft(),
 											roomCheck);
 						}
-						else if (roomCheck == Constants.RIGHT) {
+						else if (roomCheck == Constants.RIGHT)
+						{
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getRight(),
 											roomCheck);
 						}
-						else if (roomCheck == Constants.UP) {
+						else if (roomCheck == Constants.UP)
+						{
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getUp(),
 											roomCheck);
 						}
-						else if (roomCheck == Constants.DOWN) {
+						else if (roomCheck == Constants.DOWN)
+						{
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getDown(),
 											roomCheck);
@@ -152,10 +165,12 @@ public class Test extends JFrame {
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
 						lastUpdate = time;
-						try {
+						try
+						{
 							Thread.sleep(Math.max(0, 1000 / 60 - diff));
 						}
-						catch (Exception e) {
+						catch (Exception e)
+						{
 							e.printStackTrace();
 						}
 					}
@@ -165,11 +180,15 @@ public class Test extends JFrame {
 			createBufferStrategy(2);
 
 			(new Thread() {
-				public void run() {
+				public void run()
+				{
 					long lastUpdate = System.currentTimeMillis();
-					while (true) {
-						do {
-							do {
+					while (true)
+					{
+						do
+						{
+							do
+							{
 								Graphics graphics = GameCanvas.this
 										.getBufferStrategy().getDrawGraphics();
 								// Replace with actual current player
@@ -184,10 +203,12 @@ public class Test extends JFrame {
 								.contentsLost());
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
-						try {
+						try
+						{
 							Thread.sleep(Math.max(0, 1000 / 60 - diff));
 						}
-						catch (Exception e) {
+						catch (Exception e)
+						{
 							e.printStackTrace();
 						}
 					}
@@ -195,7 +216,8 @@ public class Test extends JFrame {
 			}).start();
 		}
 
-		public void drawGame(Graphics g, Player p) {
+		public void drawGame(Graphics g, Player p)
+		{
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			middle = new Vector2D(getWidth() / 2, getHeight() / 2);
@@ -211,7 +233,8 @@ public class Test extends JFrame {
 			drawHUD(p, g);
 		}
 
-		public void drawHUD(Player p, Graphics g) {
+		public void drawHUD(Player p, Graphics g)
+		{
 			g.setColor(Color.GRAY);
 			g.fillRect(0, getHeight() - 200, getWidth(), 200);
 
@@ -228,8 +251,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mousePressed(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.press(ControlState.KEY_ATTACK);
 				break;
@@ -240,8 +265,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			switch (e.getButton()) {
+		public void mouseReleased(MouseEvent e)
+		{
+			switch (e.getButton())
+			{
 			case MouseEvent.BUTTON1:
 				cs.release(ControlState.KEY_ATTACK);
 				break;
@@ -252,18 +279,22 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e) {
+		public void mouseMoved(MouseEvent e)
+		{
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent e) {
+		public void mouseDragged(MouseEvent e)
+		{
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyPressed(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.press(ControlState.KEY_UP);
 				break;
@@ -286,8 +317,10 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e) {
-			switch (e.getKeyCode()) {
+		public void keyReleased(KeyEvent e)
+		{
+			switch (e.getKeyCode())
+			{
 			case KeyEvent.VK_W:
 				cs.release(ControlState.KEY_UP);
 				break;
@@ -310,19 +343,23 @@ public class Test extends JFrame {
 		}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {
+		public void mouseEntered(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {
+		public void mouseExited(MouseEvent e)
+		{
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped(KeyEvent e)
+		{
 		}
 	}
 }

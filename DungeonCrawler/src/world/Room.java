@@ -25,7 +25,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	// the room individually,
 	// bottom left is (0, 0) and top right is (width, height)
 	private int x, y, width, height, difficulty, id;
-	private boolean cleared, currentRoom, bossRoom;
+	private boolean currentRoom, bossRoom;
 	private Room up, down, left, right;
 	private ArrayList<LevelObject> objects;
 	private LevelObject[] doors;
@@ -34,7 +34,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	private BufferedImage nonMovingStuff;
 	private LevelObject nonMovingStuffLevelObject;
 	private ArrayList<Enemy> enemies;
-	
+
 	private ArrayList<Particle> particles;
 	private ArrayList<ParticleEmitter> emitters;
 
@@ -46,7 +46,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		this.difficulty = difficulty;
 		this.id = id;
 
-		cleared = currentRoom = bossRoom = false;
+		currentRoom = bossRoom = false;
 		up = down = left = right = null;
 		objects = new ArrayList<LevelObject>();
 		doors = new LevelObject[5];
@@ -78,14 +78,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 			if (d.getDuration() == 0) {
 				damageSources.remove(i);
 				i--;
-			}
-			else {
+			} else {
 				boolean destroyed = false;
 				if (d instanceof Projectile) {
 					for (int l = 0; l < objects.size(); l++) {
-						if (objects.get(l).blocksPlayer()
-								&& objects.get(l).hitbox()
-										.intersects(d.getHitbox())) {
+						if (objects.get(l).blocksPlayer() && objects.get(l).hitbox().intersects(d.getHitbox())) {
 							damageSources.remove(i);
 							i--;
 							destroyed = true;
@@ -100,8 +97,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 								i--;
 							}
 						}
-					}
-					else {
+					} else {
 						for (int p = 0; p < players.size(); p++) {
 							if (d.hit(players.get(p)) && d.isSingleHit()) {
 								damageSources.remove(i);
@@ -121,11 +117,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	public void addDamageSource(DamageSource ds) {
 		damageSources.add(ds);
 	}
-	
+
 	public void addParticle(Particle p) {
 		particles.add(p);
 	}
-	
+
 	public void addEmitter(ParticleEmitter e) {
 		emitters.add(e);
 	}
@@ -163,7 +159,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	}
 
 	public boolean isCleared() {
-		return cleared;
+		return enemies.size() == 0;
 	}
 
 	public int width() {
@@ -258,30 +254,26 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	}
 
 	public void stopTearing2017() {
-		nonMovingStuff = new BufferedImage(width * 64, height * 64,
-				BufferedImage.TYPE_INT_RGB);
+		nonMovingStuff = new BufferedImage(width * 64, height * 64, BufferedImage.TYPE_INT_RGB);
 		Graphics g = nonMovingStuff.getGraphics();
 
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
-				g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64, j * 64,
-						null);
+				g.drawImage(SpriteSheet.FLOORS[difficulty], i * 64, j * 64, null);
 
 		for (int i = 0; i < objects.size(); i++) {
-			g.drawImage(objects.get(i).image(), objects.get(i).x(), objects
-					.get(i).y(), null);
+			g.drawImage(objects.get(i).image(), objects.get(i).x(), objects.get(i).y(), null);
 		}
 
-		nonMovingStuffLevelObject = new LevelObject(new Vector2D(0, 0), false,
-				false, nonMovingStuff);
+		nonMovingStuffLevelObject = new LevelObject(new Vector2D(0, 0), false, false, nonMovingStuff);
 	}
 
 	public void draw(Graphics g, Vector2D offset) {
-		if (bossRoom && !cleared)
+		if (bossRoom && !isCleared())
 			g.setColor(Color.RED);
 		else if (currentRoom)
 			g.setColor(Color.GREEN);
-		else if (cleared)
+		else if (isCleared())
 			g.setColor(Color.GRAY.brighter());
 		else
 			g.setColor(Color.GRAY);
@@ -315,12 +307,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 			}
 		}
 
-		if (cleared)
+		if (isCleared())
 			for (int i = 1; i < doors.length; i++)
 				if (doors[i] != null)
-					g.drawImage(doors[i].image(), doors[i].x(),
-							doors[i].y(), null);
-		
+					g.drawImage(doors[i].image(), doors[i].x(), doors[i].y(), null);
+
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).draw(g, offset);
 		}
@@ -328,20 +319,18 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i) == p) {
 				p.draw(g, Test.middle.subtract(p.getPos()));
-			}
-			else {
+			} else {
 				players.get(i).draw(g, offset);
 			}
 		}
 	}
 
 	public int atDoor(Player p) {
-		if (!cleared)
+		if (!isCleared())
 			return -1;
 
 		for (int i = 1; i < doors.length; i++) {
-			if (doors[i] != null
-					&& p.getHitbox().intersects(doors[i].hitbox())) {
+			if (doors[i] != null && p.getHitbox().intersects(doors[i].hitbox())) {
 				return i;
 			}
 		}
@@ -350,12 +339,8 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public boolean hasCollisionWith(AABB hitbox) {
 		// Outside of map
-		if ((hitbox.getPosition().getX() - hitbox.getWidth() / 2)
-				* (hitbox.getPosition().getY() - hitbox.getHeight() / 2) < 0
-				|| (hitbox.getPosition().getX() + hitbox.getWidth() / 2) > width
-						* 64
-				|| (hitbox.getPosition().getY()
-						+ hitbox.getHeight() / 2) > height * 64) {
+		if ((hitbox.getPosition().getX() - hitbox.getWidth() / 2) * (hitbox.getPosition().getY() - hitbox.getHeight() / 2) < 0
+				|| (hitbox.getPosition().getX() + hitbox.getWidth() / 2) > width * 64 || (hitbox.getPosition().getY() + hitbox.getHeight() / 2) > height * 64) {
 			return true;
 		}
 
@@ -367,8 +352,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	}
 
 	public boolean hasSpaceFor(LevelObject n) {
-		if (n.x() < 64 || n.x() + n.width() > (width - 1) * 64 || n.y() < 64
-				|| n.y() + n.height() > (height - 1) * 64)
+		if (n.x() < 64 || n.x() + n.width() > (width - 1) * 64 || n.y() < 64 || n.y() + n.height() > (height - 1) * 64)
 			return false;
 
 		for (LevelObject o : objects)

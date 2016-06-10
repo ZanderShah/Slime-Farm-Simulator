@@ -19,11 +19,11 @@ import engine.Stats;
 import engine.StatusEffect;
 
 public class Mage extends Player {
-	
+
 	private int beaming;
 	private Vector2D beamDirection;
 	private MageDebuff currentDebuff;
-	
+
 	public Mage() {
 		super();
 		setStats(new Stats(Constants.MAGE_HEALTH, Constants.MAGE_ATTACK_SPEED, Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED, Constants.MAGE_DEFENCE));
@@ -52,15 +52,15 @@ public class Mage extends Player {
 	public void update(ControlState cs, Room r) {
 		if (beaming > 0) {
 			beaming--;
-			if (beaming == 0) 
+			if (beaming == 0)
 				setCooldown(1, Constants.MAGE_AB1_COOLDOWN);
-			
+
 			// Spawn 10 beam particles per tick
 			for (int i = 0; i < 10; i++) {
 				// Calculate random offset
 				Vector2D spray = (new Vector2D(beamDirection.getY(), -beamDirection.getX())).multiply(Math.random() * 32 - 16);
 				spray.addToThis(beamDirection.multiply(Math.random() * 10.0));
-				
+
 				// Create beam particles
 				r.addDamageSource(new BeamParticle(60, getPos().add(spray), beamDirection.multiply(10.0), true));
 			}
@@ -81,7 +81,8 @@ public class Mage extends Player {
 		return attacked;
 	}
 
-	// Beam ability: Fires a 2 second beam of small particles in a single direction
+	// Beam ability: Fires a 2 second beam of small particles in a single
+	// direction
 	// Cooldown: 10 seconds
 	@Override
 	public void ability1(Point p, Room r) {
@@ -92,7 +93,8 @@ public class Mage extends Player {
 		}
 	}
 
-	// AoE enemy defence debuff: Reduces enemies defence in an area around the mage, but also slows the mage
+	// AoE enemy defence debuff: Reduces enemies defence in an area around the
+	// mage, but also slows the mage
 	// Cooldown: 15 seconds
 	@Override
 	public void ability2(Point p, Room r) {
