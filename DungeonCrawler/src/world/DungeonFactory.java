@@ -35,6 +35,7 @@ public class DungeonFactory
 					difficulty, 0);
 			totalRooms = 1;
 			generateConnections(entry[floor], numberOfRooms - 1, difficulty);
+			setBossRoom(entry[floor], new boolean[totalRooms], totalRooms - 1);
 			addDoors(entry[floor], new boolean[totalRooms]);
 			fillWithObjects(entry[floor], difficulty, new boolean[totalRooms]);
 		}
@@ -167,6 +168,22 @@ public class DungeonFactory
 		// room.y(), room.width(), room.height(), x, y, width, height);
 
 		return false;
+	}
+
+	private static void setBossRoom(Room room, boolean[] vis, int goal)
+	{
+		if (room == null || vis[room.id()] || vis[goal])
+			return;
+		
+		vis[room.id()] = true;
+		
+		if (room.id() == goal)
+			room.setBossRoom();
+
+		setBossRoom(room.getUp(), vis, goal);
+		setBossRoom(room.getDown(), vis, goal);
+		setBossRoom(room.getLeft(), vis, goal);
+		setBossRoom(room.getRight(), vis, goal);
 	}
 
 	private static void addDoors(Room room, boolean[] vis)

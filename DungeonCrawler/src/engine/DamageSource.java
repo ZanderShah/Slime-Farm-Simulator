@@ -41,6 +41,7 @@ public abstract class DamageSource implements Drawable {
 	
 	public void update(Room r) {
 		if (hitCounter == 0) hitCounter = frequency;
+		hitCounter--;
 		if (duration > 0) duration--;
 	}
 	
