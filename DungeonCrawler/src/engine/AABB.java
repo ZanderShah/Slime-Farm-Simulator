@@ -91,6 +91,28 @@ public class AABB implements Hitbox
 						o.getRadius() * Math.sin(angle)))))
 					return true;
 			}
+			
+			// Not done yet
+			// Left wall
+//			if (o.getPosition()
+//					.subtract(new Vector2D(position.getX() - width / 2, 0))
+//					.getLength() <= o.getRadius())
+//				return true;
+//			// Right wall
+//			if (o.getPosition()
+//					.subtract(new Vector2D(position.getX() + width / 2, 0))
+//					.getLength() <= o.getRadius())
+//				return true;
+//			// Top wall
+//			if (o.getPosition()
+//					.subtract(new Vector2D(0, position.getY() - height / 2))
+//					.getLength() <= o.getRadius())
+//				return true;
+//			// Bottom wall
+//			if (o.getPosition()
+//					.subtract(new Vector2D(0, position.getY() - height / 2))
+//					.getLength() <= o.getRadius())
+//				return true;
 		}
 
 		return false;
