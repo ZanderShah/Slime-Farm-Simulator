@@ -70,7 +70,7 @@ public class SpriteSheet
 				PROJECTILES[i - 1] = ImageIO.read(new File("img//Flame" + i
 						+ ".png"));
 			PROJECTILES[3] = ImageIO.read(new File("img//MageQ.png"));
-			for (int i = 1; i <= 2; i++)
+			for (int i = 1; i <= 3; i++)
 				PROJECTILES[3 + i] = ImageIO.read(new File("img//Arrow" + i
 						+ ".png"));
 			
