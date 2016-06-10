@@ -108,7 +108,7 @@ public class Mage extends Player {
 	@Override
 	public void ability3(Point p, Room r) {
 		if (getCooldown(3) == 0) {
-			r.addDamageSource(new FireCircle((new Vector2D(p)).add(getPos()).subtract(Test.middle), 100, 30, 300, true, 3));
+			r.addDamageSource(new FireCircle((new Vector2D(p)).add(getPos()).subtract(Test.middle), 100, 30, 300, false, 3));
 			setCooldown(3, Constants.MAGE_AB3_COOLDOWN);
 		}
 	}
