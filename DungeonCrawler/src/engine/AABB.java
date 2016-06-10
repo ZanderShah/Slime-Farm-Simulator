@@ -68,16 +68,12 @@ public class AABB implements Hitbox
 		{
 			SwordHitbox o = (SwordHitbox) other;
 
-			for (int angle = o.getStart(); angle <= o.getAngle(); angle++)
+			for (int angle = o.getStart(); angle <= o.getAngle(); angle += (o
+					.getAngle() - o.getStart()) / 2)
 			{
-				double x = o.getPosition().getX() + o.getRadius()
-						* Math.cos(angle), y = o.getPosition().getY()
-						+ o.getRadius() * Math.sin(angle);
-
-				if (x >= position.getX() - width / 2
-						&& x <= position.getX() + width / 2
-						&& y >= position.getY() - height / 2
-						&& y <= position.getY() + height / 2)
+				if (isInside(o.getPosition().add(new Vector2D(o.getRadius()
+						* Math.cos(angle),
+						o.getRadius() * Math.sin(angle)))))
 					return true;
 			}
 		}
@@ -90,16 +86,10 @@ public class AABB implements Hitbox
 
 			for (int angle = 0; angle <= 360; angle++)
 			{
-				double x = o.getPosition().getX() + o.getRadius()
-						* Math.cos(angle), y = o.getPosition().getY()
-						+ o.getRadius() * Math.sin(angle);
-
-				if ((x >= position.getX() - width / 2
-						&& x <= position.getX() + width / 2
-						&& y >= position.getY() - height / 2
-						&& y <= position.getY() + height / 2))
+				if (isInside(o.getPosition().add(new Vector2D(o.getRadius()
+						* Math.cos(angle),
+						o.getRadius() * Math.sin(angle)))))
 					return true;
-
 			}
 		}
 
