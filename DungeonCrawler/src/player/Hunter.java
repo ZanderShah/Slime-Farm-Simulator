@@ -75,7 +75,7 @@ public class Hunter extends Player {
 					piercingLoaded = false;
 					setCooldown(2, Constants.HUNTER_AB2_COOLDOWN);
 				} else {
-					r.addDamageSource(new Arrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), false, false));
+					r.addDamageSource(new Arrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), false, true));
 				}
 			}
 			return attacked;
