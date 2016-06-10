@@ -9,6 +9,7 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
 import app.Test;
+import engine.AABB;
 import engine.Stats;
 import engine.SwordDamageSource;
 
@@ -21,6 +22,7 @@ public class Thief extends Player {
 	public Thief() {
 		super();
 		setStats(new Stats(Constants.THIEF_HEALTH, Constants.THIEF_ATTACK_SPEED, Constants.THIEF_ATTACK_LENGTH, Constants.THIEF_SPEED, Constants.THIEF_DEFENCE));
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		blinking = 0;
 		dodging = 0;
 		dodgeDirection = new Vector2D();
@@ -51,6 +53,7 @@ public class Thief extends Player {
 
 	@Override
 	public void update(ControlState cs, Room r) {
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		if (blinking > 0) {
 			blinking--;
 			if (blinking == 0)

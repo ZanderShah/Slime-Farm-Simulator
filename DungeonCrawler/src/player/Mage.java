@@ -49,6 +49,7 @@ public class Mage extends Player {
 
 	@Override
 	public void update(ControlState cs, Room r) {
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		if (beaming > 0) {
 			beaming--;
 			if (beaming == 0) 
@@ -64,10 +65,12 @@ public class Mage extends Player {
 				r.addDamageSource(new BeamParticle(60, getPos().add(spray), beamDirection.multiply(10.0), true));
 			}
 		}
+		
 		super.update(cs, r);
 		if (currentDebuff != null) {
 			currentDebuff.getHitbox().updatePosition(getPos());
 		}
+		
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 import app.Test;
+import engine.AABB;
 import engine.Arrow;
 import engine.PoisonArrow;
 import engine.Stats;
@@ -25,6 +26,7 @@ public class Hunter extends Player {
 		super();
 		setStats(new Stats(Constants.HUNTER_HEALTH, Constants.HUNTER_ATTACK_SPEED, Constants.HUNTER_ATTACK_LENGTH, Constants.HUNTER_SPEED,
 				Constants.HUNTER_DEFENCE));
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		poisonLoaded = false;
 		piercingLoaded = false;
 		frenzy = 0;
@@ -48,6 +50,7 @@ public class Hunter extends Player {
 
 	@Override
 	public void update(ControlState cs, Room r) {
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		if (frenzy > 0) {
 			frenzy--;
 			if (frenzy % 20 == 0) {
