@@ -268,8 +268,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		nonMovingStuffLevelObject = new LevelObject(new Vector2D(0, 0), false, false, nonMovingStuff);
 	}
 
-	public void draw(Graphics g, Vector2D offset) {
-		if (bossRoom && !isCleared())
+	public void draw(Graphics g, Vector2D offset)
+	{
+		if (bossRoom) // && !isCleared())
 			g.setColor(Color.RED);
 		else if (currentRoom)
 			g.setColor(Color.GREEN);
@@ -310,7 +311,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		if (isCleared())
 			for (int i = 1; i < doors.length; i++)
 				if (doors[i] != null)
-					g.drawImage(doors[i].image(), doors[i].x(), doors[i].y(), null);
+					doors[i].draw(g, offset);
 
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).draw(g, offset);

@@ -9,6 +9,7 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
 import app.Test;
+import engine.AABB;
 import engine.Arrow;
 import engine.PiercingArrow;
 import engine.PoisonArrow;
@@ -16,16 +17,17 @@ import engine.Stats;
 import engine.StatusEffect;
 
 public class Hunter extends Player {
-	
+
 	private boolean poisonLoaded;
 	private boolean piercingLoaded;
-	
+
 	private int frenzy;
-	
+
 	public Hunter() {
 		super();
 		setStats(new Stats(Constants.HUNTER_HEALTH, Constants.HUNTER_ATTACK_SPEED, Constants.HUNTER_ATTACK_LENGTH, Constants.HUNTER_SPEED,
 				Constants.HUNTER_DEFENCE));
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		poisonLoaded = false;
 		piercingLoaded = false;
 		frenzy = 0;
@@ -34,12 +36,12 @@ public class Hunter extends Player {
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.HUNTER_IMAGES[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.HUNTER_IMAGES[getDirection()], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 	}
 
 	@Override
 	public int getWidth() {
-		return SpriteSheet.HUNTER_IMAGES[0].getWidth(null);
+		return SpriteSheet.HUNTER_IMAGES[getDirection()].getWidth(null);
 	}
 
 	@Override
@@ -49,6 +51,7 @@ public class Hunter extends Player {
 
 	@Override
 	public void update(ControlState cs, Room r) {
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		if (frenzy > 0) {
 			frenzy--;
 			if (frenzy % 20 == 0) {
@@ -96,7 +99,8 @@ public class Hunter extends Player {
 		}
 	}
 
-	// Piercing arrow: while active, the next arrow fired will pierce through multiple enemies
+	// Piercing arrow: while active, the next arrow fired will pierce through
+	// multiple enemies
 	// Cooldown: 10 seconds
 	@Override
 	public void ability2(Point p, Room r) {
