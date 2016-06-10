@@ -71,7 +71,7 @@ public class Constants
 	public static final int MAGE_DEBUFF_LENGTH = 480;
 	public static final int MAGE_AB1_COOLDOWN = 600;
 	public static final int MAGE_AB2_COOLDOWN = 900;
-	public static final int MAGE_AB3_COOLDOWN = 300;
+	public static final int MAGE_AB3_COOLDOWN = 1200;
 
 	// Tank specific stats
 	public static final int TANK_SWORD_SIZE = 60;

@@ -6,6 +6,7 @@ import java.awt.Point;
 import app.Test;
 import engine.AABB;
 import engine.BeamParticle;
+import engine.FireCircle;
 import engine.Fireball;
 import engine.MageDebuff;
 import engine.Stats;
@@ -34,11 +35,6 @@ public class Mage extends Player {
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
 		g.drawImage(SpriteSheet.MAGE_IMAGES[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
-
-		// g.setColor(Color.RED);
-		// g.fillRect((int) getPos().getX() - getWidth() / 2,
-		// (int) getPos().getY() - getHeight() / 2, getWidth(),
-		// getHeight());s
 	}
 
 	@Override
@@ -107,8 +103,13 @@ public class Mage extends Player {
 		}
 	}
 
+	// Sets a small area on fire
+	// Cooldown 20 seconds
 	@Override
 	public void ability3(Point p, Room r) {
-		
+		if (getCooldown(3) == 0) {
+			r.addDamageSource(new FireCircle((new Vector2D(p)).add(getPos()).subtract(Test.middle), 100, 30, 300, true, 3));
+			setCooldown(3, Constants.MAGE_AB3_COOLDOWN);
+		}
 	}
 }
