@@ -344,8 +344,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		if (isCleared())
 			for (int i = 1; i < doors.length; i++)
 				if (doors[i] != null)
-					g.drawImage(doors[i].image(), doors[i].x(),
-							doors[i].y(), null);
+					doors[i].draw(g, offset);
 
 		for (int i = 0; i < players.size(); i++)
 		{
