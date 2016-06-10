@@ -3,16 +3,17 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import app.Test;
-import engine.Arrow;
-import engine.PoisonArrow;
-import engine.Stats;
-import engine.StatusEffect;
 import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
+import app.Test;
+import engine.Arrow;
+import engine.PiercingArrow;
+import engine.PoisonArrow;
+import engine.Stats;
+import engine.StatusEffect;
 
 public class Hunter extends Player {
 	
@@ -52,7 +53,7 @@ public class Hunter extends Player {
 			frenzy--;
 			if (frenzy % 20 == 0) {
 				Vector2D dir = new Vector2D(cs.getMouse()).subtract(Test.middle).getNormalized();
-				r.addDamageSource(new Arrow(getPos().add(dir.multiply(30)), dir, false, false));
+				r.addDamageSource(new Arrow(getPos().add(dir.multiply(30)), dir, false));
 			}
 			if (frenzy == 0) {
 				setCooldown(3, Constants.HUNTER_AB3_COOLDOWN);
@@ -71,11 +72,11 @@ public class Hunter extends Player {
 					poisonLoaded = false;
 					setCooldown(1, Constants.HUNTER_AB1_COOLDOWN);
 				} else if (piercingLoaded) {
-					r.addDamageSource(new Arrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), true, true));
+					r.addDamageSource(new PiercingArrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), true));
 					piercingLoaded = false;
 					setCooldown(2, Constants.HUNTER_AB2_COOLDOWN);
 				} else {
-					r.addDamageSource(new Arrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), false, true));
+					r.addDamageSource(new Arrow(getPos().add(getAttackDir().multiply(30)), getAttackDir(), true));
 				}
 			}
 			return attacked;

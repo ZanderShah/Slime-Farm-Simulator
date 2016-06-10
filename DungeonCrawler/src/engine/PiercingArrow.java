@@ -8,10 +8,10 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
-public class Arrow extends Projectile {
+public class PiercingArrow extends Projectile {
 
-	public Arrow(Vector2D pos, Vector2D dir, boolean player) {
-		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), true, player, Constants.ARROW_DAMAGE);
+	public PiercingArrow(Vector2D pos, Vector2D dir, boolean player) {
+		super(new AABB(pos, 3, 3), 30, -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), false, player, Constants.ARROW_DAMAGE);
 	}
 
 	@Override
@@ -20,6 +20,6 @@ public class Arrow extends Projectile {
 		AffineTransform af = new AffineTransform();
 		af.rotate(-Math.toRadians(getSpeed().getAngle()), shifted.getX(), shifted.getY());
 		af.translate(shifted.getX(), shifted.getY());
-		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[4], af, null);
+		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[6], af, null);
 	}
 }
