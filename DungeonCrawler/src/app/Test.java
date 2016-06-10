@@ -107,15 +107,15 @@ public class Test extends JFrame
 			// current[currentFloor].addPlayer(tankTest);
 			// current[currentFloor].addPlayer(warriorTest);
 			// current[currentFloor].addPlayer(thiefTest);
-			// current[currentFloor].addPlayer(hunterTest);
+			current[currentFloor].addPlayer(hunterTest);
 			// current[currentFloor].addPlayer(clericTest);
-			current[currentFloor].addPlayer(mageTest);
+//			current[currentFloor].addPlayer(mageTest);
 
 			// Change controlled to test other players without having to change
 			// everything
-			// controlled = hunterTest;
+			 controlled = hunterTest;
 			// controlled = warriorTest;
-			controlled = mageTest;
+//			controlled = mageTest;
 			// controlled = thiefTest;
 			// controlled = tankTest;
 			// controlled = clericTest;
