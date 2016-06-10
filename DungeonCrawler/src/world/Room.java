@@ -10,11 +10,12 @@ import player.Player;
 import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
-
-import enemy.Enemy;
 import app.Test;
+import enemy.Enemy;
 import engine.AABB;
 import engine.DamageSource;
+import engine.Particle;
+import engine.ParticleEmitter;
 import engine.Projectile;
 
 public class Room // implements Drawable (There should be 2 Drawable, one with
@@ -33,6 +34,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	private BufferedImage nonMovingStuff;
 	private LevelObject nonMovingStuffLevelObject;
 	private ArrayList<Enemy> enemies;
+	
+	private ArrayList<Particle> particles;
+	private ArrayList<ParticleEmitter> emitters;
 
 	public Room(int x, int y, int width, int height, int difficulty, int id) {
 		this.x = x;
@@ -49,9 +53,25 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		damageSources = new ArrayList<DamageSource>();
 		players = new ArrayList<Player>();
 		enemies = new ArrayList<Enemy>();
+		emitters = new ArrayList<ParticleEmitter>();
+		particles = new ArrayList<Particle>();
 	}
 
 	public void update() {
+		for (int i = 0; i < emitters.size(); i++) {
+			emitters.get(i).update(this);
+			if (emitters.get(i).isDead()) {
+				emitters.remove(i);
+				i--;
+			}
+		}
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).update();
+			if (particles.get(i).isDead()) {
+				particles.remove(i);
+				i--;
+			}
+		}
 		for (int i = 0; i < damageSources.size(); i++) {
 			DamageSource d = damageSources.get(i);
 			d.update(this);
@@ -100,6 +120,14 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public void addDamageSource(DamageSource ds) {
 		damageSources.add(ds);
+	}
+	
+	public void addParticle(Particle p) {
+		particles.add(p);
+	}
+	
+	public void addEmitter(ParticleEmitter e) {
+		emitters.add(e);
 	}
 
 	public void setUp(Room up) {
@@ -292,6 +320,10 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 				if (doors[i] != null)
 					g.drawImage(doors[i].image(), doors[i].x(),
 							doors[i].y(), null);
+		
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).draw(g, offset);
+		}
 
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i) == p) {

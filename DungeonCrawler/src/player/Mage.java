@@ -3,19 +3,20 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import utility.Constants;
+import utility.ControlState;
+import utility.SpriteSheet;
+import utility.Vector2D;
+import world.Room;
 import app.Test;
 import engine.AABB;
 import engine.BeamParticle;
 import engine.FireCircle;
 import engine.Fireball;
 import engine.MageDebuff;
+import engine.ParticleEmitter;
 import engine.Stats;
 import engine.StatusEffect;
-import utility.Constants;
-import utility.ControlState;
-import utility.SpriteSheet;
-import utility.Vector2D;
-import world.Room;
 
 public class Mage extends Player {
 	
@@ -108,7 +109,9 @@ public class Mage extends Player {
 	@Override
 	public void ability3(Point p, Room r) {
 		if (getCooldown(3) == 0) {
-			r.addDamageSource(new FireCircle((new Vector2D(p)).add(getPos()).subtract(Test.middle), 100, 30, 300, true, 3));
+			Vector2D pos = (new Vector2D(p)).add(getPos()).subtract(Test.middle);
+			r.addDamageSource(new FireCircle(pos, Constants.MAGE_FIRE_RANGE, 30, Constants.MAGE_FIRE_LENGTH, true, 3));
+			r.addEmitter(new ParticleEmitter(0, pos, new Vector2D(), Constants.MAGE_FIRE_LENGTH, 120, 0, 20, Constants.MAGE_FIRE_RANGE, 0.1, 0));
 			setCooldown(3, Constants.MAGE_AB3_COOLDOWN);
 		}
 	}
