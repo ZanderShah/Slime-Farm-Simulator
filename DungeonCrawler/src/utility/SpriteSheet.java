@@ -10,8 +10,8 @@ public class SpriteSheet
 {
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
 			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, DOORS, WALLS,
-			PROJECTILES;
-	public static Image[][] THIEF_IMAGES;
+			PROJECTILES ;
+	public static Image[][] THIEF_IMAGES, PARTICLES;
 
 	public static Image random(Image[] source)
 	{
@@ -73,6 +73,10 @@ public class SpriteSheet
 			for (int i = 1; i <= 2; i++)
 				PROJECTILES[3 + i] = ImageIO.read(new File("img//Arrow" + i
 						+ ".png"));
+			
+			PARTICLES = new Image[2][1];
+			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png")); 
+			PARTICLES[0][0] = ImageIO.read(new File("img//Particle2.png")); 
 
 		}
 		catch (IOException e)
