@@ -13,6 +13,7 @@ public abstract class LivingEntity implements Drawable {
 	private AABB hitbox;
 	private boolean immobile;
 	private boolean invincible;
+	private int direction;
 
 	private ArrayList<StatusEffect> effects;
 
@@ -79,12 +80,20 @@ public abstract class LivingEntity implements Drawable {
 		immobile = i;
 	}
 
-	public boolean getInvicible() {
+	public boolean getInvincible() {
 		return invincible;
 	}
 
 	public void setInvincible(boolean i) {
 		invincible = i;
+	}
+	
+	public int getDirection(){
+		return direction;
+	}
+	
+	public void setDirection(int i){
+		direction = i;
 	}
 	
 	public void damage(int amount) {
