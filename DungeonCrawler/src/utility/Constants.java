@@ -84,7 +84,7 @@ public class Constants
 	public static final int TANK_AB3_COOLDOWN = 300;
 
 	// Hunter specific stats
-	public static final double ARROW_SPEED = 1.0;
+	public static final double ARROW_SPEED = 6.0;
 	public static final int ARROW_DAMAGE = 25;
 	public static final int HUNTER_AB1_COOLDOWN = 600;
 	public static final int HUNTER_AB2_COOLDOWN = 600;

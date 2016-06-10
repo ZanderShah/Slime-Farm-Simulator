@@ -64,13 +64,12 @@ public class SpriteSheet
 			WALLS = new Image[1];
 			WALLS[0] = ImageIO.read(new File("img//Wall.png"));
 
-			for (int i = 1; i <= 3; i++)
-				PROJECTILES = new Image[6];
+				PROJECTILES = new Image[7];
 			for (int i = 1; i <= 3; i++)
 				PROJECTILES[i - 1] = ImageIO.read(new File("img//Flame" + i
 						+ ".png"));
 			PROJECTILES[3] = ImageIO.read(new File("img//MageQ.png"));
-			for (int i = 1; i <= 2; i++)
+			for (int i = 1; i <= 3; i++)
 				PROJECTILES[3 + i] = ImageIO.read(new File("img//Arrow" + i
 						+ ".png"));
 			
