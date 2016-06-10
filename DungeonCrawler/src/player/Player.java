@@ -35,15 +35,19 @@ public abstract class Player extends LivingEntity {
 			
 			if (cs.getPressed(ControlState.KEY_UP)) {
 				speed.addToThis(new Vector2D(0, -1));
+				setDirection(2);
 			}
 			if (cs.getPressed(ControlState.KEY_LEFT)) {
 				speed.addToThis(new Vector2D(-1, 0));
+				setDirection(1);
 			}
 			if (cs.getPressed(ControlState.KEY_DOWN)) {
 				speed.addToThis(new Vector2D(0, 1));
+				setDirection(0);
 			}
 			if (cs.getPressed(ControlState.KEY_RIGHT)) {
 				speed.addToThis(new Vector2D(1, 0));
+				setDirection(3);
 			}
 			if (cs.getPressed(ControlState.KEY_ATTACK)) {
 				attack(cs.getMouse(), r);

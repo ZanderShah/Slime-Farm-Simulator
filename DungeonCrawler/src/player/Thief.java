@@ -30,7 +30,7 @@ public class Thief extends Player {
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
 		
-		g.drawImage(SpriteSheet.THIEF_IMAGES[0][(blinking == 0 ? 0 : 1)], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.THIEF_IMAGES[getDirection()][(blinking == 0 ? 0 : 1)], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 		
 //		g.setColor(Color.GRAY);
 //		if (blinking != 0) {
@@ -41,7 +41,7 @@ public class Thief extends Player {
 
 	@Override
 	public int getWidth() {
-		return SpriteSheet.THIEF_IMAGES[0][0].getWidth(null);
+		return SpriteSheet.THIEF_IMAGES[getDirection()][0].getWidth(null);
 	}
 
 	@Override

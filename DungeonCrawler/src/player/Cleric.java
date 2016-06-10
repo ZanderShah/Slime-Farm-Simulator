@@ -20,7 +20,7 @@ public class Cleric extends Player {
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.CLERIC_IMAGES[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.CLERIC_IMAGES[getDirection()], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 
 		// g.setColor(Color.BLUE.brighter().brighter());
 		// g.fillRect((int) shifted.getX() - getWidth() / 2,
@@ -30,7 +30,7 @@ public class Cleric extends Player {
 
 	@Override
 	public int getWidth() {
-		return SpriteSheet.CLERIC_IMAGES[0].getWidth(null);
+		return SpriteSheet.CLERIC_IMAGES[getDirection()].getWidth(null);
 	}
 
 	@Override

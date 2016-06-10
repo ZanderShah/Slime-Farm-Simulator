@@ -34,12 +34,12 @@ public class Mage extends Player {
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.MAGE_IMAGES[0], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.MAGE_IMAGES[getDirection()], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 	}
 
 	@Override
 	public int getWidth() {
-		return SpriteSheet.MAGE_IMAGES[0].getWidth(null);
+		return SpriteSheet.MAGE_IMAGES[getDirection()].getWidth(null);
 	}
 
 	@Override
