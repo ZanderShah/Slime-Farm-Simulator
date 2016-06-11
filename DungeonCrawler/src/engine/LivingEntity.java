@@ -7,6 +7,9 @@ import utility.Vector2D;
 import world.Room;
 
 public abstract class LivingEntity implements Drawable {
+	private static long curID;
+	private long id;
+	
 	private Vector2D position;
 	private Vector2D speed;
 	private Stats stats;
@@ -25,6 +28,8 @@ public abstract class LivingEntity implements Drawable {
 		hitbox = new AABB(position.add(new Vector2D(16, 16)), 32, 32);
 		immobile = false;
 		invincible = false;
+		id = curID;
+		curID++;
 	}
 
 	public Vector2D getPos() {
