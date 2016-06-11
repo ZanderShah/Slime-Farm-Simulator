@@ -30,7 +30,14 @@ public abstract class Player extends LivingEntity {
 			if (cooldowns[i] > 0) cooldowns[i]--;
 		}
 		
-		if (!getImmobile()) {
+		boolean stunned = false;
+		for (int i = 0; i < getEffects().size(); i++) {
+			if (getEffects().get(i).getType() == StatusEffect.STUN) {
+				stunned = true;
+			}
+		}
+		
+		if (!getImmobile() && !stunned) {
 			Vector2D speed = new Vector2D();
 			
 			if (cs.getPressed(ControlState.KEY_UP)) {

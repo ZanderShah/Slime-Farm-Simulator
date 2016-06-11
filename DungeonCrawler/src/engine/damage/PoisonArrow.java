@@ -1,17 +1,22 @@
-package engine;
+package engine.damage;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import engine.AABB;
+import engine.StatusEffect;
 import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
-public class PiercingArrow extends Projectile {
+public class PoisonArrow extends Projectile {
 
-	public PiercingArrow(Vector2D pos, Vector2D dir, boolean player) {
-		super(new AABB(pos, 3, 3), 30, -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), false, player, Constants.ARROW_DAMAGE);
+	public PoisonArrow(Vector2D pos, Vector2D dir, boolean player) {
+		super(new AABB(pos, 3, 3), 0, -1, pos,
+				dir.getNormalized().multiply(Constants.ARROW_SPEED), true,
+				player, Constants.ARROW_DAMAGE,
+				new StatusEffect(1200, 40, -2, StatusEffect.HEALTH, false));
 	}
 
 	@Override
@@ -20,6 +25,6 @@ public class PiercingArrow extends Projectile {
 		AffineTransform af = new AffineTransform();
 		af.rotate(-Math.toRadians(getSpeed().getAngle()), shifted.getX(), shifted.getY());
 		af.translate(shifted.getX(), shifted.getY());
-		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[6], af, null);
+		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[5], af, null);
 	}
 }

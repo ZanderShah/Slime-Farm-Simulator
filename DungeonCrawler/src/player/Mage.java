@@ -10,13 +10,13 @@ import utility.Vector2D;
 import world.Room;
 import app.Test;
 import engine.AABB;
-import engine.BeamParticle;
-import engine.FireCircle;
-import engine.Fireball;
-import engine.MageDebuff;
 import engine.ParticleEmitter;
 import engine.Stats;
 import engine.StatusEffect;
+import engine.damage.BeamParticle;
+import engine.damage.FireCircle;
+import engine.damage.Fireball;
+import engine.damage.MageDebuff;
 
 public class Mage extends Player {
 
@@ -116,7 +116,7 @@ public class Mage extends Player {
 		if (getCooldown(3) == 0) {
 			Vector2D pos = (new Vector2D(p)).add(getPos()).subtract(Test.middle);
 			r.addDamageSource(new FireCircle(pos, Constants.MAGE_FIRE_RANGE, 30, Constants.MAGE_FIRE_LENGTH, true, 3));
-			r.addEmitter(new ParticleEmitter(0, pos, new Vector2D(), Constants.MAGE_FIRE_LENGTH, 120, 0, 20, Constants.MAGE_FIRE_RANGE, 0.1, 0));
+			r.addEmitter(new ParticleEmitter(0, pos, new Vector2D(), Constants.MAGE_FIRE_LENGTH, 60, 5, 20, 20, Constants.MAGE_FIRE_RANGE, 0.1, 0));
 			setCooldown(3, Constants.MAGE_AB3_COOLDOWN);
 		}
 	}

@@ -1,6 +1,10 @@
-package engine;
+package engine.damage;
 
 import java.util.ArrayList;
+
+import engine.Hitbox;
+import engine.LivingEntity;
+import engine.StatusEffect;
 
 public abstract class NonRepeatingDamageSource extends DamageSource {
 	

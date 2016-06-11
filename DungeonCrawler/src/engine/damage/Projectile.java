@@ -1,4 +1,6 @@
-package engine;
+package engine.damage;
+import engine.Hitbox;
+import engine.StatusEffect;
 import utility.Vector2D;
 import world.Room;
 

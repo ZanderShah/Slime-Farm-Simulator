@@ -1,5 +1,7 @@
-package engine;
+package engine.damage;
 
+import engine.CircleHitbox;
+import engine.StatusEffect;
 import utility.Vector2D;
 
 public abstract class CircleDamageSource extends DamageSource {

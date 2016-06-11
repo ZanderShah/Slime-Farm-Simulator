@@ -1,14 +1,16 @@
-package engine;
+package engine.damage;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
+import engine.StatusEffect;
+import utility.Constants;
 import utility.Vector2D;
 
-public class MageDebuff extends CircleDamageSource {
+public class TankStun extends CircleDamageSource {
 
-	public MageDebuff(Vector2D pos, int rad, int d, boolean p) {
-		super(pos, rad, 0, d, false, p, 0, new StatusEffect(1, 0, 0.75, StatusEffect.DEF, true));
+	public TankStun(Vector2D pos, int rad, boolean p) {
+		super(pos, rad, 0, 2, false, p, 0, new StatusEffect(Constants.TANK_STUN_LENGTH, 0, 0, StatusEffect.STUN, true));
 	}
 
 	@Override

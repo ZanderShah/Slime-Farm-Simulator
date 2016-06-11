@@ -11,7 +11,7 @@ import world.Room;
 import app.Test;
 import engine.AABB;
 import engine.Stats;
-import engine.SwordDamageSource;
+import engine.damage.SwordDamageSource;
 
 public class Thief extends Player {
 	private int blinking;

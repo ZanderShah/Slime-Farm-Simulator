@@ -10,11 +10,11 @@ import utility.Vector2D;
 import world.Room;
 import app.Test;
 import engine.AABB;
-import engine.Arrow;
-import engine.PiercingArrow;
-import engine.PoisonArrow;
 import engine.Stats;
 import engine.StatusEffect;
+import engine.damage.Arrow;
+import engine.damage.PiercingArrow;
+import engine.damage.PoisonArrow;
 
 public class Hunter extends Player {
 

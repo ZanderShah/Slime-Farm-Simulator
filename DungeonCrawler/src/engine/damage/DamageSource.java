@@ -1,4 +1,8 @@
-package engine;
+package engine.damage;
+import engine.Drawable;
+import engine.Hitbox;
+import engine.LivingEntity;
+import engine.StatusEffect;
 import world.Room;
 
 public abstract class DamageSource implements Drawable {

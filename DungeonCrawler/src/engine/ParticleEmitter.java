@@ -11,12 +11,13 @@ public class ParticleEmitter {
 	private int particleLifetime;
 	private int frequency;
 	private int particleFrequency;
+	private int particleCount;
 	private int counter;
 	private double randomPos;
 	private double randomDir;
 	private int randomLife;
 
-	public ParticleEmitter(int t, Vector2D p, Vector2D d, int l, int pl, int f, int pf, double rp, double rd, int rl) {
+	public ParticleEmitter(int t, Vector2D p, Vector2D d, int l, int pl, int f, int pf, int pc, double rp, double rd, int rl) {
 		type = t;
 		position = p;
 		direction = d;
@@ -24,6 +25,7 @@ public class ParticleEmitter {
 		particleLifetime = pl;
 		frequency = f;
 		particleFrequency = pf;
+		particleCount = pc;
 		counter = f;
 		randomPos = rp;
 		randomDir = rd;
@@ -39,10 +41,12 @@ public class ParticleEmitter {
 		if (counter > 0) counter--;
 		if (counter == 0 && lifetime > 0) {
 			counter = frequency;
-			int l = particleLifetime + (int) (Math.random() * (randomLife * 2 + 1)) - randomLife;
-			Vector2D p = position.add((new Vector2D(Math.random() * 2 - 1, Math.random() * 2 - 1).getNormalized()).multiply(Math.random() * randomPos));
-			Vector2D d = direction.add((new Vector2D(Math.random() * 2 - 1, Math.random() * 2 - 1).getNormalized()).multiply(Math.random() * randomDir));
-			r.addParticle(new Particle(type, particleFrequency, l, p, d));
+			for (int i = 0; i < particleCount; i++) {
+				int l = particleLifetime + (int) (Math.random() * (randomLife * 2 + 1)) - randomLife;
+				Vector2D p = position.add((new Vector2D(Math.random() * 2 - 1, Math.random() * 2 - 1).getNormalized()).multiply(Math.random() * randomPos));
+				Vector2D d = direction.add((new Vector2D(Math.random() * 2 - 1, Math.random() * 2 - 1).getNormalized()).multiply(Math.random() * randomDir));
+				r.addParticle(new Particle(type, particleFrequency, l, p, d));
+			}
 		}
 	}
 }

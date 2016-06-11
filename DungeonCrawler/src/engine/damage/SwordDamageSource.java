@@ -1,8 +1,9 @@
-package engine;
+package engine.damage;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
+import engine.SwordHitbox;
 import utility.Vector2D;
 
 public class SwordDamageSource extends DamageSource

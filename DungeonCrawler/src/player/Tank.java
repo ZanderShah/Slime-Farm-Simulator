@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import engine.Stats;
 import engine.StatusEffect;
+import engine.damage.TankStun;
 import utility.Constants;
 import utility.Vector2D;
 import world.Room;
@@ -38,14 +39,19 @@ public class Tank extends Player {
 			ArrayList<Player> players = r.getPlayers();
 			for (int i = 0; i < players.size(); i++) {
 				players.get(i).giveStatusEffect(new StatusEffect(Constants.TANK_BUFF_LENGTH, 0, Constants.TANK_BUFF_STRENGTH, StatusEffect.DEF, true));
-				setCooldown(1, Constants.TANK_AB1_COOLDOWN);
 			}
+			setCooldown(1, Constants.TANK_AB1_COOLDOWN);
 		}
 	}
 
+	// Stun: stuns all nearby enemies
+	// Cooldown 15 seconds
 	@Override
 	public void ability2(Point p, Room r) {
-		
+		if (getCooldown(2) == 0) {
+			r.addDamageSource(new TankStun(getPos(), Constants.TANK_STUN_RANGE, true));
+			setCooldown(2, Constants.TANK_AB2_COOLDOWN);
+		}
 	}
 
 	@Override

@@ -5,6 +5,7 @@ public class StatusEffect {
 	public static final int HEALTH = 0;
 	public static final int SPEED = 1;
 	public static final int DEF = 2;
+	public static final int STUN = 3;
 
 	private int timeLeft;
 	private int frequency;

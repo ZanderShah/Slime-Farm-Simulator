@@ -1,7 +1,8 @@
-package engine;
+package engine.damage;
 
 import java.awt.Graphics;
 
+import engine.AABB;
 import utility.SpriteSheet;
 import utility.Vector2D;
 

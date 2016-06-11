@@ -9,7 +9,7 @@ import utility.ControlState;
 import utility.Vector2D;
 import world.Room;
 import engine.Stats;
-import engine.SwordDamageSource;
+import engine.damage.SwordDamageSource;
 
 public class Warrior extends Player {
 	private static final int SIZE = 32;
