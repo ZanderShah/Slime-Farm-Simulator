@@ -96,8 +96,18 @@ public abstract class LivingEntity implements Drawable {
 		direction = i;
 	}
 	
-	public void damage(int amount) {
-		stats.setHealth(Math.max(0, stats.getHealth() - amount));
+	public void damage(double amount) {
+		double effectiveDefence = stats.getDefence();
+		for (int i = 0; i < effects.size(); i++) {
+			if (effects.get(i).getType() == StatusEffect.DEF) {
+				effectiveDefence *= effects.get(i).getStrength();
+			}
+		}
+		stats.setHealth(Math.max(0, stats.getHealth() - Math.max(0, amount * (1 - effectiveDefence / 100))));
+	}
+	
+	public void heal(double amount) {
+		stats.setHealth(Math.min(stats.getMaxHealth(), stats.getHealth() + amount));
 	}
 
 	public void update(Room l) {
@@ -107,7 +117,10 @@ public abstract class LivingEntity implements Drawable {
 				effects.remove(s);
 				s--;
 			} else if (effects.get(s).getType() == StatusEffect.HEALTH) {
-				stats.setHealth(stats.getHealth() + (int) effects.get(s).getStrength());
+				if (effects.get(s).getStrength() < 0)
+					damage(-effects.get(s).getStrength());
+				else
+					heal(effects.get(s).getStrength());
 			}
 		}
 		

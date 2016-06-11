@@ -10,11 +10,11 @@ public abstract class DamageSource implements Drawable {
 	private boolean singleHit;
 	
 	private boolean player;
-	private int damage;
+	private double damage;
 	
 	private StatusEffect effect;
 	
-	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p, int dam) {
+	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p, double dam) {
 		hitbox = h;
 		frequency = f;
 		duration = d;
@@ -24,7 +24,7 @@ public abstract class DamageSource implements Drawable {
 		damage = dam;
 	}
 	
-	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p, int dam, StatusEffect e) {
+	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p, double dam, StatusEffect e) {
 		hitbox = h;
 		frequency = f;
 		duration = d;

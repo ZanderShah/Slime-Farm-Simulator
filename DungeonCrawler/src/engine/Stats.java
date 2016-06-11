@@ -1,13 +1,13 @@
 package engine;
 public class Stats {
-	private int maxHealth;
-	private int health;
+	private double maxHealth;
+	private double health;
 	private int attackSpeed;
 	private int attackTime;
 	private double speed;
 	private double defence;
 	
-	public Stats(int mh, int as, int at, double s, double d) {
+	public Stats(double mh, int as, int at, double s, double d) {
 		maxHealth = mh;
 		health = mh;
 		attackSpeed = as;
@@ -16,11 +16,11 @@ public class Stats {
 		defence = d;
 	}
 	
-	public int getMaxHealth() {
+	public double getMaxHealth() {
 		return maxHealth;
 	}
 	
-	public int getHealth() {
+	public double getHealth() {
 		return health;
 	}
 	
@@ -40,11 +40,11 @@ public class Stats {
 		return defence;
 	}
 	
-	public void setMaxHealth(int mh) {
+	public void setMaxHealth(double mh) {
 		maxHealth = mh;
 	}
 	
-	public void setHealth(int h) {
+	public void setHealth(double h) {
 		health = h;
 	}
 	

@@ -7,7 +7,7 @@ import utility.Vector2D;
 
 public class FireCircle extends CircleDamageSource {
 
-	public FireCircle(Vector2D pos, int rad, int f, int d, boolean p, int dam) {
+	public FireCircle(Vector2D pos, int rad, int f, int d, boolean p, double dam) {
 		super(pos, rad, f, d, false, p, dam);
 	}
 

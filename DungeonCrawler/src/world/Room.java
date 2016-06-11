@@ -6,10 +6,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import player.Player;
-import utility.Constants;
-import utility.SpriteSheet;
-import utility.Vector2D;
 import app.Test;
 import enemy.Enemy;
 import engine.AABB;
@@ -17,6 +13,10 @@ import engine.DamageSource;
 import engine.Particle;
 import engine.ParticleEmitter;
 import engine.Projectile;
+import player.Player;
+import utility.Constants;
+import utility.SpriteSheet;
+import utility.Vector2D;
 
 public class Room // implements Drawable (There should be 2 Drawable, one with
 // offset and one without
@@ -223,6 +223,10 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	public int randomY(Image img) {
 		return (int) (Math.random() * (height - 1) * 64) + 64;
 	}
+	
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
 
 	public Room moveTo(Room r, int direction) {
 		Vector2D newPos;
@@ -303,7 +307,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		nonMovingStuffLevelObject.draw(g, offset);
 
 		for (int i = 0; i < damageSources.size(); i++) {
-			if (damageSources.get(i) != null) {
+			if (i < damageSources.size() && damageSources.get(i) != null) {
 				damageSources.get(i).draw(g, offset);
 			}
 		}
