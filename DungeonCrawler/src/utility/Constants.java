@@ -83,12 +83,13 @@ public class Constants
 	public static final double TANK_BUFF_STRENGTH = 1.5;
 	public static final int TANK_STUN_RANGE = 150;
 	public static final int TANK_STUN_LENGTH = 180;
+	public static final int TANK_REFLECT_TIME = 120;
 	public static final int TANK_AB1_COOLDOWN = 1500;
 	public static final int TANK_AB2_COOLDOWN = 900;
-	public static final int TANK_AB3_COOLDOWN = 300;
+	public static final int TANK_AB3_COOLDOWN = 1200;
 
 	// Hunter specific stats
-	public static final double ARROW_SPEED = 6.0;
+	public static final double ARROW_SPEED = 0.5;
 	public static final double ARROW_DAMAGE = 25.0;
 	public static final int HUNTER_AB1_COOLDOWN = 600;
 	public static final int HUNTER_AB2_COOLDOWN = 600;

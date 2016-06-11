@@ -14,9 +14,12 @@ import world.Room;
 
 public class Tank extends Player {
 
+	private int reflecting;
+	
 	public Tank() {
 		super();
 		setStats(new Stats(Constants.TANK_HEALTH, Constants.TANK_ATTACK_SPEED, Constants.TANK_ATTACK_LENGTH, Constants.TANK_SPEED, Constants.TANK_DEFENCE));
+		reflecting = 0;
 	}
 
 	@Override
@@ -29,6 +32,16 @@ public class Tank extends Player {
 	@Override
 	public boolean attack(Point p, Room r) {
 		return super.attack(p, r);
+	}
+	
+	@Override
+	public void update(Room r) {
+		if (reflecting > 0) reflecting--;
+		super.update(r);
+	}
+	
+	public boolean isReflecting() {
+		return reflecting > 0;
 	}
 
 	// Shield spell: gives all players a 1.5x defensive buff for 10 seconds
@@ -54,9 +67,15 @@ public class Tank extends Player {
 		}
 	}
 
+	// Reflect: hide behind your shield and reflect all projectiles (also turn them friendly)
+	// Cooldown: 20 seconds
 	@Override
 	public void ability3(Point p, Room r) {
-		
+		if (getCooldown(3) == 0) {
+			setAttacking(Constants.TANK_REFLECT_TIME);
+			reflecting = Constants.TANK_REFLECT_TIME;
+			setCooldown(3, Constants.TANK_AB3_COOLDOWN);
+		}
 	}
 
 	@Override

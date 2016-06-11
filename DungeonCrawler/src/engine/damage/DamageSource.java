@@ -56,6 +56,14 @@ public abstract class DamageSource implements Drawable {
 	public int getDuration() {
 		return duration;
 	}
+
+	public double getDamage() {
+		return damage;
+	}
+	
+	public StatusEffect getEffect() {
+		return effect;
+	}
 	
 	public boolean isSingleHit() {
 		return singleHit;
@@ -63,6 +71,10 @@ public abstract class DamageSource implements Drawable {
 	
 	public boolean isPlayer() {
 		return player;
+	}
+	
+	public void setPlayer(boolean b) {
+		player = b;
 	}
 	
 	public boolean hit(LivingEntity le) {
