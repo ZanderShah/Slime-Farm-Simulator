@@ -70,11 +70,9 @@ public class AABB implements Hitbox
 			if (isInside(o.getPosition()))
 				return true;
 
-			for (int angle = o.getStart(); angle <= o.getAngle(); angle++)
+			for (int angle = 0; angle <= o.getAngle(); angle++)
 			{
-				if (isInside(o.getPosition().add(new Vector2D(o.getRadius()
-						* Math.cos(angle),
-						o.getRadius() * Math.sin(angle)))))
+				if (isInside(o.getPosition().add(new Vector2D((o.getStart() + angle) % 360).multiply(o.getRadius()))))
 					return true;
 			}
 		}

@@ -2,6 +2,10 @@ package utility;
 
 public class Constants
 {
+	public static final boolean DEBUG = true;
+	
+	
+	
 	public static final int NUMBER_OF_ROOMS = 25, NUMBER_OF_FLOORS = 5;
 	public static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	public static final int MIN_ROOM_WIDTH = 20, MAX_ROOM_WIDTH = 30,

@@ -2,11 +2,10 @@ package world;
 
 import java.awt.Image;
 
+import enemy.Slime;
 import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
-import enemy.Slime;
-import engine.damage.MeleeEnemyDamageSource;
 
 public class DungeonFactory
 {

@@ -1,9 +1,16 @@
 package engine.damage;
 
+import java.awt.Graphics;
+
+import engine.AABB;
+import engine.CircleHitbox;
 import engine.Drawable;
 import engine.Hitbox;
 import engine.LivingEntity;
 import engine.StatusEffect;
+import engine.SwordHitbox;
+import utility.Constants;
+import utility.Vector2D;
 import world.Room;
 
 public abstract class DamageSource implements Drawable
@@ -112,5 +119,27 @@ public abstract class DamageSource implements Drawable
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void draw(Graphics g, Vector2D offset) {
+		if (Constants.DEBUG) {
+			Vector2D shift = getHitbox().getPosition().add(offset);
+			if (hitbox instanceof AABB) {
+				g.drawRect(
+					(int) shift.getX() - ((AABB) hitbox).getWidth() / 2,
+					(int) shift.getY() - ((AABB) hitbox).getHeight() / 2,
+					((AABB) hitbox).getWidth(),
+					((AABB) hitbox).getHeight());
+			} else if (hitbox instanceof CircleHitbox) {
+				g.drawOval(
+						(int) shift.getX() - ((CircleHitbox) hitbox).getRadius(),
+						(int) shift.getY() - ((CircleHitbox) hitbox).getRadius(),
+						((CircleHitbox) hitbox).getRadius() * 2,
+						((CircleHitbox) hitbox).getRadius() * 2);
+			} else if (hitbox instanceof SwordHitbox) {
+				// lol how do you draw this
+			}
+		}
 	}
 }
