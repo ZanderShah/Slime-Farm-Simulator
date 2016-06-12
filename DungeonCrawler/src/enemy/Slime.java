@@ -12,7 +12,7 @@ public class Slime extends Enemy
 	public Slime(int x, int y)
 	{
 		super();
-		setStats(new Stats(100, 100, 100, 100, 0));
+		setStats(new Stats(100, 100, 100, 100, 10.0));
 		setHitbox(new AABB(getPos().add(
 				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
 				getHeight()));
