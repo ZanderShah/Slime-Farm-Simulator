@@ -6,7 +6,7 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 import enemy.Slime;
-import engine.damage.SlimeDamageSource;
+import engine.damage.MeleeEnemyDamageSource;
 
 public class DungeonFactory
 {
@@ -270,7 +270,7 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 25; i++)
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0]), y = room
 					.randomY(SpriteSheet.ENEMIES[0]);

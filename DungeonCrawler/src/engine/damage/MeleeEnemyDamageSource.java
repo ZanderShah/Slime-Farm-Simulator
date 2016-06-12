@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import utility.Vector2D;
 import engine.Hitbox;
 
-public class SlimeDamageSource extends DamageSource
+public class MeleeEnemyDamageSource extends DamageSource
 {
-	public SlimeDamageSource(Hitbox h)
+	public MeleeEnemyDamageSource(Hitbox h)
 	{
 		super(h, 30, -1, false, false, 10);
 	}

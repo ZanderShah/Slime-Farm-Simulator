@@ -7,11 +7,11 @@ import utility.Vector2D;
 import world.Room;
 import engine.AABB;
 import engine.Stats;
-import engine.damage.SlimeDamageSource;
+import engine.damage.MeleeEnemyDamageSource;
 
 public class Slime extends Enemy
 {
-	private SlimeDamageSource squish;
+	private MeleeEnemyDamageSource slimeDamageSource;
 
 	public Slime(int x, int y, Room r)
 	{
@@ -23,8 +23,8 @@ public class Slime extends Enemy
 				getHeight()));
 		setPos(new Vector2D(x, y));
 
-		squish = new SlimeDamageSource(getHitbox());
-		r.addDamageSource(squish);
+		slimeDamageSource = new MeleeEnemyDamageSource(getHitbox());
+		r.addDamageSource(slimeDamageSource);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class Slime extends Enemy
 		if (getStats().getHealth() <= 0)
 			l.removeEnemy(this);
 
-		squish.setHitbox(getHitbox());
+		slimeDamageSource.setHitbox(getHitbox());
 	}
 
 	@Override
