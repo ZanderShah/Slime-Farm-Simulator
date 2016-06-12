@@ -6,6 +6,7 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 import enemy.Slime;
+import engine.damage.SlimeDamageSource;
 
 public class DungeonFactory
 {
@@ -275,7 +276,10 @@ public class DungeonFactory
 					.randomY(SpriteSheet.ENEMIES[0]);
 			Slime slimey = new Slime(x, y);
 			if (room.hasSpaceFor(slimey.getHitbox()))
+			{
 				room.addEnemy(slimey);
+				room.addDamageSource(new SlimeDamageSource(slimey));
+			}
 		}
 
 		fillWithEnemies(room.getUp(), difficulty, vis);

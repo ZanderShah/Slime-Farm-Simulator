@@ -67,8 +67,10 @@ public class AABB implements Hitbox
 		{
 			SwordHitbox o = (SwordHitbox) other;
 
-			for (int angle = o.getStart(); angle <= o.getAngle(); angle += (o
-					.getAngle() - o.getStart()) / 4)
+			if (isInside(o.getPosition()))
+				return true;
+
+			for (int angle = o.getStart(); angle <= o.getAngle(); angle++)
 			{
 				if (isInside(o.getPosition().add(new Vector2D(o.getRadius()
 						* Math.cos(angle),

@@ -85,7 +85,7 @@ public class Test extends JFrame
 		private Player controlled;
 		private Room current[];
 		private int currentFloor;
-		
+
 		private DatagramSocket sock;
 
 		public GameCanvas()
@@ -94,10 +94,13 @@ public class Test extends JFrame
 			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
 					Constants.NUMBER_OF_FLOORS);
 			current[currentFloor].setCurrent();
-			
-			try {
+
+			try
+			{
 				sock = new DatagramSocket();
-			} catch (SocketException e) {
+			}
+			catch (SocketException e)
+			{
 				e.printStackTrace();
 			}
 
@@ -117,8 +120,8 @@ public class Test extends JFrame
 			clericTest.setPos(new Vector2D(30, 30));
 
 			// current[currentFloor].addPlayer(warriorTest);
-			// current[currentFloor].addPlayer(thiefTest);
-			current[currentFloor].addPlayer(mageTest);
+			current[currentFloor].addPlayer(thiefTest);
+			// current[currentFloor].addPlayer(mageTest);
 			// current[currentFloor].addPlayer(tankTest);
 			// current[currentFloor].addPlayer(hunterTest);
 			// current[currentFloor].addPlayer(clericTest);
@@ -126,20 +129,27 @@ public class Test extends JFrame
 			// Change controlled to test other players without having to change
 			// everything
 			// controlled = warriorTest;
-			// controlled = thiefTest;
-			controlled = mageTest;
+			controlled = thiefTest;
+			// controlled = mageTest;
 			// controlled = tankTest;
 			// controlled = hunterTest;
 			// controlled = clericTest;
 
 		}
 
-		public void startGame() {
-			try {
-				sock.send(new DatagramPacket(new byte[] {0}, 1, InetAddress.getByName("localhost"), 7382));
-				sock.send(new DatagramPacket(new byte[] {1, 4}, 2, InetAddress.getByName("localhost"), 7382));
-				sock.send(new DatagramPacket(new byte[] {2}, 1, InetAddress.getByName("localhost"), 7382));
-			} catch (Exception e1) {
+		public void startGame()
+		{
+			try
+			{
+				sock.send(new DatagramPacket(new byte[] { 0 }, 1, InetAddress
+						.getByName("localhost"), 7382));
+				sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
+						InetAddress.getByName("localhost"), 7382));
+				sock.send(new DatagramPacket(new byte[] { 2 }, 1, InetAddress
+						.getByName("localhost"), 7382));
+			}
+			catch (Exception e1)
+			{
 				e1.printStackTrace();
 			}
 			(new Thread() {
@@ -148,22 +158,29 @@ public class Test extends JFrame
 				public void run()
 				{
 					lastUpdate = System.currentTimeMillis();
-					while (true) {
-						
+					while (true)
+					{
+
 						// Update player with client data
 						byte[] csBytes = cs.getBytes();
 						byte[] message = new byte[csBytes.length + 1];
 						message[0] = 3;
-						for (int i = 0; i < csBytes.length; i++) {
+						for (int i = 0; i < csBytes.length; i++)
+						{
 							message[i + 1] = csBytes[i];
 						}
-						try {
-							sock.send(new DatagramPacket(message, message.length, InetAddress.getByName("localhost"), 7382));
-						} catch (Exception e1) {
+						try
+						{
+							sock.send(new DatagramPacket(message,
+									message.length, InetAddress
+											.getByName("localhost"), 7382));
+						}
+						catch (Exception e1)
+						{
 							e1.printStackTrace();
 						}
-						
-						// Update stuf locally
+
+						// Update stuff locally
 						controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
 

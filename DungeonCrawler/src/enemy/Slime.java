@@ -32,10 +32,6 @@ public class Slime extends Enemy
 
 		if (getStats().getHealth() <= 0)
 			l.removeEnemy(this);
-
-		l.addDamageSource(new FireCircle(getPos(), Constants.MAGE_FIRE_RANGE,
-				30, Constants.MAGE_FIRE_LENGTH - 265, false, 10));
-
 	}
 
 	@Override
