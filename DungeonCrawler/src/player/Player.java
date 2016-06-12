@@ -43,7 +43,7 @@ public abstract class Player extends LivingEntity {
 				}
 			}
 		}
-		
+
 		boolean stunned = false;
 		for (int i = 0; i < getEffects().size(); i++) {
 			if (getEffects().get(i).getType() == StatusEffect.STUN) {

@@ -148,6 +148,7 @@ public abstract class LivingEntity implements Drawable
 
 	public void update(Room l)
 	{
+		boolean stunned = false;
 		for (int s = 0; s < effects.size(); s++)
 		{
 			effects.get(s).elapseTime();
@@ -162,31 +163,35 @@ public abstract class LivingEntity implements Drawable
 					damage(-effects.get(s).getStrength());
 				else
 					heal(effects.get(s).getStrength());
+			} else if (effects.get(s).getType() == StatusEffect.STUN) {
+				stunned = true;
 			}
 		}
-
-		AABB tempX = hitbox.clone();
-		AABB tempY = hitbox.clone();
-
-		tempX.updatePosition(position.add(new Vector2D(speed.getX()
-				+ (speed.getX() < 0 ? -1 : 1), 0)));
-		tempY.updatePosition(position.add(new Vector2D(0, speed.getY()
-				+ (speed.getY() < 0 ? -1 : 1))));
-
-		Vector2D newSpeed = new Vector2D(0, 0);
-
-		if (!l.hasCollisionWith(tempX))
-		{
-			newSpeed.addToThis(new Vector2D(speed.getX(), 0));
+		
+		if (!stunned) {
+			AABB tempX = hitbox.clone();
+			AABB tempY = hitbox.clone();
+	
+			tempX.updatePosition(position.add(new Vector2D(speed.getX()
+					+ (speed.getX() < 0 ? -1 : 1), 0)));
+			tempY.updatePosition(position.add(new Vector2D(0, speed.getY()
+					+ (speed.getY() < 0 ? -1 : 1))));
+	
+			Vector2D newSpeed = new Vector2D(0, 0);
+	
+			if (!l.hasCollisionWith(tempX))
+			{
+				newSpeed.addToThis(new Vector2D(speed.getX(), 0));
+			}
+	
+			if (!l.hasCollisionWith(tempY))
+			{
+				newSpeed.addToThis(new Vector2D(0, speed.getY()));
+			}
+	
+			speed = newSpeed;
+			setPos(position.add(speed));
 		}
-
-		if (!l.hasCollisionWith(tempY))
-		{
-			newSpeed.addToThis(new Vector2D(0, speed.getY()));
-		}
-
-		speed = newSpeed;
-		setPos(position.add(speed));
 	}
 
 	@Override

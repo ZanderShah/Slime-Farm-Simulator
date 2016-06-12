@@ -7,27 +7,21 @@ import engine.LivingEntity;
 import utility.Vector2D;
 import world.Room;
 
-public abstract class Enemy extends LivingEntity
-{
+public abstract class Enemy extends LivingEntity {
 
-	public Enemy()
-	{
+	public Enemy() {
 		super();
 	}
 
 	@Override
-	public void update(Room l)
-	{
+	public void update(Room l) {
 		super.update(l);
-		setSpeed(new Vector2D((Math.round(Math.random()) == 0 ? 1 : -1),
-				(Math.round(Math.random()) == 0 ? 1 : -1)));
 	}
 
 	@Override
 	public abstract void draw(Graphics g, Vector2D offset);
 
-	public void drawHealth(Graphics g, Vector2D offset)
-	{
+	public void drawHealth(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
 
 		g.setColor(Color.GRAY);
