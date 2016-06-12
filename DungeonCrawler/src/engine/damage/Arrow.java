@@ -12,7 +12,7 @@ import utility.Vector2D;
 public class Arrow extends Projectile {
 
 	public Arrow(Vector2D pos, Vector2D dir, boolean player) {
-		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), true, player, Constants.ARROW_DAMAGE);
+		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), true, player, Constants.ARROW_DAMAGE, Constants.ARROW_KNOCKBACK);
 	}
 
 	@Override

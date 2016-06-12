@@ -13,18 +13,18 @@ public abstract class Projectile extends DamageSource
 	private Vector2D speed;
 
 	public Projectile(Hitbox h, int frequency, int duration, Vector2D pos,
-			Vector2D spd, boolean single, boolean player, double damage)
+			Vector2D spd, boolean single, boolean player, double damage, int kb)
 	{
-		super(h, frequency, duration, single, player, damage);
+		super(h, frequency, duration, single, player, damage, kb);
 		position = pos;
 		speed = spd;
 	}
 
 	public Projectile(Hitbox h, int frequency, int duration, Vector2D pos,
 			Vector2D spd, boolean single, boolean player, double damage,
-			StatusEffect effect)
+			StatusEffect effect, int kb)
 	{
-		super(h, frequency, duration, single, player, damage, effect);
+		super(h, frequency, duration, single, player, damage, effect, kb);
 		position = pos;
 		speed = spd;
 	}

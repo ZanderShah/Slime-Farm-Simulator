@@ -56,11 +56,13 @@ public class Constants
 	public static final int WARRIOR_SWORD_SIZE = 64;
 	public static final int WARRIOR_SWING_ANGLE = 120;
 	public static final double WARRIOR_DAMAGE = 30.0;
+	public static final int WARRIOR_KNOCKBACK = 20;
 
 	// Thief specific stats
 	public static final int THIEF_SWORD_SIZE = 48;
 	public static final int THIEF_SWING_ANGLE = 30;
 	public static final double THIEF_DAMAGE = 40.0;
+	public static final int THIEF_KNOCKBACK = 15;
 
 	// Mage specific stats
 	public static final int MAGE_SPRAY = 20;
@@ -69,6 +71,7 @@ public class Constants
 	public static final int MAGE_DEBUFF_LENGTH = 480;
 	public static final int MAGE_FIRE_RANGE = 100;
 	public static final int MAGE_FIRE_LENGTH = 300;
+	
 	// Tank specific stats
 	public static final int TANK_SWORD_SIZE = 60;
 	public static final int TANK_SWING_ANGLE = 100;
@@ -82,6 +85,7 @@ public class Constants
 	// Hunter specific stats
 	public static final double ARROW_SPEED = 6.0;
 	public static final double ARROW_DAMAGE = 25.0;
+	public static final int ARROW_KNOCKBACK = 10;
 
 	// Cleric specific stats
 	public static final int CLERIC_SWORD_SIZE = 60;

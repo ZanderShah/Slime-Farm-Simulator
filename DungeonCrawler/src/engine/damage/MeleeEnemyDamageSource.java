@@ -9,7 +9,7 @@ import utility.Vector2D;
 
 public class MeleeEnemyDamageSource extends DamageSource {
 	public MeleeEnemyDamageSource(Hitbox h) {
-		super(h, 30, -1, false, false, 10);
+		super(h, 30, -1, false, false, 10, 15);
 	}
 
 	@Override

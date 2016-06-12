@@ -54,7 +54,7 @@ public class Thief extends Player {
 		boolean attacked = super.attack(p, r);
 		if (attacked) {
 			r.addDamageSource(new SwordDamageSource(getPos(), Constants.THIEF_SWORD_SIZE, (int) getAttackDir().getAngle() - Constants.THIEF_SWING_ANGLE / 2,
-					Constants.THIEF_SWING_ANGLE, getStats().getAttackTime(), true, (getAbilityActive(1) != 0 ? Constants.THIEF_DAMAGE * 3 : Constants.THIEF_DAMAGE)));
+					Constants.THIEF_SWING_ANGLE, getStats().getAttackTime(), true, (getAbilityActive(1) != 0 ? Constants.THIEF_DAMAGE * 3 : Constants.THIEF_DAMAGE), Constants.THIEF_KNOCKBACK));
 			if (getAbilityActive(1) != 0) {
 				setAbilityActive(1, 0);
 				setCooldown(1, Constants.AB_COOLDOWNS[1][0]);
