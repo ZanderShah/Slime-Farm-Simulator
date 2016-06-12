@@ -9,7 +9,6 @@ import world.Room;
 
 public abstract class Projectile extends DamageSource
 {
-
 	private Vector2D position;
 	private Vector2D speed;
 
