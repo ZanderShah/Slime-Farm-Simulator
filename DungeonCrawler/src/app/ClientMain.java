@@ -11,6 +11,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -32,10 +36,9 @@ import utility.Vector2D;
 import world.DungeonFactory;
 import world.Room;
 
-public class Test extends JFrame {
-	public static Vector2D middle;
-
-	public Test() {
+public class ClientMain extends JFrame {
+	
+	public ClientMain() {
 		super("Dungeon Crawler");
 
 		GameCanvas gc = new GameCanvas();
@@ -44,13 +47,14 @@ public class Test extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+		gc.startGraphics();
 		gc.startGame();
 	}
 
 	public static void main(String[] args) {
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
-		Test mt = new Test();
+		ClientMain mt = new ClientMain();
 		mt.setVisible(true);
 	}
 
@@ -69,6 +73,8 @@ public class Test extends JFrame {
 
 	static class GameCanvas extends Canvas implements MouseListener,
 			MouseMotionListener, KeyListener {
+		private static final int REC_PACKET_SIZE = 5000;
+
 		private ControlState cs;
 
 		private Tank tankTest = new Tank();
@@ -80,8 +86,11 @@ public class Test extends JFrame {
 		private Player controlled;
 		private Room current[];
 		private int currentFloor;
+		private boolean inGame;
 
 		private DatagramSocket sock;
+		private ByteArrayOutputStream byteStream;
+		private ObjectOutputStream os;
 
 		public GameCanvas() {
 			currentFloor = 0;
@@ -96,7 +105,16 @@ public class Test extends JFrame {
 				e.printStackTrace();
 			}
 
-			setPreferredSize(new Dimension(1000, 1000));
+			byteStream = new ByteArrayOutputStream(5000);
+			try {
+				os = (new ObjectOutputStream(
+						new BufferedOutputStream(byteStream)));
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
 			setFocusable(true);
 			addMouseListener(this);
 			addMouseMotionListener(this);
@@ -113,49 +131,78 @@ public class Test extends JFrame {
 
 			// current[currentFloor].addPlayer(warriorTest);
 			// current[currentFloor].addPlayer(thiefTest);
-			current[currentFloor].addPlayer(mageTest);
+			// current[currentFloor].addPlayer(mageTest);
 			// current[currentFloor].addPlayer(tankTest);
-			// current[currentFloor].addPlayer(hunterTest);
+			current[currentFloor].addPlayer(hunterTest);
 			// current[currentFloor].addPlayer(clericTest);
 
 			// Change controlled to test other players without having to change
 			// everything
 			// controlled = warriorTest;
 			// controlled = thiefTest;
-			controlled = mageTest;
+			// controlled = mageTest;
 			// controlled = tankTest;
-			// controlled = hunterTest;
+			controlled = hunterTest;
 			// controlled = clericTest;
+		}
+		
+		public void startGraphics() {
+			createBufferStrategy(2);
 
+			(new Thread() {
+				public void run() {
+					long lastUpdate = System.currentTimeMillis();
+					while (true) {
+						do {
+							do {
+								Graphics graphics = GameCanvas.this
+										.getBufferStrategy().getDrawGraphics();
+								if (inGame) {
+									drawGame(graphics, controlled);
+								}
+								graphics.dispose();
+							}
+							while (GameCanvas.this.getBufferStrategy()
+									.contentsRestored());
+							GameCanvas.this.getBufferStrategy().show();
+						}
+						while (GameCanvas.this.getBufferStrategy()
+								.contentsLost());
+						long time = System.currentTimeMillis();
+						long diff = time - lastUpdate;
+						try {
+							Thread.sleep(Math.max(0, 1000 / 60 - diff));
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}).start();
 		}
 
 		public void startGame() {
-			try {
-				sock.send(new DatagramPacket(new byte[] { 0 }, 1, InetAddress
-						.getByName("localhost"), 7382));
-				sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
-						InetAddress.getByName("localhost"), 7382));
-				sock.send(new DatagramPacket(new byte[] { 2 }, 1, InetAddress
-						.getByName("localhost"), 7382));
-			}
-			catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			inGame = true;
 			(new Thread() {
 				long lastUpdate;
 
 				public void run() {
 					lastUpdate = System.currentTimeMillis();
-					while (true) {
+					while (inGame) {
 
 						// Update player with client data
-						byte[] csBytes = cs.getBytes();
-						byte[] message = new byte[csBytes.length + 1];
-						message[0] = 3;
-						for (int i = 0; i < csBytes.length; i++) {
-							message[i + 1] = csBytes[i];
-						}
 						try {
+							byteStream = new ByteArrayOutputStream();
+							os = new ObjectOutputStream(byteStream);
+							os.flush();
+							os.writeObject(cs);
+							os.flush();
+							byte[] object = byteStream.toByteArray();
+							byte[] message = new byte[object.length + 1];
+							message[0] = 3;
+							for (int i = 0; i < object.length; i++) {
+								message[i + 1] = object[i];
+							}
 							sock.send(new DatagramPacket(message,
 									message.length, InetAddress
 											.getByName("localhost"),
@@ -204,33 +251,16 @@ public class Test extends JFrame {
 					}
 				}
 			}).start();
-
-			createBufferStrategy(2);
-
+			
 			(new Thread() {
+				@Override
 				public void run() {
-					long lastUpdate = System.currentTimeMillis();
-					while (true) {
-						do {
-							do {
-								Graphics graphics = GameCanvas.this
-										.getBufferStrategy().getDrawGraphics();
-								// Replace with actual current player
-								drawGame(graphics, controlled);
-								graphics.dispose();
-							}
-							while (GameCanvas.this.getBufferStrategy()
-									.contentsRestored());
-							GameCanvas.this.getBufferStrategy().show();
-						}
-						while (GameCanvas.this.getBufferStrategy()
-								.contentsLost());
-						long time = System.currentTimeMillis();
-						long diff = time - lastUpdate;
+					while (inGame) {
+						DatagramPacket dp = new DatagramPacket(new byte[REC_PACKET_SIZE], REC_PACKET_SIZE);
 						try {
-							Thread.sleep(Math.max(0, 1000 / 60 - diff));
-						}
-						catch (Exception e) {
+							sock.receive(dp);
+							parsePacket(dp);
+						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
@@ -238,18 +268,26 @@ public class Test extends JFrame {
 			}).start();
 		}
 
+		private void parsePacket(DatagramPacket dp) {
+			switch (dp.getData()[0]) {
+			case 0:
+				
+				break;
+			case 1:
+				break;
+			}
+		}
+
 		public void drawGame(Graphics g, Player p) {
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
-			middle = new Vector2D(getWidth() / 2, getHeight() / 2);
-			Vector2D offset = middle.subtract(p.getPos());
+			Vector2D offset = Constants.MIDDLE.subtract(p.getPos());
 
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			current[currentFloor].detailedDraw(g, offset, controlled);
-			drawRooms(current[currentFloor], g, offset,
-					new boolean[Constants.NUMBER_OF_ROOMS]);
+			drawRooms(current[currentFloor], g, offset, new boolean[Constants.NUMBER_OF_ROOMS]);
 
 			drawHUD(p, g);
 		}

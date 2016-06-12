@@ -1,7 +1,8 @@
 package utility;
 import java.awt.Point;
+import java.io.Serializable;
 
-public class ControlState {
+public class ControlState implements Serializable {
 	public static final int KEY_UP = 0;
 	public static final int KEY_LEFT = 1;
 	public static final int KEY_DOWN = 2;
@@ -17,33 +18,6 @@ public class ControlState {
 	public ControlState() {
 		mouse = new Point();
 		pressed = new boolean[8];
-	}
-	
-	public ControlState(byte[] bytes) {
-		pressed = new boolean[8];
-		for (int i = 0; i < 7; i++) {
-			if (((bytes[0] >> i) & 1) == 1) {
-				pressed[i] = true;
-			}
-		}
-		pressed[7] = (bytes[1] == 1);
-		int x = (bytes[2] << 8) | bytes[3];
-		int y = (bytes[4] << 8) | bytes[5];
-		mouse = new Point(x, y);
-	}
-	
-	public byte[] getBytes() {
-		byte[] bytes = new byte[6];
-		for (int i = 6; i >= 0; i--) {
-			bytes[0] <<= 1;
-			bytes[0] |= (pressed[i] ? 1 : 0);
-		}
-		bytes[1] = (byte) (pressed[7] ? 1 : 0);
-		bytes[2] = (byte) ((int) mouse.getX() >> 8);
-		bytes[3] = (byte) ((int) mouse.getX() & 0xFF);
-		bytes[4] = (byte) ((int) mouse.getY() >> 8);
-		bytes[5] = (byte) ((int) mouse.getY() & 0xFF);
-		return bytes;
 	}
 	
 	public boolean getPressed(int p) {

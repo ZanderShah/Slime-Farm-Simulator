@@ -2,7 +2,6 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import app.Test;
 import engine.LivingEntity;
 import engine.Stats;
 import engine.StatusEffect;
@@ -128,7 +127,7 @@ public abstract class Player extends LivingEntity {
 		if (cooldowns[0] == 0 && abilitiesActive[0] == 0) {
 			abilitiesActive[0] = getStats().getAttackTime();
 			cooldowns[0] = getStats().getAttackSpeed();
-			Vector2D direction = (new Vector2D(p).subtract(Test.middle));
+			Vector2D direction = (new Vector2D(p).subtract(Constants.MIDDLE));
 			direction.normalize();
 			attackDirection = direction;
 			return true;

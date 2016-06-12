@@ -3,15 +3,14 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import engine.AABB;
+import engine.Stats;
+import engine.damage.SwordDamageSource;
 import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
-import app.Test;
-import engine.AABB;
-import engine.Stats;
-import engine.damage.SwordDamageSource;
 
 public class Thief extends Player {
 	Vector2D dodgeDirection;
@@ -80,7 +79,7 @@ public class Thief extends Player {
 		if (getAbilityActive(0) == 0 && getAbilityActive(2) == 0 && getCooldown(2) == 0) {
 			setAbilityActive(2, 15);
 			setImmobile(true);
-			dodgeDirection = (new Vector2D(p)).subtract(Test.middle).getNormalized();
+			dodgeDirection = (new Vector2D(p)).subtract(Constants.MIDDLE).getNormalized();
 		}
 	}
 

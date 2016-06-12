@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import app.Test;
 import enemy.Enemy;
 import engine.AABB;
 import engine.Particle;
@@ -427,7 +426,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		{
 			if (players.get(i) == p)
 			{
-				p.draw(g, Test.middle.subtract(p.getPos()));
+				p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
 			}
 			else
 			{

@@ -4,49 +4,41 @@ import java.awt.Rectangle;
 
 import utility.Vector2D;
 
-public class AABB implements Hitbox
-{
+public class AABB implements Hitbox {
 
 	private Vector2D position;
 	private int width, height;
 
-	public AABB(Vector2D pos, int w, int h)
-	{
+	public AABB(Vector2D pos, int w, int h) {
 		position = pos;
 		width = w;
 		height = h;
 	}
 
-	public Rectangle getRect()
-	{
+	public Rectangle getRect() {
 		return new Rectangle((int) position.getX() - width / 2,
 				(int) position.getY() - height / 2, width, height);
 	}
 
 	@Override
-	public void updatePosition(Vector2D pos)
-	{
+	public void updatePosition(Vector2D pos) {
 		position = pos;
 	}
 
 	@Override
-	public Vector2D getPosition()
-	{
+	public Vector2D getPosition() {
 		return position;
 	}
 
-	public int getWidth()
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public int getHeight()
-	{
+	public int getHeight() {
 		return height;
 	}
 
-	public boolean isInside(Vector2D p)
-	{
+	public boolean isInside(Vector2D p) {
 		double x = p.getX(), y = p.getY();
 
 		return (x >= position.getX() - width / 2
@@ -56,37 +48,31 @@ public class AABB implements Hitbox
 	}
 
 	@Override
-	public boolean intersects(Hitbox other)
-	{
-		if (other instanceof AABB)
-		{
+	public boolean intersects(Hitbox other) {
+		if (other instanceof AABB) {
 			AABB o = (AABB) other;
 			return this.getRect().intersects(o.getRect());
 		}
-		else if (other instanceof SwordHitbox)
-		{
+		else if (other instanceof SwordHitbox) {
 			SwordHitbox o = (SwordHitbox) other;
 
 			if (isInside(o.getPosition()) || o.isInside(position))
 				return true;
 
-			for (int angle = 0; angle <= o.getAngle(); angle++)
-			{
+			for (int angle = 0; angle <= o.getAngle(); angle++) {
 				if (isInside(o.getPosition().add(
 						new Vector2D((o.getStart() + angle) % 360).multiply(o
 								.getRadius()))))
 					return true;
 			}
 		}
-		else if (other instanceof CircleHitbox)
-		{
+		else if (other instanceof CircleHitbox) {
 			CircleHitbox o = (CircleHitbox) other;
 
 			if (isInside(o.getPosition()) || o.isInside(position))
 				return true;
 
-			for (int angle = 0; angle <= 360; angle++)
-			{
+			for (int angle = 0; angle <= 360; angle++) {
 				if (isInside(o.getPosition().add(new Vector2D(o.getRadius()
 						* Math.cos(angle),
 						o.getRadius() * Math.sin(angle)))))
@@ -98,8 +84,7 @@ public class AABB implements Hitbox
 	}
 
 	@Override
-	public AABB clone()
-	{
+	public AABB clone() {
 		return new AABB(position.clone(), width, height);
 	}
 }

@@ -3,18 +3,17 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import utility.Constants;
-import utility.ControlState;
-import utility.SpriteSheet;
-import utility.Vector2D;
-import world.Room;
-import app.Test;
 import engine.AABB;
 import engine.Stats;
 import engine.StatusEffect;
 import engine.damage.Arrow;
 import engine.damage.PiercingArrow;
 import engine.damage.PoisonArrow;
+import utility.Constants;
+import utility.ControlState;
+import utility.SpriteSheet;
+import utility.Vector2D;
+import world.Room;
 
 public class Hunter extends Player
 {
@@ -60,7 +59,7 @@ public class Hunter extends Player
 				getHeight()));
 		if (getAbilityActive(3) > 0 && getAbilityActive(3) % 20 == 0)
 		{
-			Vector2D dir = new Vector2D(cs.getMouse()).subtract(Test.middle)
+			Vector2D dir = new Vector2D(cs.getMouse()).subtract(Constants.MIDDLE)
 					.getNormalized();
 			r.addDamageSource(new Arrow(getPos().add(dir.multiply(30)), dir,
 					true));

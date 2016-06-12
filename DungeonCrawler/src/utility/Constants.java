@@ -3,8 +3,9 @@ package utility;
 public class Constants
 {
 	public static final boolean DEBUG = true;
-	
-	
+	public static final int SCREEN_WIDTH = 1024;
+	public static final int SCREEN_HEIGHT = 768;
+	public static final Vector2D MIDDLE = new Vector2D(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	
 	public static final int NUMBER_OF_ROOMS = 25, NUMBER_OF_FLOORS = 5;
 	public static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
