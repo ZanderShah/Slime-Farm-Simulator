@@ -22,6 +22,7 @@ public class Client {
 	private Player p;
 	private boolean host;
 	private long lastPacket;
+	private ControlState cs;
 	
 	public Client(InetAddress addr) {
 		try {
@@ -33,6 +34,7 @@ public class Client {
 		p = new Warrior();
 		host = false;
 		lastPacket = System.currentTimeMillis();
+		cs = new ControlState();
 	}
 	
 	public void updatePacketTime() {
@@ -63,11 +65,10 @@ public class Client {
 		case 5:
 			p = new Cleric();
 			break;
-			
 		}
 	}
 
-	public void update(ControlState cs, Room currentRoom) {
+	public void update(Room currentRoom) {
 		p.update(cs, currentRoom);
 	}
 
@@ -86,5 +87,13 @@ public class Client {
 
 	public boolean isHost() {
 		return host;
+	}
+
+	public void setControls(ControlState cs) {
+		this.cs = cs;
+	}
+
+	public Player getPlayer() {
+		return p;
 	}
 }
