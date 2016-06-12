@@ -10,7 +10,7 @@ public class SpriteSheet
 {
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
 			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, DOORS, WALLS,
-			PROJECTILES ;
+			PROJECTILES, ENEMIES;
 	public static Image[][] THIEF_IMAGES, PARTICLES;
 
 	public static Image random(Image[] source)
@@ -64,7 +64,7 @@ public class SpriteSheet
 			WALLS = new Image[1];
 			WALLS[0] = ImageIO.read(new File("img//Wall.png"));
 
-				PROJECTILES = new Image[7];
+			PROJECTILES = new Image[7];
 			for (int i = 1; i <= 3; i++)
 				PROJECTILES[i - 1] = ImageIO.read(new File("img//Flame" + i
 						+ ".png"));
@@ -72,10 +72,13 @@ public class SpriteSheet
 			for (int i = 1; i <= 3; i++)
 				PROJECTILES[3 + i] = ImageIO.read(new File("img//Arrow" + i
 						+ ".png"));
-			
+
 			PARTICLES = new Image[2][1];
-			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png")); 
-			PARTICLES[0][0] = ImageIO.read(new File("img//Particle2.png")); 
+			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png"));
+			PARTICLES[0][0] = ImageIO.read(new File("img//Particle2.png"));
+
+			ENEMIES = new Image[1];
+			ENEMIES[0] = ImageIO.read(new File("img//Enemy1.png"));
 
 		}
 		catch (IOException e)
