@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import utility.Constants;
 import utility.SpriteSheet;
 
 public class ServerMain {
@@ -22,7 +23,7 @@ public class ServerMain {
 				s.draw(g);
 			}
 		};
-		panel.setPreferredSize(new Dimension(1280, 768));
+		panel.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
 		frame.setContentPane(panel);
 		
 		frame.pack();

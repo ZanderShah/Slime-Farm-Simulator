@@ -7,41 +7,40 @@ import utility.Vector2D;
 
 public class PlayerState implements Serializable {
 	private long id;
+	private int pClass;
 	
 	private Stats stats;
-	private boolean immobile;
 	
-	private Vector2D position;
-	private Vector2D speed;
+	private double posX, posY;
+	private double spdX, spdY;
 	
 	private int[] abilities;
 	private int direction;
 	
 	public PlayerState(Player p) {
-		position = p.getPos().clone();
-		speed = p.getSpeed().clone();
+		posX = p.getPos().getX();
+		posY = p.getPos().getY();
+		spdX = p.getSpeed().getX();
+		spdY = p.getSpeed().getY();
+		abilities = new int[4];
 		for (int i = 0; i < 4; i++)
 			abilities[i] = p.getAbilityActive(i);
 		direction = p.getDirection();
-		immobile = p.getImmobile();
 		stats = p.getStats();
 		id = p.getID();
+		pClass = p.getType();
 	}
 	
 	public Stats getStats() {
 		return stats;
 	}
 	
-	public boolean getImmobile() {
-		return immobile;
-	}
-	
 	public Vector2D getPosition() {
-		return position;
+		return new Vector2D(posX, posY);
 	}
 	
 	public Vector2D getSpeed() {
-		return speed;
+		return new Vector2D(spdX, spdY);
 	}
 	
 	public int getAbility(int a) {
@@ -54,5 +53,9 @@ public class PlayerState implements Serializable {
 
 	public long getID() {
 		return id;
+	}
+	
+	public int getType() {
+		return pClass;
 	}
 }

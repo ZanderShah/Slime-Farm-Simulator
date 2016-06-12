@@ -12,6 +12,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import player.PlayerState;
 import utility.Constants;
 import utility.ControlState;
 import utility.Vector2D;
@@ -90,7 +91,7 @@ public class Server {
 							os.flush();
 							os.writeInt(current[currentFloor].getPlayers().size());
 							for (int j = 0; j < current[currentFloor].getPlayers().size(); j++) {
-								os.writeObject(current[currentFloor].getPlayers().get(j));
+								os.writeObject(new PlayerState(current[currentFloor].getPlayers().get(j)));
 							}
 							os.flush();
 							byte[] object = byteStream.toByteArray();
@@ -113,7 +114,7 @@ public class Server {
 							byteStream = new ByteArrayOutputStream();
 							os = new ObjectOutputStream(byteStream);
 							os.flush();
-							os.writeObject(clientList.get(i).getPlayer());
+							os.writeObject(new PlayerState(clientList.get(i).getPlayer()));
 							os.flush();
 							byte[] object = byteStream.toByteArray();
 							byte[] message = new byte[object.length + 1];

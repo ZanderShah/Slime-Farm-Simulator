@@ -356,18 +356,22 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		}
 
 		for (int i = 0; i < players.size(); i++) {
-			if (p != null && players.get(i).getID() == p.getID()) {
-				p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
-			} else {
-				if (players.get(i) != null) {
-					players.get(i).draw(g, offset);
+			if (i >= 0 && i < players.size()) { // this shouldn't be necessary but it keeps saying that it's out of bounds with index: 0, size: 1
+				if (p != null && players.get(i) != null
+						&& players.get(i).getID() == p.getID()) {
+					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
+				}
+				else {
+					if (players.get(i) != null) {
+						players.get(i).draw(g, offset);
+					}
 				}
 			}
 		}
 	}
 
 	public int atDoor(Player p) {
-		if (!isCleared())
+		if (!isCleared() || p == null)
 			return -1;
 
 		for (int i = 1; i < doors.length; i++) {

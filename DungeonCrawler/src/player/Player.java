@@ -35,6 +35,10 @@ public abstract class Player extends LivingEntity implements Serializable {
 		for (int i = 0; i < 4; i++) {
 			abilitiesActive[i] = ps.getAbility(i);
 		}
+		
+		setDirection(ps.getDirection());
+		setID(ps.getID());
+		setStats(ps.getStats());
 	}
 
 	public void update(ControlState cs, Room r) {
@@ -170,5 +174,22 @@ public abstract class Player extends LivingEntity implements Serializable {
 			return new Cleric();
 		}
 		return null;
+	}
+	
+	public static Player makePlayer(PlayerState ps) {
+		Player p = makePlayer(ps.getType());
+		p.setID(ps.getID());
+		p.setDirection(ps.getDirection());
+		p.setPos(ps.getPosition());
+		p.setSpeed(ps.getSpeed());
+		p.setStats(ps.getStats());
+		for (int i = 0; i < 4; i++) {
+			p.setAbilityActive(i, ps.getAbility(i));
+		}
+		return p;
+	}
+
+	public int getType() {
+		return pClass;
 	}
 }

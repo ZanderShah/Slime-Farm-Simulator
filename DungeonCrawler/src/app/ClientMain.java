@@ -24,13 +24,8 @@ import java.net.SocketException;
 
 import javax.swing.JFrame;
 
-import player.Cleric;
-import player.Hunter;
-import player.Mage;
 import player.Player;
-import player.Tank;
-import player.Thief;
-import player.Warrior;
+import player.PlayerState;
 import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
@@ -39,7 +34,7 @@ import world.DungeonFactory;
 import world.Room;
 
 public class ClientMain extends JFrame {
-	
+
 	public ClientMain() {
 		super("Dungeon Crawler");
 
@@ -52,7 +47,8 @@ public class ClientMain extends JFrame {
 		gc.startGraphics();
 		try {
 			gc.connect(InetAddress.getByName("localhost"));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -83,12 +79,6 @@ public class ClientMain extends JFrame {
 
 		private ControlState cs;
 
-		private Tank tankTest = new Tank();
-		private Warrior warriorTest = new Warrior();
-		private Thief thiefTest = new Thief();
-		private Hunter hunterTest = new Hunter();
-		private Mage mageTest = new Mage();
-		private Cleric clericTest = new Cleric();
 		private Player controlled;
 		private Room current[];
 		private int currentFloor;
@@ -107,7 +97,8 @@ public class ClientMain extends JFrame {
 
 			try {
 				sock = new DatagramSocket(Constants.CLIENT_PORT);
-			} catch (SocketException e) {
+			}
+			catch (SocketException e) {
 				e.printStackTrace();
 			}
 
@@ -120,64 +111,48 @@ public class ClientMain extends JFrame {
 				e.printStackTrace();
 			}
 
-			setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
+			setPreferredSize(new Dimension(Constants.SCREEN_WIDTH,
+					Constants.SCREEN_HEIGHT));
 			setFocusable(true);
 			addMouseListener(this);
 			addMouseMotionListener(this);
 			addKeyListener(this);
 
 			cs = new ControlState();
-
-			warriorTest.setPos(new Vector2D(30, 30));
-			thiefTest.setPos(new Vector2D(30, 30));
-			mageTest.setPos(new Vector2D(30, 30));
-			tankTest.setPos(new Vector2D(30, 30));
-			hunterTest.setPos(new Vector2D(40, 40));
-			clericTest.setPos(new Vector2D(30, 30));
-
-			// current[currentFloor].addPlayer(warriorTest);
-			// current[currentFloor].addPlayer(thiefTest);
-			// current[currentFloor].addPlayer(mageTest);
-			// current[currentFloor].addPlayer(tankTest);
-			current[currentFloor].addPlayer(hunterTest);
-			// current[currentFloor].addPlayer(clericTest);
-
-			// Change controlled to test other players without having to change
-			// everything
-			// controlled = warriorTest;
-			// controlled = thiefTest;
-			// controlled = mageTest;
-			// controlled = tankTest;
-			controlled = hunterTest;
-			// controlled = clericTest;
 		}
-		
+
 		public void connect(InetAddress i) {
 			addr = i;
 			try {
-				sock.send(new DatagramPacket(new byte[] {0}, 1, i, Constants.SERVER_PORT));
-				sock.send(new DatagramPacket(new byte[] {1, 4}, 2, i, Constants.SERVER_PORT));
-				sock.send(new DatagramPacket(new byte[] {2}, 1, i, Constants.SERVER_PORT));
-			} catch (Exception e) {
+				sock.send(new DatagramPacket(new byte[] { 0 }, 1, i,
+						Constants.SERVER_PORT));
+				sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2, i,
+						Constants.SERVER_PORT));
+				sock.send(new DatagramPacket(new byte[] { 2 }, 1, i,
+						Constants.SERVER_PORT));
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			(new Thread() {
 				@Override
 				public void run() {
 					while (true) {
-						DatagramPacket dp = new DatagramPacket(new byte[REC_PACKET_SIZE], REC_PACKET_SIZE);
+						DatagramPacket dp = new DatagramPacket(
+								new byte[REC_PACKET_SIZE], REC_PACKET_SIZE);
 						try {
 							sock.receive(dp);
 							parsePacket(dp);
-						} catch (Exception e) {
+						}
+						catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
 				}
 			}).start();
 		}
-		
+
 		public void startGraphics() {
 			createBufferStrategy(2);
 
@@ -190,7 +165,9 @@ public class ClientMain extends JFrame {
 								Graphics graphics = GameCanvas.this
 										.getBufferStrategy().getDrawGraphics();
 								if (inGame) {
-									drawGame(graphics, controlled);
+									if (controlled != null) {
+										drawGame(graphics, controlled);
+									}
 								}
 								graphics.dispose();
 							}
@@ -234,13 +211,17 @@ public class ClientMain extends JFrame {
 							for (int i = 0; i < object.length; i++) {
 								message[i + 1] = object[i];
 							}
-							sock.send(new DatagramPacket(message, message.length, addr, Constants.SERVER_PORT));
-						} catch (Exception e) {
+							sock.send(
+									new DatagramPacket(message, message.length,
+											addr, Constants.SERVER_PORT));
+						}
+						catch (Exception e) {
 							e.printStackTrace();
 						}
 
 						// Update stuff locally
-						controlled.update(cs, current[currentFloor]);
+						if (controlled != null)
+							controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
 
 						int roomCheck = current[currentFloor]
@@ -299,19 +280,28 @@ public class ClientMain extends JFrame {
 			case 3: // all player update
 				ois = makeObjectStream(dp.getData());
 				int numPlayers = ois.readInt();
-				current[currentFloor].getPlayers().clear();
 				for (int i = 0; i < numPlayers; i++) {
-					Player p = (Player) ois.readObject();
-					current[currentFloor].addPlayer(p);
+					boolean exists = false;
+					PlayerState ps = (PlayerState) ois.readObject();
+					for (int j = 0; j < current[currentFloor].getPlayers().size(); j++) {
+						if (current[currentFloor].getPlayers().get(j).getID() == ps.getID()) {
+							current[currentFloor].getPlayers().get(j).update(ps);
+							exists = true;
+						}
+					}
+					if (!exists) {
+						current[currentFloor].getPlayers().add(Player.makePlayer(ps));
+					}
 				}
 				ois.close();
 				break;
 			case 4: // specific player update
 				ois = makeObjectStream(dp.getData());
-				Object o = ois.readObject();
-				controlled = (Player) o;
-				for (int i = 0; i < current[currentFloor].getPlayers().size(); i++) {
-					if (current[currentFloor].getPlayers().get(i).getID() == controlled.getID()) {
+				controlled = Player.makePlayer((PlayerState) ois.readObject());
+				for (int i = 0; i < current[currentFloor].getPlayers()
+						.size(); i++) {
+					if (current[currentFloor].getPlayers().get(i)
+							.getID() == controlled.getID()) {
 						current[currentFloor].getPlayers().set(i, controlled);
 					}
 				}
@@ -319,8 +309,9 @@ public class ClientMain extends JFrame {
 				break;
 			}
 		}
-		
-		private ObjectInputStream makeObjectStream(byte[] bytes) throws Exception {
+
+		private ObjectInputStream makeObjectStream(byte[] bytes)
+				throws Exception {
 			ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
 			byteStream.read();
 			ObjectInputStream ois = new ObjectInputStream(byteStream);
@@ -336,7 +327,8 @@ public class ClientMain extends JFrame {
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			current[currentFloor].detailedDraw(g, offset, controlled);
-			drawRooms(current[currentFloor], g, offset, new boolean[Constants.NUMBER_OF_ROOMS]);
+			drawRooms(current[currentFloor], g, offset,
+					new boolean[Constants.NUMBER_OF_ROOMS]);
 
 			drawHUD(p, g);
 		}
