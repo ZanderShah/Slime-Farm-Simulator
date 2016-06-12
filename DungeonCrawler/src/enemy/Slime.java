@@ -53,7 +53,7 @@ public class Slime extends Enemy
 	@Override
 	public int getHeight()
 	{
-		return SpriteSheet.ENEMIES[0].getWidth(null);
+		return SpriteSheet.ENEMIES[0].getHeight(null);
 	}
 
 	@Override
