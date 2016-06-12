@@ -3,12 +3,9 @@ package enemy;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import utility.ControlState;
+import engine.LivingEntity;
 import utility.Vector2D;
 import world.Room;
-import engine.AABB;
-import engine.LivingEntity;
-import engine.damage.BeamParticle;
 
 public abstract class Enemy extends LivingEntity
 {
