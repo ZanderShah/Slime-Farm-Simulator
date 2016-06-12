@@ -111,7 +111,7 @@ public abstract class LivingEntity implements Drawable {
 
 	public void knockback(Vector2D source, int strength) {
 		setImmobile(true);
-		knockback = position.subtract(source).getNormalized().multiply(4);
+		knockback.addToThis(position.subtract(source));
 		knockingBack = strength;
 	}
 
@@ -151,14 +151,16 @@ public abstract class LivingEntity implements Drawable {
 				stunned = true;
 			}
 		}
-		
+
 		if (knockingBack > 0) {
 			knockingBack--;
 			if (knockingBack == 0) {
+				knockback = new Vector2D();
 				speed = new Vector2D();
 				setImmobile(false);
-			} else {
-				speed = knockback.clone();
+			}
+			else {
+				speed = knockback.getNormalized().multiply(4);
 			}
 		}
 

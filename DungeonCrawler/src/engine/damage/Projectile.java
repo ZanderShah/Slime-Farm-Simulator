@@ -7,14 +7,13 @@ import player.Tank;
 import utility.Vector2D;
 import world.Room;
 
-public abstract class Projectile extends DamageSource
-{
+public abstract class Projectile extends DamageSource {
 	private Vector2D position;
 	private Vector2D speed;
 
 	public Projectile(Hitbox h, int frequency, int duration, Vector2D pos,
-			Vector2D spd, boolean single, boolean player, double damage, int kb)
-	{
+			Vector2D spd, boolean single, boolean player, double damage,
+			int kb) {
 		super(h, frequency, duration, single, player, damage, kb);
 		position = pos;
 		speed = spd;
@@ -22,46 +21,39 @@ public abstract class Projectile extends DamageSource
 
 	public Projectile(Hitbox h, int frequency, int duration, Vector2D pos,
 			Vector2D spd, boolean single, boolean player, double damage,
-			StatusEffect effect, int kb)
-	{
+			StatusEffect effect, int kb) {
 		super(h, frequency, duration, single, player, damage, effect, kb);
 		position = pos;
 		speed = spd;
 	}
 
 	@Override
-	public void update(Room r)
-	{
+	public void update(Room r) {
 		super.update(r);
 		position.addToThis(speed);
 	}
 
-	public Vector2D getPosition()
-	{
+	public Vector2D getPosition() {
 		return position;
 	}
 
-	public Vector2D getSpeed()
-	{
+	public Vector2D getSpeed() {
 		return speed;
 	}
 
-	public boolean hit(LivingEntity le)
-	{
-		if (le.getHitbox().intersects(getHitbox()))
-		{
-			if (!isPlayer() && le instanceof Tank && ((Tank) le).isReflecting())
-			{
+	public boolean hit(LivingEntity le) {
+		if (le.getHitbox().intersects(getHitbox())) {
+			if (!isPlayer() && le instanceof Tank
+					&& ((Tank) le).isReflecting()) {
 				speed = position.subtract(le.getPos()).getNormalized()
 						.multiply(speed.getLength());
 				setPlayer(true);
 				return false;
 			}
-			else
-			{
+			else {
 				le.damage(getDamage());
-				if (getEffect() != null)
-				{
+				le.knockback(position, getKnockback());
+				if (getEffect() != null) {
 					le.giveStatusEffect(getEffect());
 				}
 			}
