@@ -37,7 +37,7 @@ public class Cleric extends Player {
 
 	@Override
 	public void update(ControlState cs, Room r) {
-		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
+//		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		super.update(cs, r);
 	}
 

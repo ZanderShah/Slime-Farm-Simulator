@@ -13,7 +13,9 @@ import player.Player;
 import player.Tank;
 import player.Thief;
 import player.Warrior;
+import utility.Constants;
 import utility.ControlState;
+import utility.Vector2D;
 import world.Room;
 
 public class Client {
@@ -46,34 +48,16 @@ public class Client {
 	}
 	
 	public void chooseClass(int c) {
-		switch (c) {
-		case 0:
-			p = new Warrior();
-			break;
-		case 1:
-			p = new Thief();
-			break;
-		case 2:
-			p = new Mage();
-			break;
-		case 3:
-			p = new Tank();
-			break;
-		case 4:
-			p = new Hunter();
-			break;
-		case 5:
-			p = new Cleric();
-			break;
-		}
+		p = Player.makePlayer(c);
+		p.setPos(new Vector2D(40, 40));
 	}
 
 	public void update(Room currentRoom) {
 		p.update(cs, currentRoom);
 	}
 
-	public void sendUpdate(Room r) {
-		DatagramPacket dp = new DatagramPacket(null, 0, address, 7382);
+	public void sendRoom(Room r) {
+		DatagramPacket dp = new DatagramPacket(null, 0, address, Constants.CLIENT_PORT);
 		try {
 			sock.send(dp);
 		} catch (IOException e) {
@@ -95,5 +79,13 @@ public class Client {
 
 	public Player getPlayer() {
 		return p;
+	}
+
+	public InetAddress getAddress() {
+		return address;
+	}
+
+	public void send(byte[] message) throws Exception {
+		sock.send(new DatagramPacket(message, message.length, address, Constants.CLIENT_PORT));
 	}
 }

@@ -1,6 +1,7 @@
 package player;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.Serializable;
 
 import engine.LivingEntity;
 import engine.Stats;
@@ -10,7 +11,7 @@ import utility.ControlState;
 import utility.Vector2D;
 import world.Room;
 
-public abstract class Player extends LivingEntity {
+public abstract class Player extends LivingEntity implements Serializable {
 	private Vector2D attackDirection;
 	
 	private int[] cooldowns;
@@ -25,6 +26,15 @@ public abstract class Player extends LivingEntity {
 		abilitiesActive = new int[4];
 		cooldowns = new int[4];
 		pClass = c;
+	}
+	
+	public void update(PlayerState ps) {
+		setPos(ps.getPosition());
+		setSpeed(ps.getSpeed());
+		
+		for (int i = 0; i < 4; i++) {
+			abilitiesActive[i] = ps.getAbility(i);
+		}
 	}
 
 	public void update(ControlState cs, Room r) {
@@ -137,7 +147,28 @@ public abstract class Player extends LivingEntity {
 	public abstract void ability1(Point p, Room r);
 	public abstract void ability2(Point p, Room r);
 	public abstract void ability3(Point p, Room r);
+	
+	public static Player makePlayer(long id, int c) {
+		Player p = makePlayer(c);
+		p.setID(id);
+		return p;
+	}
 
-	public void attack(Point p) {
+	public static Player makePlayer(int c) {
+		switch (c) {
+		case 0:
+			return new Warrior();
+		case 1:
+			return new Thief();
+		case 2:
+			return new Mage();
+		case 3:
+			return new Tank();
+		case 4:
+			return new Hunter();
+		case 5:
+			return new Cleric();
+		}
+		return null;
 	}
 }

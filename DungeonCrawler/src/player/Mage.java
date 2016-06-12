@@ -47,7 +47,7 @@ public class Mage extends Player {
 
 	@Override
 	public void update(ControlState cs, Room r) {
-		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
+//		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		if (getAbilityActive(1) > 0) {
 			// Spawn 10 beam particles per tick
 			for (int i = 0; i < 10; i++) {

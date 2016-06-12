@@ -2,12 +2,14 @@ package server;
 
 import java.awt.Graphics;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import utility.Constants;
@@ -21,6 +23,7 @@ public class Server {
 	private static final int REC_PACKET_SIZE = 5000;
 	
 	private HashMap<InetAddress, Client> clients = new HashMap<InetAddress, Client>();
+	private ArrayList<Client> clientList = new ArrayList<Client>();
 	private boolean inGame;
 	private DatagramSocket sock;
 	private Room current[];
@@ -33,7 +36,7 @@ public class Server {
 		current[currentFloor].setCurrent();
 		inGame = false;
 		try {
-			sock = new DatagramSocket(7382);
+			sock = new DatagramSocket(Constants.SERVER_PORT);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -48,7 +51,7 @@ public class Server {
 					try {
 						sock.receive(dp);
 						parsePacket(dp);
-					} catch (IOException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -58,24 +61,54 @@ public class Server {
 	
 	public void startGame() {
 		inGame = true;
+		for (int i = 0; i < clientList.size(); i++) {
+			try {
+				clientList.get(i).send(new byte[] {2});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		(new Thread() {
 			long lastUpdate;
 			
 			public void run() {
 				lastUpdate = System.currentTimeMillis();
 				while (true) {
-					for (int i = 0; i < clients.size(); i++) {
-						clients.get(clients.keySet().toArray()[i]).update(current[currentFloor]);
+					for (int i = 0; i < clientList.size(); i++) {
+						clientList.get(i).update(current[currentFloor]);
 					}
 					current[currentFloor].update();
 
+					for (int i = 0; i < clientList.size(); i++) {
+						try {
+							ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+							ObjectOutputStream os = new ObjectOutputStream(byteStream);
+							os.flush();
+							os.writeInt(current[currentFloor].getPlayers().size());
+							for (int j = 0; j < current[currentFloor].getPlayers().size(); j++) {
+								os.writeObject(current[currentFloor].getPlayers().get(j));
+							}
+							os.flush();
+							byte[] object = byteStream.toByteArray();
+							byte[] message = new byte[object.length + 1];
+							message[0] = 3;
+							for (int j = 0; j < object.length; j++) {
+								message[j + 1] = object[j];
+							}
+							
+							for (int j = 0; j < clientList.size(); j++) {
+								clientList.get(i).send(message);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 					long time = System.currentTimeMillis();
 					long diff = time - lastUpdate;
 					lastUpdate = time;
 					try {
 						Thread.sleep(Math.max(0, 1000 / 60 - diff));
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -83,7 +116,7 @@ public class Server {
 		}).start();
 	}
 	
-	public void parsePacket(DatagramPacket dp) {
+	public void parsePacket(DatagramPacket dp) throws Exception {
 		switch (dp.getData()[0]) {
 		case 0: // Connected
 			if (!inGame && clients.size() < 4) {
@@ -93,6 +126,8 @@ public class Server {
 					c.setHost(true);
 				}
 				clients.put(dp.getAddress(), c);
+				clientList.add(c);
+				c.send(new byte[] {0});
 			}
 			break;
 		case 1: // Choose class
@@ -105,25 +140,20 @@ public class Server {
 			if (clients.get(dp.getAddress()).isHost()) {
 				System.out.println("Game started");
 				startGame();
-				for (int i = 0; i < clients.size(); i++) {
-					current[currentFloor].addPlayer(clients.get(clients.keySet().toArray()[i]).getPlayer());
+				for (int i = 0; i < clientList.size(); i++) {
+					current[currentFloor].addPlayer(clientList.get(i).getPlayer());
 				}
 			}
 			break;
 		case 3: // Control update
 			if (inGame) {
-				ControlState cs;
-				try {
-					ByteArrayInputStream byteStream = new ByteArrayInputStream(dp.getData());
-					byteStream.read();
-					ObjectInputStream ois = new ObjectInputStream(byteStream);
-					Object o = ois.readObject();
-					cs = (ControlState) o;
-					ois.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-					cs = new ControlState();
-				}
+				ControlState cs = new ControlState();
+				ByteArrayInputStream byteStream = new ByteArrayInputStream(dp.getData());
+				byteStream.read();
+				ObjectInputStream ois = new ObjectInputStream(byteStream);
+				Object o = ois.readObject();
+				cs = (ControlState) o;
+				ois.close();
 				clients.get(dp.getAddress()).setControls(cs);
 			}
 			break;

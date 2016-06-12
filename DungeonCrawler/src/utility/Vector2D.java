@@ -1,5 +1,6 @@
 package utility;
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * Represents a two dimensional vector.
@@ -8,7 +9,7 @@ import java.awt.Point;
  * @version December 2014
  */
 
-public class Vector2D implements Comparable<Vector2D> {
+public class Vector2D implements Comparable<Vector2D>, Serializable {
 	private double x;
 	private double y;
 

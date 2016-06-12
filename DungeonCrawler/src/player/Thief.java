@@ -41,7 +41,7 @@ public class Thief extends Player {
 
 	@Override
 	public void update(ControlState cs, Room r) {
-		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
+//		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		if (getAbilityActive(2) > 0) {
 			setSpeed(dodgeDirection.multiply(8.0));
 		}

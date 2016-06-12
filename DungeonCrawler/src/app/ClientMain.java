@@ -12,8 +12,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -48,7 +50,11 @@ public class ClientMain extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		gc.startGraphics();
-		gc.startGame();
+		try {
+			gc.connect(InetAddress.getByName("localhost"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -88,6 +94,7 @@ public class ClientMain extends JFrame {
 		private int currentFloor;
 		private boolean inGame;
 
+		private InetAddress addr;
 		private DatagramSocket sock;
 		private ByteArrayOutputStream byteStream;
 		private ObjectOutputStream os;
@@ -99,9 +106,8 @@ public class ClientMain extends JFrame {
 			current[currentFloor].setCurrent();
 
 			try {
-				sock = new DatagramSocket();
-			}
-			catch (SocketException e) {
+				sock = new DatagramSocket(Constants.CLIENT_PORT);
+			} catch (SocketException e) {
 				e.printStackTrace();
 			}
 
@@ -144,6 +150,32 @@ public class ClientMain extends JFrame {
 			// controlled = tankTest;
 			controlled = hunterTest;
 			// controlled = clericTest;
+		}
+		
+		public void connect(InetAddress i) {
+			addr = i;
+			try {
+				sock.send(new DatagramPacket(new byte[] {0}, 1, i, Constants.SERVER_PORT));
+				sock.send(new DatagramPacket(new byte[] {1, 4}, 2, i, Constants.SERVER_PORT));
+				sock.send(new DatagramPacket(new byte[] {2}, 1, i, Constants.SERVER_PORT));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			(new Thread() {
+				@Override
+				public void run() {
+					while (true) {
+						DatagramPacket dp = new DatagramPacket(new byte[REC_PACKET_SIZE], REC_PACKET_SIZE);
+						try {
+							sock.receive(dp);
+							parsePacket(dp);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}).start();
 		}
 		
 		public void startGraphics() {
@@ -203,13 +235,9 @@ public class ClientMain extends JFrame {
 							for (int i = 0; i < object.length; i++) {
 								message[i + 1] = object[i];
 							}
-							sock.send(new DatagramPacket(message,
-									message.length, InetAddress
-											.getByName("localhost"),
-									7382));
-						}
-						catch (Exception e1) {
-							e1.printStackTrace();
+							sock.send(new DatagramPacket(message, message.length, addr, Constants.SERVER_PORT));
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 
 						// Update stuff locally
@@ -251,31 +279,44 @@ public class ClientMain extends JFrame {
 					}
 				}
 			}).start();
-			
-			(new Thread() {
-				@Override
-				public void run() {
-					while (inGame) {
-						DatagramPacket dp = new DatagramPacket(new byte[REC_PACKET_SIZE], REC_PACKET_SIZE);
-						try {
-							sock.receive(dp);
-							parsePacket(dp);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}).start();
 		}
 
-		private void parsePacket(DatagramPacket dp) {
+		private void parsePacket(DatagramPacket dp) throws Exception {
 			switch (dp.getData()[0]) {
-			case 0:
-				
+			case 0: // connected
+				System.out.println("Connected to server");
 				break;
-			case 1:
+			case 1: // player selected response
+				ObjectInputStream ois = makeObjectStream(dp.getData());
+				long id = ois.readLong();
+				int type = ois.readInt();
+				System.out.println("Class selected: " + type);
+				controlled = Player.makePlayer(id, type);
 				break;
+			case 2: // game started
+				System.out.println("Game starting");
+				startGame();
+				break;
+			case 3: // player update
+				ois = makeObjectStream(dp.getData());
+				int numPlayers = ois.readInt();
+				for (int i = 0; i < numPlayers; i++) {
+					Player p = (Player) ois.readObject();
+					if (controlled.getID() == p.getID()) {
+						controlled = p;
+					}
+					current[currentFloor].getPlayers().clear();
+					current[currentFloor].addPlayer(p);
+				}
+				ois.close();
 			}
+		}
+		
+		private ObjectInputStream makeObjectStream(byte[] bytes) throws Exception {
+			ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
+			byteStream.read();
+			ObjectInputStream ois = new ObjectInputStream(byteStream);
+			return ois;
 		}
 
 		public void drawGame(Graphics g, Player p) {

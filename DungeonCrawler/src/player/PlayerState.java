@@ -2,9 +2,15 @@ package player;
 
 import java.io.Serializable;
 
+import engine.Stats;
 import utility.Vector2D;
 
 public class PlayerState implements Serializable {
+	private long id;
+	
+	private Stats stats;
+	private boolean immobile;
+	
 	private Vector2D position;
 	private Vector2D speed;
 	
@@ -17,6 +23,17 @@ public class PlayerState implements Serializable {
 		for (int i = 0; i < 4; i++)
 			abilities[i] = p.getAbilityActive(i);
 		direction = p.getDirection();
+		immobile = p.getImmobile();
+		stats = p.getStats();
+		id = p.getID();
+	}
+	
+	public Stats getStats() {
+		return stats;
+	}
+	
+	public boolean getImmobile() {
+		return immobile;
 	}
 	
 	public Vector2D getPosition() {
@@ -33,5 +50,9 @@ public class PlayerState implements Serializable {
 	
 	public int getDirection() {
 		return direction;
+	}
+
+	public long getID() {
+		return id;
 	}
 }
