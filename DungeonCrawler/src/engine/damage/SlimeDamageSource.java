@@ -3,24 +3,13 @@ package engine.damage;
 import java.awt.Graphics;
 
 import utility.Vector2D;
-import world.Room;
-import enemy.Slime;
+import engine.Hitbox;
 
 public class SlimeDamageSource extends DamageSource
 {
-	private Slime slimey;
-
-	public SlimeDamageSource(Slime s)
+	public SlimeDamageSource(Hitbox h)
 	{
-		super(s.getHitbox(), 30, -1, false, false, 10);
-		slimey = s;
-	}
-
-	@Override
-	public void update(Room r)
-	{
-		super.update(r);
-		setHitbox(slimey.getHitbox());
+		super(h, 30, -1, false, false, 10);
 	}
 
 	@Override

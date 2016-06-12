@@ -2,19 +2,18 @@ package enemy;
 
 import java.awt.Graphics;
 
-import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
 import engine.AABB;
-import engine.ParticleEmitter;
 import engine.Stats;
-import engine.damage.CircleDamageSource;
-import engine.damage.FireCircle;
+import engine.damage.SlimeDamageSource;
 
 public class Slime extends Enemy
 {
-	public Slime(int x, int y)
+	private SlimeDamageSource squish;
+
+	public Slime(int x, int y, Room r)
 	{
 		super();
 
@@ -23,6 +22,9 @@ public class Slime extends Enemy
 				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
 				getHeight()));
 		setPos(new Vector2D(x, y));
+
+		squish = new SlimeDamageSource(getHitbox());
+		r.addDamageSource(squish);
 	}
 
 	@Override
@@ -32,6 +34,8 @@ public class Slime extends Enemy
 
 		if (getStats().getHealth() <= 0)
 			l.removeEnemy(this);
+
+		squish.setHitbox(getHitbox());
 	}
 
 	@Override
