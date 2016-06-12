@@ -52,17 +52,11 @@ public class Constants
 	public static final int WARRIOR_SWORD_SIZE = 64;
 	public static final int WARRIOR_SWING_ANGLE = 120;
 	public static final double WARRIOR_DAMAGE = 30.0;
-	public static final int WARRIOR_AB1_COOLDOWN = 360;
-	public static final int WARRIOR_AB2_COOLDOWN = 300;
-	public static final int WARRIOR_AB3_COOLDOWN = 300;
 
 	// Thief specific stats
 	public static final int THIEF_SWORD_SIZE = 48;
 	public static final int THIEF_SWING_ANGLE = 30;
 	public static final double THIEF_DAMAGE = 40.0;
-	public static final int THIEF_AB1_COOLDOWN = 600;
-	public static final int THIEF_AB2_COOLDOWN = 90;
-	public static final int THIEF_AB3_COOLDOWN = 300;
 
 	// Mage specific stats
 	public static final int MAGE_SPRAY = 20;
@@ -71,10 +65,6 @@ public class Constants
 	public static final int MAGE_DEBUFF_LENGTH = 480;
 	public static final int MAGE_FIRE_RANGE = 100;
 	public static final int MAGE_FIRE_LENGTH = 300;
-	public static final int MAGE_AB1_COOLDOWN = 600;
-	public static final int MAGE_AB2_COOLDOWN = 900;
-	public static final int MAGE_AB3_COOLDOWN = 1200;
-
 	// Tank specific stats
 	public static final int TANK_SWORD_SIZE = 60;
 	public static final int TANK_SWING_ANGLE = 100;
@@ -84,22 +74,20 @@ public class Constants
 	public static final int TANK_STUN_RANGE = 150;
 	public static final int TANK_STUN_LENGTH = 180;
 	public static final int TANK_REFLECT_TIME = 120;
-	public static final int TANK_AB1_COOLDOWN = 1500;
-	public static final int TANK_AB2_COOLDOWN = 900;
-	public static final int TANK_AB3_COOLDOWN = 1200;
 
 	// Hunter specific stats
-	public static final double ARROW_SPEED = 0.5;
+	public static final double ARROW_SPEED = 6.0;
 	public static final double ARROW_DAMAGE = 25.0;
-	public static final int HUNTER_AB1_COOLDOWN = 600;
-	public static final int HUNTER_AB2_COOLDOWN = 600;
-	public static final int HUNTER_AB3_COOLDOWN = 600;
 
 	// Cleric specific stats
 	public static final int CLERIC_SWORD_SIZE = 60;
 	public static final int CLERIC_SWING_ANGLE = 100;
 	public static final double CLERIC_DAMAGE = 40.0;
-	public static final int CLERIC_AB1_COOLDOWN = 300;
-	public static final int CLERIC_AB2_COOLDOWN = 300;
-	public static final int CLERIC_AB3_COOLDOWN = 300;
+	
+	public static final int[][] AB_COOLDOWNS = {{360, 300, 300},    // Warrior
+												{600, 90, 300},     // Thief
+												{600, 900, 1200},   // Mage
+												{1500,  900, 1200}, // Tank
+												{600, 600, 600},    // Hunter
+												{300, 300, 300}};   // Cleric
 }

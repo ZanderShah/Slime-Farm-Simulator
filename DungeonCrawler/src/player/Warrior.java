@@ -15,7 +15,7 @@ public class Warrior extends Player {
 	private static final int SIZE = 32;
 
 	public Warrior() {
-		super();
+		super(0);
 		setStats(new Stats(Constants.WARRIOR_HEALTH, Constants.WARRIOR_ATTACK_SPEED, Constants.WARRIOR_ATTACK_LENGTH, Constants.WARRIOR_SPEED,
 				Constants.WARRIOR_DEFENCE));
 	}
@@ -57,9 +57,9 @@ public class Warrior extends Player {
 	// Cooldown: 5 seconds
 	@Override
 	public void ability1(Point p, Room r) {
-		if (getAttacking() == 0 && getCooldown(1) == 0) {
-			setAttacking(100);
-			setCooldown(1, Constants.WARRIOR_AB1_COOLDOWN);
+		if (getAbilityActive(0) == 0 && getCooldown(1) == 0) {
+			setAbilityActive(0, getStats().getAttackTime());
+			setAbilityActive(1, getStats().getAttackTime());
 			r.addDamageSource(new SwordDamageSource(getPos(), (int) (Constants.WARRIOR_SWORD_SIZE * 1.5), 0, 360, getStats().getAttackTime(), true,
 					Constants.WARRIOR_DAMAGE));
 		}

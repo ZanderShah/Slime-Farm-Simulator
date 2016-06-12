@@ -14,17 +14,12 @@ import engine.Stats;
 import engine.damage.SwordDamageSource;
 
 public class Thief extends Player {
-	private int blinking;
-	private int dodging;
-
 	Vector2D dodgeDirection;
 
 	public Thief() {
-		super();
+		super(1);
 		setStats(new Stats(Constants.THIEF_HEALTH, Constants.THIEF_ATTACK_SPEED, Constants.THIEF_ATTACK_LENGTH, Constants.THIEF_SPEED, Constants.THIEF_DEFENCE));
 		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
-		blinking = 0;
-		dodging = 0;
 		dodgeDirection = new Vector2D();
 	}
 
@@ -32,13 +27,7 @@ public class Thief extends Player {
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
 		
-		g.drawImage(SpriteSheet.THIEF_IMAGES[getDirection()][(blinking == 0 ? 0 : 1)], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
-		
-//		g.setColor(Color.GRAY);
-//		if (blinking != 0) {
-//			g.setColor(new Color(Color.GRAY.getRed(), Color.GRAY.getGreen(), Color.GRAY.getBlue(), 128));
-//		}
-//		g.fillRect((int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, getWidth(), getHeight());
+		g.drawImage(SpriteSheet.THIEF_IMAGES[getDirection()][(getAbilityActive(1) == 0 ? 0 : 1)], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 	}
 
 	@Override
@@ -54,15 +43,7 @@ public class Thief extends Player {
 	@Override
 	public void update(ControlState cs, Room r) {
 		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
-		if (blinking > 0) {
-			blinking--;
-			if (blinking == 0)
-				setCooldown(1, Constants.THIEF_AB1_COOLDOWN);
-		}
-		if (dodging > 0) {
-			dodging--;
-			if (dodging == 0)
-				setImmobile(false);
+		if (getAbilityActive(2) > 0) {
 			setSpeed(dodgeDirection.multiply(8.0));
 		}
 		super.update(cs, r);
@@ -73,10 +54,10 @@ public class Thief extends Player {
 		boolean attacked = super.attack(p, r);
 		if (attacked) {
 			r.addDamageSource(new SwordDamageSource(getPos(), Constants.THIEF_SWORD_SIZE, (int) getAttackDir().getAngle() - Constants.THIEF_SWING_ANGLE / 2,
-					Constants.THIEF_SWING_ANGLE, getStats().getAttackTime(), true, (blinking != 0 ? Constants.THIEF_DAMAGE * 3 : Constants.THIEF_DAMAGE)));
-			if (blinking != 0) {
-				blinking = 0;
-				setCooldown(1, 600);
+					Constants.THIEF_SWING_ANGLE, getStats().getAttackTime(), true, (getAbilityActive(1) != 0 ? Constants.THIEF_DAMAGE * 3 : Constants.THIEF_DAMAGE)));
+			if (getAbilityActive(1) != 0) {
+				setAbilityActive(1, 0);
+				setCooldown(1, Constants.AB_COOLDOWNS[1][0]);
 			}
 		}
 		return attacked;
@@ -87,8 +68,8 @@ public class Thief extends Player {
 	// Cooldown: 10 seconds from reappearing
 	@Override
 	public void ability1(Point p, Room r) {
-		if (getAttacking() == 0 && getCooldown(1) == 0) {
-			blinking = 180;
+		if (getAbilityActive(0) == 0 && getAbilityActive(1) == 0 && getCooldown(1) == 0) {
+			setAbilityActive(1, 180);
 		}
 	}
 
@@ -96,11 +77,10 @@ public class Thief extends Player {
 	// Cooldown: 1.5 seconds
 	@Override
 	public void ability2(Point p, Room r) {
-		if (getAttacking() == 0 && getCooldown(2) == 0) {
-			dodging = 15;
+		if (getAbilityActive(0) == 0 && getAbilityActive(2) == 0 && getCooldown(2) == 0) {
+			setAbilityActive(2, 15);
 			setImmobile(true);
 			dodgeDirection = (new Vector2D(p)).subtract(Test.middle).getNormalized();
-			setCooldown(2, Constants.THIEF_AB2_COOLDOWN);
 		}
 	}
 

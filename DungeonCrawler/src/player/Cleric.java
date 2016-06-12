@@ -13,7 +13,7 @@ import engine.Stats;
 
 public class Cleric extends Player {
 	public Cleric() {
-		super();
+		super(5);
 		setStats(new Stats(Constants.CLERIC_HEALTH, Constants.CLERIC_ATTACK_SPEED, Constants.CLERIC_ATTACK_LENGTH, Constants.CLERIC_SPEED,
 				Constants.CLERIC_DEFENCE));
 		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
@@ -23,11 +23,6 @@ public class Cleric extends Player {
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
 		g.drawImage(SpriteSheet.CLERIC_IMAGES[getDirection()], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
-
-		// g.setColor(Color.BLUE.brighter().brighter());
-		// g.fillRect((int) shifted.getX() - getWidth() / 2,
-		// (int) shifted.getY() - getHeight() / 2, getWidth(),
-		// getHeight());
 	}
 
 	@Override

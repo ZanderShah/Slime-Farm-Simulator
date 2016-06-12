@@ -98,21 +98,21 @@ public class Test extends JFrame {
 			hunterTest.setPos(new Vector2D(30, 30));
 			clericTest.setPos(new Vector2D(30, 30));
 
-			 current[currentFloor].addPlayer(tankTest);
-			// current[currentFloor].addPlayer(warriorTest);
-			// current[currentFloor].addPlayer(thiefTest);
-//			current[currentFloor].addPlayer(hunterTest);
-			// current[currentFloor].addPlayer(clericTest);
+//			current[currentFloor].addPlayer(warriorTest);
+//			current[currentFloor].addPlayer(thiefTest);
 //			 current[currentFloor].addPlayer(mageTest);
+//			current[currentFloor].addPlayer(tankTest);
+			current[currentFloor].addPlayer(hunterTest);
+//			current[currentFloor].addPlayer(clericTest);
 
 			// Change controlled to test other players without having to change
 			// everything
-//			controlled = hunterTest;
-			// controlled = warriorTest;
-//			 controlled = mageTest;
-			// controlled = thiefTest;
-			 controlled = tankTest;
-			// controlled = clericTest;
+//			controlled = warriorTest;
+//			controlled = thiefTest;
+//			controlled = mageTest;
+//			controlled = tankTest;
+			controlled = hunterTest;
+//			controlled = clericTest;
 
 		}
 
@@ -225,6 +225,9 @@ public class Test extends JFrame {
 			g.setColor(Color.WHITE);
 			g.drawString((int) p.getStats().getHealth() + "/"
 					+ (int) p.getStats().getMaxHealth(), 230, getHeight() - 165);
+			
+			g.drawString("Ability 1: " + p.getAbilityActive(1) + " Ability 2: " + p.getAbilityActive(2) + " Ability 3: " + p.getAbilityActive(3), 100, getHeight() - 140);
+			g.drawString("Ability 1: " + p.getCooldown(1) + " Ability 2: " + p.getCooldown(2) + " Ability 3: " + p.getCooldown(3), 100, getHeight() - 100);
 		}
 
 		@Override

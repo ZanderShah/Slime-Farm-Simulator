@@ -39,6 +39,10 @@ public abstract class LivingEntity implements Drawable {
 	public Vector2D getSpeed() {
 		return speed;
 	}
+	
+	public long getID() {
+		return id;
+	}
 
 	public void setPos(Vector2D v) {
 		position = v;

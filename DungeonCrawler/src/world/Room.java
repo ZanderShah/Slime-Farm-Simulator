@@ -318,7 +318,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 					doors[i].draw(g, offset);
 
 		for (int i = 0; i < particles.size(); i++) {
-			particles.get(i).draw(g, offset);
+			if (i < particles.size() && particles.get(i) != null) {
+				particles.get(i).draw(g, offset);
+			}
 		}
 
 		for (int i = 0; i < players.size(); i++) {

@@ -2,32 +2,46 @@ package player;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import utility.ControlState;
-import utility.Vector2D;
-import world.Room;
 import app.Test;
 import engine.LivingEntity;
 import engine.Stats;
 import engine.StatusEffect;
+import utility.Constants;
+import utility.ControlState;
+import utility.Vector2D;
+import world.Room;
 
 public abstract class Player extends LivingEntity {
 	private Vector2D attackDirection;
 	
-	private int attacking;
 	private int[] cooldowns;
 	
-	public Player() {
+	private int[] abilitiesActive;
+	
+	private int pClass;
+	
+	public Player(int c) {
 		super();
 		setStats(new Stats(100, 40, 40, 3, 0));
-		attacking = 0;
+		abilitiesActive = new int[4];
 		cooldowns = new int[4];
+		pClass = c;
 	}
 
 	public void update(ControlState cs, Room r) {
 		// send control state to server
-		if (attacking > 0) attacking--;
 		for (int i = 0; i < cooldowns.length; i++) {
 			if (cooldowns[i] > 0) cooldowns[i]--;
+			if (abilitiesActive[i] > 0) {
+				abilitiesActive[i]--;
+				if (abilitiesActive[i] == 0 && i > 0) {
+					setCooldown(i, Constants.AB_COOLDOWNS[pClass][i - 1]);
+					// lol super sketch
+					if (this instanceof Thief && i == 2) {
+						setImmobile(false);
+					}
+				}
+			}
 		}
 		
 		boolean stunned = false;
@@ -77,7 +91,7 @@ public abstract class Player extends LivingEntity {
 				}
 			}
 			
-			if (attacking != 0) {
+			if (abilitiesActive[0] != 0) {
 				speed.multiplyBy(0);
 			}
 			
@@ -85,14 +99,6 @@ public abstract class Player extends LivingEntity {
 		}
 		
 		super.update(r);
-	}
-	
-	public int getAttacking() {
-		return attacking;
-	}
-	
-	public void setAttacking(int v) {
-		attacking = v;
 	}
 	
 	public int getCooldown(int c) {
@@ -106,13 +112,21 @@ public abstract class Player extends LivingEntity {
 	public Vector2D getAttackDir() {
 		return attackDirection;
 	}
+	
+	public int getAbilityActive(int a) {
+		return abilitiesActive[a];
+	}
+	
+	public void setAbilityActive(int a, int b) {
+		abilitiesActive[a] = b;
+	}
 
 	@Override
 	public abstract void draw(Graphics g, Vector2D offset);
 	
 	public boolean attack(Point p, Room r) {
-		if (cooldowns[0] == 0 && attacking == 0) {
-			attacking = getStats().getAttackTime();
+		if (cooldowns[0] == 0 && abilitiesActive[0] == 0) {
+			abilitiesActive[0] = getStats().getAttackTime();
 			cooldowns[0] = getStats().getAttackSpeed();
 			Vector2D direction = (new Vector2D(p).subtract(Test.middle));
 			direction.normalize();

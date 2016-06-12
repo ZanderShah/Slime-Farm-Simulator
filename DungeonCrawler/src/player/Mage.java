@@ -20,15 +20,13 @@ import engine.damage.MageDebuff;
 
 public class Mage extends Player {
 
-	private int beaming;
 	private Vector2D beamDirection;
 	private MageDebuff currentDebuff;
 
 	public Mage() {
-		super();
+		super(2);
 		setStats(new Stats(Constants.MAGE_HEALTH, Constants.MAGE_ATTACK_SPEED, Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED, Constants.MAGE_DEFENCE));
 		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
-		beaming = 0;
 		beamDirection = new Vector2D();
 	}
 
@@ -51,11 +49,7 @@ public class Mage extends Player {
 	@Override
 	public void update(ControlState cs, Room r) {
 		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
-		if (beaming > 0) {
-			beaming--;
-			if (beaming == 0)
-				setCooldown(1, Constants.MAGE_AB1_COOLDOWN);
-
+		if (getAbilityActive(1) > 0) {
 			// Spawn 10 beam particles per tick
 			for (int i = 0; i < 10; i++) {
 				// Calculate random offset
@@ -71,7 +65,6 @@ public class Mage extends Player {
 		if (currentDebuff != null) {
 			currentDebuff.getHitbox().updatePosition(getPos());
 		}
-		
 	}
 
 	@Override
@@ -89,9 +82,9 @@ public class Mage extends Player {
 	// Cooldown: 10 seconds
 	@Override
 	public void ability1(Point p, Room r) {
-		if (getAttacking() == 0 && getCooldown(1) == 0) {
-			setAttacking(120);
-			beaming = 120;
+		if (getAbilityActive(0) == 0 && getAbilityActive(1) == 0 && getCooldown(1) == 0) {
+			setAbilityActive(0, 120);
+			setAbilityActive(1, 120);
 			beamDirection = (new Vector2D(p)).subtract(Test.middle).getNormalized();
 		}
 	}
@@ -101,10 +94,10 @@ public class Mage extends Player {
 	// Cooldown: 15 seconds
 	@Override
 	public void ability2(Point p, Room r) {
-		if (getCooldown(2) == 0) {
+		if (getAbilityActive(2) == 0 && getCooldown(2) == 0) {
+			setAbilityActive(2, Constants.MAGE_DEBUFF_LENGTH);
 			currentDebuff = new MageDebuff(getPos(), Constants.MAGE_DEBUFF_RANGE, Constants.MAGE_DEBUFF_LENGTH, true);
 			r.addDamageSource(currentDebuff);
-			setCooldown(2, Constants.MAGE_AB2_COOLDOWN + Constants.MAGE_DEBUFF_LENGTH);
 			giveStatusEffect(new StatusEffect(Constants.MAGE_DEBUFF_LENGTH, 0, 0.6, StatusEffect.SPEED, true));
 		}
 	}
@@ -113,11 +106,11 @@ public class Mage extends Player {
 	// Cooldown 20 seconds
 	@Override
 	public void ability3(Point p, Room r) {
-		if (getCooldown(3) == 0) {
+		if (getAbilityActive(3) == 0 && getCooldown(3) == 0) {
+			setAbilityActive(3, Constants.MAGE_FIRE_LENGTH);
 			Vector2D pos = (new Vector2D(p)).add(getPos()).subtract(Test.middle);
 			r.addDamageSource(new FireCircle(pos, Constants.MAGE_FIRE_RANGE, 30, Constants.MAGE_FIRE_LENGTH, true, 3));
 			r.addEmitter(new ParticleEmitter(0, pos, new Vector2D(), Constants.MAGE_FIRE_LENGTH, 60, 5, 20, 20, Constants.MAGE_FIRE_RANGE, 0.1, 0));
-			setCooldown(3, Constants.MAGE_AB3_COOLDOWN);
 		}
 	}
 }

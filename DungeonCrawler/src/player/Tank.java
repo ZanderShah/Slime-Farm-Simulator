@@ -17,7 +17,7 @@ public class Tank extends Player {
 	private int reflecting;
 	
 	public Tank() {
-		super();
+		super(3);
 		setStats(new Stats(Constants.TANK_HEALTH, Constants.TANK_ATTACK_SPEED, Constants.TANK_ATTACK_LENGTH, Constants.TANK_SPEED, Constants.TANK_DEFENCE));
 		reflecting = 0;
 	}
@@ -49,11 +49,11 @@ public class Tank extends Player {
 	@Override
 	public void ability1(Point p, Room r) {
 		if (getCooldown(1) == 0) {
+			setAbilityActive(1, Constants.TANK_BUFF_LENGTH);
 			ArrayList<Player> players = r.getPlayers();
 			for (int i = 0; i < players.size(); i++) {
 				players.get(i).giveStatusEffect(new StatusEffect(Constants.TANK_BUFF_LENGTH, 0, Constants.TANK_BUFF_STRENGTH, StatusEffect.DEF, true));
 			}
-			setCooldown(1, Constants.TANK_AB1_COOLDOWN);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class Tank extends Player {
 	public void ability2(Point p, Room r) {
 		if (getCooldown(2) == 0) {
 			r.addDamageSource(new TankStun(getPos(), Constants.TANK_STUN_RANGE, true));
-			setCooldown(2, Constants.TANK_AB2_COOLDOWN);
+			setCooldown(2, Constants.AB_COOLDOWNS[3][1]);
 		}
 	}
 
@@ -72,9 +72,9 @@ public class Tank extends Player {
 	@Override
 	public void ability3(Point p, Room r) {
 		if (getCooldown(3) == 0) {
-			setAttacking(Constants.TANK_REFLECT_TIME);
+			setAbilityActive(0, Constants.TANK_REFLECT_TIME);
+			setAbilityActive(3, Constants.TANK_REFLECT_TIME);
 			reflecting = Constants.TANK_REFLECT_TIME;
-			setCooldown(3, Constants.TANK_AB3_COOLDOWN);
 		}
 	}
 
