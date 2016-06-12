@@ -120,8 +120,8 @@ public class Test extends JFrame
 			clericTest.setPos(new Vector2D(30, 30));
 
 			// current[currentFloor].addPlayer(warriorTest);
-			current[currentFloor].addPlayer(thiefTest);
-			// current[currentFloor].addPlayer(mageTest);
+			// current[currentFloor].addPlayer(thiefTest);
+			current[currentFloor].addPlayer(mageTest);
 			// current[currentFloor].addPlayer(tankTest);
 			// current[currentFloor].addPlayer(hunterTest);
 			// current[currentFloor].addPlayer(clericTest);
@@ -129,8 +129,8 @@ public class Test extends JFrame
 			// Change controlled to test other players without having to change
 			// everything
 			// controlled = warriorTest;
-			controlled = thiefTest;
-			// controlled = mageTest;
+			// controlled = thiefTest;
+			controlled = mageTest;
 			// controlled = tankTest;
 			// controlled = hunterTest;
 			// controlled = clericTest;

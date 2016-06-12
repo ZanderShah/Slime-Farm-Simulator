@@ -106,7 +106,7 @@ public class Mage extends Player {
 	// Cooldown 20 seconds
 	@Override
 	public void ability3(Point p, Room r) {
-		if (getAbilityActive(3) == 0 && (getCooldown(3) == 0 || true)) {
+		if (getAbilityActive(3) == 0 && getCooldown(3) == 0) {
 			setAbilityActive(3, Constants.MAGE_FIRE_LENGTH);
 			Vector2D pos = (new Vector2D(p)).add(getPos()).subtract(Test.middle);
 			r.addDamageSource(new FireCircle(pos, Constants.MAGE_FIRE_RANGE, 30, Constants.MAGE_FIRE_LENGTH, true, 10));

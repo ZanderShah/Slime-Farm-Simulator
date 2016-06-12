@@ -151,6 +151,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		damageSources.add(ds);
 	}
 
+	public void removeDamageSource(DamageSource ds)
+	{
+		damageSources.remove(ds);
+	}
+	
 	public void addParticle(Particle p)
 	{
 		particles.add(p);
