@@ -77,8 +77,10 @@ public class SpriteSheet
 			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png"));
 			PARTICLES[0][0] = ImageIO.read(new File("img//Particle2.png"));
 
-			ENEMIES = new Image[1];
-			ENEMIES[0] = ImageIO.read(new File("img//Enemy1.png"));
+			ENEMIES = new Image[5];
+			for (int i = 1; i <= 5; i++)
+				ENEMIES[i - 1] = ImageIO.read(new File(String.format(
+						"img//Enemy%d.png", i)));
 
 		}
 		catch (IOException e)
