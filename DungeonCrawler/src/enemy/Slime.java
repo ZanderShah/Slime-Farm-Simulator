@@ -13,7 +13,7 @@ public class Slime extends Enemy
 {
 	private MeleeEnemyDamageSource slimeDamageSource;
 
-	public Slime(int x, int y, Room r)
+	public Slime(int x, int y)
 	{
 		super();
 
@@ -22,7 +22,10 @@ public class Slime extends Enemy
 				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
 				getHeight()));
 		setPos(new Vector2D(x, y));
+	}
 
+	public void addDamage(Room r)
+	{
 		slimeDamageSource = new MeleeEnemyDamageSource(getHitbox());
 		r.addDamageSource(slimeDamageSource);
 	}
@@ -33,7 +36,10 @@ public class Slime extends Enemy
 		super.update(l);
 
 		if (getStats().getHealth() <= 0)
+		{
 			l.removeEnemy(this);
+			l.removeDamageSource(slimeDamageSource);
+		}
 
 		slimeDamageSource.setHitbox(getHitbox());
 	}
@@ -47,7 +53,7 @@ public class Slime extends Enemy
 	@Override
 	public int getHeight()
 	{
-		return SpriteSheet.ENEMIES[0].getWidth(null);
+		return SpriteSheet.ENEMIES[0].getHeight(null);
 	}
 
 	@Override

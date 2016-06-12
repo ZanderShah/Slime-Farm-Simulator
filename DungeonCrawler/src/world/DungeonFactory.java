@@ -273,11 +273,12 @@ public class DungeonFactory
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0]), y = room
 					.randomY(SpriteSheet.ENEMIES[0]);
-			Slime slimey = new Slime(x, y, room);
+			Slime slimey = new Slime(x, y);
 
 			if (room.hasSpaceFor(slimey.getHitbox()))
 			{
 				room.addEnemy(slimey);
+				slimey.addDamage(room);
 			}
 		}
 
