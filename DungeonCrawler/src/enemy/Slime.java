@@ -71,7 +71,7 @@ public class Slime extends Enemy {
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.ENEMIES[0], (int) shifted.getX()
+		g.drawImage(SpriteSheet.random(SpriteSheet.ENEMIES), (int) shifted.getX()
 				- getWidth()
 						/ 2,
 				(int) shifted.getY() - getHeight() / 2, null);
