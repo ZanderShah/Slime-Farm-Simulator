@@ -12,7 +12,7 @@ public class SwordDamageSource extends DamageSource
 	public SwordDamageSource(Vector2D position, int radius, int startAngle,
 			int angle, int d, boolean p, double dam)
 	{
-		super(new SwordHitbox(position, radius, startAngle, angle), 0, d,
+		super(new SwordHitbox(position, radius, startAngle, angle), d, d,
 				false, p, dam);
 	}
 

@@ -33,7 +33,7 @@ public abstract class DamageSource implements Drawable
 		hitbox = h;
 		frequency = f;
 		duration = d;
-		hitCounter = 0;
+		hitCounter = (f == 0 ? 0 : 1);
 		singleHit = single;
 		player = p;
 		damage = dam;
@@ -45,7 +45,7 @@ public abstract class DamageSource implements Drawable
 		hitbox = h;
 		frequency = f;
 		duration = d;
-		hitCounter = 0;
+		hitCounter = (f == 0 ? 0 : 1);
 		singleHit = single;
 		player = p;
 		damage = dam;
