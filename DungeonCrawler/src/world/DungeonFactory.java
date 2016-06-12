@@ -5,6 +5,7 @@ import java.awt.Image;
 import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
+import enemy.Slime;
 
 public class DungeonFactory
 {
@@ -38,6 +39,7 @@ public class DungeonFactory
 			setBossRoom(entry[floor], new boolean[totalRooms], totalRooms - 1);
 			addDoors(entry[floor], new boolean[totalRooms]);
 			fillWithObjects(entry[floor], difficulty, new boolean[totalRooms]);
+			fillWithEnemies(entry[floor], difficulty, new boolean[totalRooms]);
 		}
 
 		return entry;
@@ -174,9 +176,9 @@ public class DungeonFactory
 	{
 		if (room == null || vis[room.id()] || vis[goal])
 			return;
-		
+
 		vis[room.id()] = true;
-		
+
 		if (room.id() == goal)
 			room.setBossRoom();
 
@@ -250,7 +252,7 @@ public class DungeonFactory
 
 			LevelObject lo = new LevelObject(new Vector2D(x, y), false, blocks,
 					img);
-			if (room.hasSpaceFor(lo))
+			if (room.hasSpaceFor(lo.hitbox()))
 				room.addLevelObject(lo);
 		}
 
@@ -258,5 +260,27 @@ public class DungeonFactory
 		fillWithObjects(room.getDown(), difficulty, vis);
 		fillWithObjects(room.getLeft(), difficulty, vis);
 		fillWithObjects(room.getRight(), difficulty, vis);
+	}
+
+	private static void fillWithEnemies(Room room, int difficulty, boolean[] vis)
+	{
+		if (room == null || vis[room.id()])
+			return;
+
+		vis[room.id()] = true;
+
+		for (int i = 0; i < 20; i++)
+		{
+			int x = room.randomX(SpriteSheet.ENEMIES[0]), y = room
+					.randomY(SpriteSheet.ENEMIES[0]);
+			Slime slimey = new Slime(x, y);
+			if (room.hasSpaceFor(slimey.getHitbox()))
+				room.addEnemy(slimey);
+		}
+
+		fillWithEnemies(room.getUp(), difficulty, vis);
+		fillWithEnemies(room.getDown(), difficulty, vis);
+		fillWithEnemies(room.getLeft(), difficulty, vis);
+		fillWithEnemies(room.getRight(), difficulty, vis);
 	}
 }
