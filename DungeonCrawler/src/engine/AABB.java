@@ -83,35 +83,13 @@ public class AABB implements Hitbox
 			if (isInside(o.getPosition()) || o.isInside(position))
 				return true;
 
-			// Not done yet
-			// Left wall
-//			if (o.getPosition()
-//					.subtract(
-//							new Vector2D(position.getX() - width / 2, o
-//									.getRadius() * Math.sin(0)))
-//					.getLength() <= o.getRadius())
-//				return true;
-//			// Right wall
-//			if (o.getPosition()
-//					.subtract(
-//							new Vector2D(position.getX() + width / 2, o
-//									.getRadius() * Math.sin(0)))
-//					.getLength() <= o.getRadius())
-//				return true;
-//			// Top wall
-//			if (o.getPosition()
-//					.subtract(
-//							new Vector2D(o.getRadius() * Math.cos(0), position
-//									.getY() - height / 2))
-//					.getLength() <= o.getRadius())
-//				return true;
-//			// Bottom wall
-//			if (o.getPosition()
-//					.subtract(
-//							new Vector2D(o.getRadius() * Math.cos(0), position
-//									.getY() - height / 2))
-//					.getLength() <= o.getRadius())
-//				return true;
+			for (int angle = 0; angle <= 360; angle++)
+			{
+				if (isInside(o.getPosition().add(new Vector2D(o.getRadius()
+						* Math.cos(angle),
+						o.getRadius() * Math.sin(angle)))))
+					return true;
+			}
 		}
 
 		return false;

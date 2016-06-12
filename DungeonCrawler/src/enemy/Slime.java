@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import utility.SpriteSheet;
 import utility.Vector2D;
+import world.Room;
 import engine.AABB;
 import engine.Stats;
 
@@ -17,6 +18,15 @@ public class Slime extends Enemy
 				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
 				getHeight()));
 		setPos(new Vector2D(x, y));
+	}
+	
+	@Override
+	public void update(Room l)
+	{
+		super.update(l);
+		
+		if (getStats().getHealth() <= 0)
+			l.removeEnemy(this);
 	}
 
 	@Override

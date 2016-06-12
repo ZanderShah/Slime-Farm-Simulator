@@ -109,7 +109,7 @@ public class Mage extends Player {
 		if (getAbilityActive(3) == 0 && (getCooldown(3) == 0 || true)) {
 			setAbilityActive(3, Constants.MAGE_FIRE_LENGTH);
 			Vector2D pos = (new Vector2D(p)).add(getPos()).subtract(Test.middle);
-			r.addDamageSource(new FireCircle(pos, Constants.MAGE_FIRE_RANGE, 30, Constants.MAGE_FIRE_LENGTH, true, 25));
+			r.addDamageSource(new FireCircle(pos, Constants.MAGE_FIRE_RANGE, 30, Constants.MAGE_FIRE_LENGTH, true, 10));
 			r.addEmitter(new ParticleEmitter(0, pos, new Vector2D(), Constants.MAGE_FIRE_LENGTH, 60, 5, 20, 20, Constants.MAGE_FIRE_RANGE, 0.1, 0));
 		}
 	}

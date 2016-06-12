@@ -269,7 +269,7 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0]), y = room
 					.randomY(SpriteSheet.ENEMIES[0]);

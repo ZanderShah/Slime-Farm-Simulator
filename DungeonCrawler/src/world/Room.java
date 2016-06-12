@@ -269,6 +269,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		enemies.add(e);
 	}
 
+	public void removeEnemy(Enemy e)
+	{
+		enemies.remove(e);
+	}
+
 	public LevelObject getDoor(int index)
 	{
 		return doors[index];
