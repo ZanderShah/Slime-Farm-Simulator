@@ -1,14 +1,17 @@
 package server;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Arrays;
 import java.util.HashMap;
 
+import utility.Constants;
 import utility.ControlState;
+import utility.SpriteSheet;
+import world.DungeonFactory;
 import world.Room;
 
 public class Server {
@@ -18,9 +21,15 @@ public class Server {
 	private HashMap<InetAddress, Client> clients = new HashMap<InetAddress, Client>();
 	private boolean inGame;
 	private DatagramSocket sock;
-	private Room currentRoom;
+	private Room current[];
+	private int currentFloor;
 	
 	public Server() {
+		SpriteSheet.initializeImages();
+		currentFloor = 0;
+		current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
+				Constants.NUMBER_OF_FLOORS);
+		current[currentFloor].setCurrent();
 		inGame = false;
 		try {
 			sock = new DatagramSocket(7382);
@@ -49,6 +58,9 @@ public class Server {
 			public void run() {
 				long lastUpdate = System.currentTimeMillis();
 				while (inGame) {
+					for (int i = 0; i < clients.size(); i++) {
+						clients.get(clients.keySet().toArray()[i]).update(current[currentFloor]);
+					}
 					long time = System.currentTimeMillis();
 					long diff = time - lastUpdate;
 					try {
@@ -65,7 +77,8 @@ public class Server {
 	public void parsePacket(DatagramPacket dp) {
 		switch (dp.getData()[0]) {
 		case 0: // Connected
-			if (!inGame) {
+			if (!inGame && clients.size() < 4) {
+				System.out.println("Client connected");
 				Client c = new Client(dp.getAddress());
 				if (clients.isEmpty()) {
 					c.setHost(true);
@@ -74,27 +87,21 @@ public class Server {
 			}
 			break;
 		case 1: // Choose class
-			if (!inGame)
+			if (!inGame) {
+				System.out.println("Class chosen: " + dp.getData()[1]);
 				clients.get(dp.getAddress()).chooseClass(dp.getData()[1]);
+			}
 			break;
 		case 2: // Start game
 			if (clients.get(dp.getAddress()).isHost()) {
+				System.out.println("Game started");
 				startGame();
 			}
 			break;
 		case 3: // Control update
 			if (inGame) {
-				ControlState cs = new ControlState();
-				byte pressed = dp.getData()[1];
-				for (int i = 0; i < 8; i++) {
-					if (((pressed >> i) & 1) == 1) {
-						cs.press(i);
-					}
-				}
-				int x = (dp.getData()[2] << 8) | dp.getData()[3];
-				int y = (dp.getData()[4] << 8) | dp.getData()[5];
-				cs.updateMouse(new Point(x, y));
-				clients.get(dp.getAddress()).update(cs, currentRoom);
+				ControlState cs = new ControlState(Arrays.copyOfRange(dp.getData(), 1, dp.getData().length));
+				clients.get(dp.getAddress()).setControls(cs);
 			}
 			break;
 		}

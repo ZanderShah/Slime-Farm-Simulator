@@ -11,6 +11,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 
@@ -49,8 +54,8 @@ public class Test extends JFrame
 	{
 		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
-		Test pdt = new Test();
-		pdt.setVisible(true);
+		Test mt = new Test();
+		mt.setVisible(true);
 	}
 
 	static void drawRooms(Room t, Graphics g, Vector2D offset, boolean[] vis)
@@ -81,6 +86,8 @@ public class Test extends JFrame
 		private Player controlled;
 		private Room current[];
 		private int currentFloor;
+		
+		private DatagramSocket sock;
 
 		public GameCanvas()
 		{
@@ -88,6 +95,12 @@ public class Test extends JFrame
 			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
 					Constants.NUMBER_OF_FLOORS);
 			current[currentFloor].setCurrent();
+			
+			try {
+				sock = new DatagramSocket();
+			} catch (SocketException e) {
+				e.printStackTrace();
+			}
 
 			setPreferredSize(new Dimension(1000, 1000));
 			setFocusable(true);
@@ -122,16 +135,36 @@ public class Test extends JFrame
 
 		}
 
-		public void startGame()
-		{
+		public void startGame() {
+			try {
+				sock.send(new DatagramPacket(new byte[] {0}, 1, InetAddress.getByName("localhost"), 7382));
+				sock.send(new DatagramPacket(new byte[] {1, 4}, 2, InetAddress.getByName("localhost"), 7382));
+				sock.send(new DatagramPacket(new byte[] {2}, 1, InetAddress.getByName("localhost"), 7382));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 			(new Thread() {
 				long lastUpdate;
 
 				public void run()
 				{
 					lastUpdate = System.currentTimeMillis();
-					while (true)
-					{
+					while (true) {
+						
+						// Update player with client data
+						byte[] csBytes = cs.getBytes();
+						byte[] message = new byte[csBytes.length + 1];
+						message[0] = 3;
+						for (int i = 0; i < csBytes.length; i++) {
+							message[i + 1] = csBytes[i];
+						}
+						try {
+							sock.send(new DatagramPacket(message, message.length, InetAddress.getByName("localhost"), 7382));
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						
+						// Update stuf locally
 						controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
 
