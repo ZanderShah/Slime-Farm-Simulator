@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version December 2014
  */
 
-public class Vector2D implements Comparable<Vector2D>, Serializable {
+public class Vector2D implements Serializable/*, Comparable<Vector2D>*/ {
 	private double x;
 	private double y;
 
@@ -156,10 +156,10 @@ public class Vector2D implements Comparable<Vector2D>, Serializable {
 		return new Vector2D(x, y);
 	}
 
-	@Override
-	public int compareTo(Vector2D o) {
-		return ((Double) getLength()).compareTo(o.getLength());
-	}
+//	@Override
+//	public int compareTo(Vector2D o) {
+//		return ((Double) getLength()).compareTo(o.getLength());
+//	}
 
 	/**
 	 * Finds the dot product of two given vectors

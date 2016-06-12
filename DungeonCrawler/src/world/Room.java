@@ -356,11 +356,12 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		}
 
 		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i) == p) {
+			if (p != null && players.get(i).getID() == p.getID()) {
 				p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
-			}
-			else {
-				players.get(i).draw(g, offset);
+			} else {
+				if (players.get(i) != null) {
+					players.get(i).draw(g, offset);
+				}
 			}
 		}
 	}

@@ -1,5 +1,8 @@
 package engine;
-public class Stats {
+
+import java.io.Serializable;
+
+public class Stats implements Serializable {
 	private double maxHealth;
 	private double health;
 	private int attackSpeed;

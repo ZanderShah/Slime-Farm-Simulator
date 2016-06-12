@@ -29,6 +29,9 @@ public class Server {
 	private Room current[];
 	private int currentFloor;
 	
+	private ByteArrayOutputStream byteStream;
+	private ObjectOutputStream os;
+	
 	public Server() {
 		currentFloor = 0;
 		current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
@@ -79,10 +82,11 @@ public class Server {
 					}
 					current[currentFloor].update();
 
+					// Send all players to all clients
 					for (int i = 0; i < clientList.size(); i++) {
 						try {
-							ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-							ObjectOutputStream os = new ObjectOutputStream(byteStream);
+							byteStream = new ByteArrayOutputStream();
+							os = new ObjectOutputStream(byteStream);
 							os.flush();
 							os.writeInt(current[currentFloor].getPlayers().size());
 							for (int j = 0; j < current[currentFloor].getPlayers().size(); j++) {
@@ -97,12 +101,33 @@ public class Server {
 							}
 							
 							for (int j = 0; j < clientList.size(); j++) {
-								clientList.get(i).send(message);
+								clientList.get(j).send(message);
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
+					// Send each client their own player
+					for (int i = 0; i < clientList.size(); i++) {
+						try {
+							byteStream = new ByteArrayOutputStream();
+							os = new ObjectOutputStream(byteStream);
+							os.flush();
+							os.writeObject(clientList.get(i).getPlayer());
+							os.flush();
+							byte[] object = byteStream.toByteArray();
+							byte[] message = new byte[object.length + 1];
+							message[0] = 4;
+							for (int j = 0; j < object.length; j++) {
+								message[j + 1] = object[j];
+							}
+							
+							clientList.get(i).send(message);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
 					long time = System.currentTimeMillis();
 					long diff = time - lastUpdate;
 					lastUpdate = time;

@@ -6,12 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import player.Cleric;
-import player.Hunter;
-import player.Mage;
 import player.Player;
-import player.Tank;
-import player.Thief;
 import player.Warrior;
 import utility.Constants;
 import utility.ControlState;

@@ -221,7 +221,6 @@ public class ClientMain extends JFrame {
 				public void run() {
 					lastUpdate = System.currentTimeMillis();
 					while (inGame) {
-
 						// Update player with client data
 						try {
 							byteStream = new ByteArrayOutputStream();
@@ -297,18 +296,27 @@ public class ClientMain extends JFrame {
 				System.out.println("Game starting");
 				startGame();
 				break;
-			case 3: // player update
+			case 3: // all player update
 				ois = makeObjectStream(dp.getData());
 				int numPlayers = ois.readInt();
+				current[currentFloor].getPlayers().clear();
 				for (int i = 0; i < numPlayers; i++) {
 					Player p = (Player) ois.readObject();
-					if (controlled.getID() == p.getID()) {
-						controlled = p;
-					}
-					current[currentFloor].getPlayers().clear();
 					current[currentFloor].addPlayer(p);
 				}
 				ois.close();
+				break;
+			case 4: // specific player update
+				ois = makeObjectStream(dp.getData());
+				Object o = ois.readObject();
+				controlled = (Player) o;
+				for (int i = 0; i < current[currentFloor].getPlayers().size(); i++) {
+					if (current[currentFloor].getPlayers().get(i).getID() == controlled.getID()) {
+						current[currentFloor].getPlayers().set(i, controlled);
+					}
+				}
+				ois.close();
+				break;
 			}
 		}
 		
