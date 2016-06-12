@@ -48,6 +48,17 @@ public class SwordHitbox implements Hitbox
 		return angle;
 	}
 
+	public boolean isInside(Vector2D p)
+	{
+		double theta = p.subtract(position).getAngle();
+		if (theta < 0)
+			theta += 360;
+
+		return position.subtract(p).getLength() <= radius
+				&& theta >= startAngle
+				&& theta <= startAngle + angle;
+	}
+
 	@Override
 	public Vector2D getPosition()
 	{
