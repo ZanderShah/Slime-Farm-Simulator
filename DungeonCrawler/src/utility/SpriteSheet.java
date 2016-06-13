@@ -75,9 +75,9 @@ public class SpriteSheet
 				PROJECTILES[3 + i] = ImageIO.read(new File("img//Arrow" + i
 						+ ".png"));
 
-			PARTICLES = new Image[2][1];
+			PARTICLES = new Image[1][2];
 			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png"));
-			PARTICLES[0][0] = ImageIO.read(new File("img//Particle2.png"));
+			PARTICLES[0][1] = ImageIO.read(new File("img//Particle2.png"));
 
 			ENEMIES = new Image[5];
 			for (int i = 1; i <= 5; i++)

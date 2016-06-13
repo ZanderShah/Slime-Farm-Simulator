@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import engine.ParticleEmitter;
 import engine.Stats;
 import engine.StatusEffect;
 import engine.damage.TankStun;
@@ -62,6 +63,7 @@ public class Tank extends Player {
 	@Override
 	public void ability2(Point p, Room r) {
 		if (getCooldown(2) == 0) {
+			r.addEmitter(new ParticleEmitter(0, getPos(), new Vector2D(), 2, 40, 0, 0, 80, Constants.TANK_STUN_RANGE, 0, 40));
 			r.addDamageSource(new TankStun(getPos(), Constants.TANK_STUN_RANGE, true));
 			setCooldown(2, Constants.AB_COOLDOWNS[3][1]);
 		}

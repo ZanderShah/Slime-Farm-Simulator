@@ -99,11 +99,15 @@ public class Constants
 	public static final int CLERIC_SWORD_SIZE = 60;
 	public static final int CLERIC_SWING_ANGLE = 100;
 	public static final double CLERIC_DAMAGE = 40.0;
+	public static final int CLERIC_HEAL_LENGTH = 900;
+	public static final double CLERIC_HEAL_STRENGTH = 2.0;
+	public static final int CLERIC_BURST_LENGTH = 20;
+	public static final double CLERIC_BURST_STRENGTH = 1.0;
 	
 	public static final int[][] AB_COOLDOWNS = {{360, 300, 300},    // Warrior
 												{600, 90, 300},     // Thief
 												{600, 900, 1200},   // Mage
 												{1500,  900, 1200}, // Tank
 												{600, 600, 600},    // Hunter
-												{300, 300, 300}};   // Cleric
+												{1200, 1800, 300}};   // Cleric
 }

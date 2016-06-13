@@ -25,7 +25,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-import player.Hunter;
+import player.Cleric;
 import player.Player;
 import utility.Constants;
 import utility.ControlState;
@@ -129,7 +129,7 @@ public class ClientMain extends JFrame {
 			try {
 				sock.send(new DatagramPacket(new byte[] { 0 }, 1, i,
 						Constants.SERVER_PORT));
-				sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2, i,
+				sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2, i,
 						Constants.SERVER_PORT));
 				sock.send(new DatagramPacket(new byte[] { 2 }, 1, i,
 						Constants.SERVER_PORT));
@@ -196,7 +196,7 @@ public class ClientMain extends JFrame {
 		public void startGame() {
 			inGame = true;
 			if (Constants.OFFLINE) {
-				controlled = new Hunter();
+				controlled = new Cleric();
 				controlled.setPos(new Vector2D(40, 40));
 				current[currentFloor].addPlayer(controlled);
 			}

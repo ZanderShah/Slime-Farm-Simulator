@@ -10,6 +10,7 @@ import utility.Vector2D;
 import world.Room;
 import engine.AABB;
 import engine.Stats;
+import engine.StatusEffect;
 
 public class Cleric extends Player {
 	public Cleric() {
@@ -46,14 +47,36 @@ public class Cleric extends Player {
 		return super.attack(p, r);
 	}
 
+	// Gives a small heal-over-time buff to all players
+	// Cooldown: 20 seconds
 	@Override
 	public void ability1(Point p, Room r) {
-
+		if (getAbilityActive(1) == 0 && getCooldown(1) == 0) {
+			for (int i = 0; i < r.getPlayers().size(); i++) {
+				r.getPlayers().get(i).giveStatusEffect(new StatusEffect(Constants.CLERIC_HEAL_LENGTH, 60, Constants.CLERIC_HEAL_STRENGTH, StatusEffect.HEALTH, false));
+			}
+			setAbilityActive(1, Constants.CLERIC_HEAL_LENGTH);
+		}
 	}
 
+	// Gives a burst heal to the player selected
+	// Cooldown: 30 seconds
 	@Override
 	public void ability2(Point p, Room r) {
-
+		if (getAbilityActive(2) == 0 && getCooldown(2) == 0) {
+			Vector2D location = (new Vector2D(p)).add(getPos()).subtract(Constants.MIDDLE);
+			Player closest = r.getPlayers().get(0);
+			double minDist = location.subtract(r.getPlayers().get(0).getPos()).getLength();
+			for (int i = 1; i < r.getPlayers().size(); i++) {
+				double dist = location.subtract(r.getPlayers().get(i).getPos()).getLength(); 
+				if (dist < minDist) {
+					closest = r.getPlayers().get(i);
+					minDist = dist;
+				}
+			}
+			closest.giveStatusEffect(new StatusEffect(Constants.CLERIC_BURST_LENGTH, 5, Constants.CLERIC_BURST_STRENGTH, StatusEffect.HEALTH, false));
+			setAbilityActive(2, Constants.CLERIC_BURST_LENGTH);
+		}
 	}
 
 	@Override
