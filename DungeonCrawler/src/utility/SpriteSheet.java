@@ -12,6 +12,7 @@ public class SpriteSheet
 			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, DOORS, WALLS,
 			PROJECTILES, ENEMIES;
 	public static Image[][] THIEF_IMAGES, PARTICLES;
+	public static Image[] KING_SLIME;
 
 	public static Image random(Image[] source)
 	{
@@ -81,6 +82,11 @@ public class SpriteSheet
 			for (int i = 1; i <= 5; i++)
 				ENEMIES[i - 1] = ImageIO.read(new File(String.format(
 						"img//Enemy%d.png", i)));
+			
+			KING_SLIME = new Image[4];
+			for (int i = 1; i <= 4; i++) {
+				KING_SLIME[i - 1] = ImageIO.read(new File(String.format("img//KingSlime%d.png", i)));
+			}
 
 		}
 		catch (IOException e)

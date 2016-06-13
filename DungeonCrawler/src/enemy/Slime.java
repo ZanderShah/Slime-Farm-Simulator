@@ -28,8 +28,8 @@ public class Slime extends Enemy {
 	}
 
 	public void addDamage(Room r) {
-		slimeDamageSource = new MeleeEnemyDamageSource(getHitbox());
-		r.addDamageSource(slimeDamageSource);
+		setDamageSource(new MeleeEnemyDamageSource(getHitbox(), 10, 15));
+		super.addDamage(r);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ public class Constants
 	public static final int SCREEN_WIDTH = 1024;
 	public static final int SCREEN_HEIGHT = 768;
 	public static final Vector2D MIDDLE = new Vector2D(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	public static final int CLIENT_PORT = 7382;
+	public static final int CLIENT_PORT = 7383;
 	public static final int SERVER_PORT = 7383;
 	
 	public static final int NUMBER_OF_ROOMS = 25, NUMBER_OF_FLOORS = 5;
@@ -14,6 +14,8 @@ public class Constants
 	public static final int MIN_ROOM_WIDTH = 20, MAX_ROOM_WIDTH = 30,
 			MIN_ROOM_HEIGHT = 20, MAX_ROOM_HEIGHT = 30;
 	// I feel like putting all this stuff into a file makes balancing easier
+	
+	public static final boolean TRIPPY_SLIMES = true;
 
 	// Class max healths
 	public static final double WARRIOR_HEALTH = 200;

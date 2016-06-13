@@ -113,6 +113,10 @@ public abstract class LivingEntity implements Drawable {
 		direction = i;
 	}
 
+	public void onDeath(Room r) {
+		
+	}
+
 	public void knockback(Vector2D source, int strength) {
 		setImmobile(true);
 		knockback.addToThis(position.subtract(source));

@@ -3,11 +3,14 @@ package enemy;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import engine.LivingEntity;
 import utility.Vector2D;
 import world.Room;
+import engine.LivingEntity;
+import engine.damage.MeleeEnemyDamageSource;
 
 public abstract class Enemy extends LivingEntity {
+	
+	private MeleeEnemyDamageSource ds;
 
 	public Enemy() {
 		super();
@@ -15,7 +18,24 @@ public abstract class Enemy extends LivingEntity {
 
 	@Override
 	public void update(Room l) {
+		if (getStats().getHealth() <= 0) {
+			l.removeEnemy(this);
+			l.removeDamageSource(ds);
+			onDeath(l);
+		}
 		super.update(l);
+	}
+
+	public void addDamage(Room r) {
+		r.addDamageSource(ds);
+	}
+	
+	public void setDamageSource(MeleeEnemyDamageSource d) {
+		ds = d;
+	}
+	
+	public MeleeEnemyDamageSource getDamageSource() {
+		return ds;
 	}
 
 	@Override
