@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import engine.LivingEntity;
 import player.Hunter;
 import player.Player;
 import utility.SpriteSheet;
@@ -14,7 +15,7 @@ public class SerialTest {
 	
 	public static void main(String[] args) throws Exception {
 		SpriteSheet.initializeImages();
-		Player p = new Hunter();
+		LivingEntity p = new Hunter();
 		p.setPos(new Vector2D(30, 30));
 		
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -25,6 +26,7 @@ public class SerialTest {
 		byte[] by = b.toByteArray();
 		ByteArrayInputStream bi = new ByteArrayInputStream(by);
 		ObjectInputStream i = new ObjectInputStream(bi);
+		
 		Player np = (Player) i.readObject();
 		System.out.println(np.getPos());
 	}

@@ -21,11 +21,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
+import player.Hunter;
 import player.Player;
-import player.PlayerState;
 import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
@@ -38,42 +39,45 @@ public class ClientMain extends JFrame {
 	public ClientMain() {
 		super("Dungeon Crawler");
 
-		GameCanvas gc = new GameCanvas();
+		Game gc = new Game();
 		getContentPane().add(gc);
 		pack();
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		gc.startGraphics();
-		try {
-			gc.connect(InetAddress.getByName("localhost"));
-		}
-		catch (Exception e) {
-			e.printStackTrace();
+		if (Constants.OFFLINE) {
+			gc.startGame();
+		} else {
+			try {
+				gc.connect(InetAddress.getByName("localhost"));
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public static void main(String[] args) {
-		// Seems to lose a lot of rooms due to rounding errors lmao
 		SpriteSheet.initializeImages();
 		ClientMain mt = new ClientMain();
 		mt.setVisible(true);
 	}
 
-	static void drawRooms(Room t, Graphics g, Vector2D offset, boolean[] vis) {
+	static void drawMinimap(Room t, Graphics g, Vector2D offset, boolean[] vis) {
 		if (t == null || vis[t.id()])
 			return;
 
 		t.draw(g, offset);
 		vis[t.id()] = true;
 
-		drawRooms(t.getUp(), g, offset, vis);
-		drawRooms(t.getDown(), g, offset, vis);
-		drawRooms(t.getRight(), g, offset, vis);
-		drawRooms(t.getLeft(), g, offset, vis);
+		drawMinimap(t.getUp(), g, offset, vis);
+		drawMinimap(t.getDown(), g, offset, vis);
+		drawMinimap(t.getRight(), g, offset, vis);
+		drawMinimap(t.getLeft(), g, offset, vis);
 	}
 
-	static class GameCanvas extends Canvas implements MouseListener,
+	static class Game extends Canvas implements MouseListener,
 			MouseMotionListener, KeyListener {
 		private static final int REC_PACKET_SIZE = 5000;
 
@@ -89,9 +93,9 @@ public class ClientMain extends JFrame {
 		private ByteArrayOutputStream byteStream;
 		private ObjectOutputStream os;
 
-		public GameCanvas() {
+		public Game() {
 			currentFloor = 0;
-			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, 1);
+			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, (new Random()).nextLong());
 			current[currentFloor].setCurrent();
 
 			try {
@@ -161,7 +165,7 @@ public class ClientMain extends JFrame {
 					while (true) {
 						do {
 							do {
-								Graphics graphics = GameCanvas.this
+								Graphics graphics = Game.this
 										.getBufferStrategy().getDrawGraphics();
 								if (inGame) {
 									if (controlled != null) {
@@ -170,11 +174,11 @@ public class ClientMain extends JFrame {
 								}
 								graphics.dispose();
 							}
-							while (GameCanvas.this.getBufferStrategy()
+							while (Game.this.getBufferStrategy()
 									.contentsRestored());
-							GameCanvas.this.getBufferStrategy().show();
+							Game.this.getBufferStrategy().show();
 						}
-						while (GameCanvas.this.getBufferStrategy()
+						while (Game.this.getBufferStrategy()
 								.contentsLost());
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
@@ -191,6 +195,11 @@ public class ClientMain extends JFrame {
 
 		public void startGame() {
 			inGame = true;
+			if (Constants.OFFLINE) {
+				controlled = new Hunter();
+				controlled.setPos(new Vector2D(40, 40));
+				current[currentFloor].addPlayer(controlled);
+			}
 			(new Thread() {
 				long lastUpdate;
 
@@ -198,24 +207,26 @@ public class ClientMain extends JFrame {
 					lastUpdate = System.currentTimeMillis();
 					while (inGame) {
 						// Update player with client data
-						try {
-							byteStream = new ByteArrayOutputStream();
-							os = new ObjectOutputStream(byteStream);
-							os.flush();
-							os.writeObject(cs);
-							os.flush();
-							byte[] object = byteStream.toByteArray();
-							byte[] message = new byte[object.length + 1];
-							message[0] = 3;
-							for (int i = 0; i < object.length; i++) {
-								message[i + 1] = object[i];
+						if (!Constants.OFFLINE) {
+							try {
+								byteStream = new ByteArrayOutputStream();
+								os = new ObjectOutputStream(byteStream);
+								os.flush();
+								os.writeObject(cs);
+								os.flush();
+								byte[] object = byteStream.toByteArray();
+								byte[] message = new byte[object.length + 1];
+								message[0] = 3;
+								for (int i = 0; i < object.length; i++) {
+									message[i + 1] = object[i];
+								}
+								sock.send(
+										new DatagramPacket(message, message.length,
+												addr, Constants.SERVER_PORT));
 							}
-							sock.send(
-									new DatagramPacket(message, message.length,
-											addr, Constants.SERVER_PORT));
-						}
-						catch (Exception e) {
-							e.printStackTrace();
+							catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 
 						// Update stuff locally
@@ -281,22 +292,22 @@ public class ClientMain extends JFrame {
 				int numPlayers = ois.readInt();
 				for (int i = 0; i < numPlayers; i++) {
 					boolean exists = false;
-					PlayerState ps = (PlayerState) ois.readObject();
+					Player p = (Player) ois.readObject();
 					for (int j = 0; j < current[currentFloor].getPlayers().size(); j++) {
-						if (current[currentFloor].getPlayers().get(j).getID() == ps.getID()) {
-							current[currentFloor].getPlayers().get(j).update(ps);
+						if (current[currentFloor].getPlayers().get(j).getID() == p.getID()) {
+							current[currentFloor].getPlayers().set(j, p);
 							exists = true;
 						}
 					}
 					if (!exists) {
-						current[currentFloor].getPlayers().add(Player.makePlayer(ps));
+						current[currentFloor].getPlayers().add(p);
 					}
 				}
 				ois.close();
 				break;
 			case 4: // specific player update
 				ois = makeObjectStream(dp.getData());
-				controlled = Player.makePlayer((PlayerState) ois.readObject());
+				controlled = (Player) ois.readObject();
 				for (int i = 0; i < current[currentFloor].getPlayers()
 						.size(); i++) {
 					if (current[currentFloor].getPlayers().get(i)
@@ -326,7 +337,7 @@ public class ClientMain extends JFrame {
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			current[currentFloor].detailedDraw(g, offset, controlled);
-			drawRooms(current[currentFloor], g, offset,
+			drawMinimap(current[currentFloor], g, offset,
 					new boolean[Constants.NUMBER_OF_ROOMS]);
 
 			drawHUD(p, g);

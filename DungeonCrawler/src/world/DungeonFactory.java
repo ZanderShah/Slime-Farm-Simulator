@@ -242,9 +242,9 @@ public class DungeonFactory {
 
 			boolean blocks = Math.round(rng.nextDouble()) == 0;
 			if (blocks)
-				img = SpriteSheet.random(SpriteSheet.BLOCKING_IMAGES);
+				img = SpriteSheet.random(SpriteSheet.BLOCKING_IMAGES, rng);
 			else
-				img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES);
+				img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES, rng);
 
 			int x = room.randomX(img, rng), y = room.randomY(img, rng);
 

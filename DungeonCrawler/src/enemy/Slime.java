@@ -12,6 +12,8 @@ import world.Room;
 public class Slime extends Enemy {
 	private int movementCounter;
 	private Vector2D slideDir;
+	
+	private int colour;
 
 	public Slime(int x, int y) {
 		super();
@@ -23,6 +25,8 @@ public class Slime extends Enemy {
 		setPos(new Vector2D(x, y));
 		movementCounter = (int) (Math.random() * 150);
 		slideDir = new Vector2D();
+		
+		colour = (int) (Math.random() * 5);
 	}
 
 	public void addDamage(Room r) {
@@ -62,10 +66,7 @@ public class Slime extends Enemy {
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.random(SpriteSheet.ENEMIES), (int) shifted.getX()
-				- getWidth()
-						/ 2,
-				(int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.ENEMIES[colour], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 
 		drawHealth(g, offset);
 	}

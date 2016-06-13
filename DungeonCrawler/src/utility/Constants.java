@@ -3,6 +3,9 @@ package utility;
 public class Constants
 {
 	public static final boolean DEBUG = true;
+	public static final boolean OFFLINE = true;
+	
+	
 	public static final int SCREEN_WIDTH = 1024;
 	public static final int SCREEN_HEIGHT = 768;
 	public static final Vector2D MIDDLE = new Vector2D(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);

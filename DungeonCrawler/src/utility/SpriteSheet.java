@@ -3,6 +3,7 @@ package utility;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -14,9 +15,9 @@ public class SpriteSheet
 	public static Image[][] THIEF_IMAGES, PARTICLES;
 	public static Image[] KING_SLIME;
 
-	public static Image random(Image[] source)
+	public static Image random(Image[] source, Random rng)
 	{
-		return source[(int) (Math.random() * source.length)];
+		return source[(int) (rng.nextDouble() * source.length)];
 	}
 
 	public static void initializeImages()

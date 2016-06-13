@@ -1,12 +1,13 @@
 package engine;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import utility.Vector2D;
 import world.Room;
 
-public abstract class LivingEntity implements Drawable {
+public abstract class LivingEntity implements Drawable, Serializable {
 	private static long curID;
 	private long id;
 
