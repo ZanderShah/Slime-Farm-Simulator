@@ -10,8 +10,6 @@ import utility.Vector2D;
 import world.Room;
 
 public class Slime extends Enemy {
-	private MeleeEnemyDamageSource slimeDamageSource;
-	
 	private int movementCounter;
 	private Vector2D slideDir;
 
@@ -34,11 +32,6 @@ public class Slime extends Enemy {
 
 	@Override
 	public void update(Room l) {
-		if (getStats().getHealth() <= 0) {
-			l.removeEnemy(this);
-			l.removeDamageSource(slimeDamageSource);
-		}
-		
 		if (movementCounter == 0) {
 			movementCounter = (int) (Math.random() * 60 + 150);
 			setSpeed(new Vector2D());
@@ -52,8 +45,6 @@ public class Slime extends Enemy {
 				setSpeed(slideDir);
 			}
 		}
-
-		slimeDamageSource.setHitbox(getHitbox());
 		
 		super.update(l);
 	}

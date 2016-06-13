@@ -91,8 +91,7 @@ public class ClientMain extends JFrame {
 
 		public GameCanvas() {
 			currentFloor = 0;
-			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
-					Constants.NUMBER_OF_FLOORS);
+			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, 1);
 			current[currentFloor].setCurrent();
 
 			try {

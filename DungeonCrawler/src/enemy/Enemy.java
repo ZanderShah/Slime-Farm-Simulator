@@ -23,6 +23,7 @@ public abstract class Enemy extends LivingEntity {
 			l.removeDamageSource(ds);
 			onDeath(l);
 		}
+		ds.setHitbox(getHitbox());
 		super.update(l);
 	}
 

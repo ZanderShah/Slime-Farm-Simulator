@@ -10,8 +10,6 @@ import engine.Stats;
 import engine.damage.MeleeEnemyDamageSource;
 
 public class KingSlime extends Enemy {
-	private MeleeEnemyDamageSource slimeDamageSource;
-	
 	private int movementCounter;
 	private Vector2D slideDir;
 	
@@ -63,8 +61,6 @@ public class KingSlime extends Enemy {
 				setSpeed(slideDir);
 			}
 		}
-
-		slimeDamageSource.setHitbox(getHitbox());
 		
 		super.update(l);
 	}

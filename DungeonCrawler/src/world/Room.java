@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 import enemy.Enemy;
 import engine.AABB;
@@ -288,20 +289,14 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		doors[index] = o;
 	}
 
-	public int randomX(Image img)
+	public int randomX(Image img, Random rng)
 	{
-		return Math
-				.max(
-						(int) (Math.random() * ((width - 2) * 64 - img
-								.getWidth(null))) + 128, 0);
+		return Math.max((int) (rng.nextDouble() * ((width - 2) * 64 - img.getWidth(null))) + 128, 0);
 	}
 
-	public int randomY(Image img)
+	public int randomY(Image img, Random rng)
 	{
-		return Math
-				.max(
-						(int) (Math.random() * ((height - 2) * 64 - img
-								.getHeight(null))) + 128, 0);
+		return Math.max((int) (rng.nextDouble() * ((height - 2) * 64 - img.getHeight(null))) + 128, 0);
 	}
 
 	public ArrayList<Player> getPlayers()

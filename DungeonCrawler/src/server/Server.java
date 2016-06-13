@@ -7,10 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import player.PlayerState;
 import utility.Constants;
@@ -34,8 +32,7 @@ public class Server {
 	
 	public Server() {
 		currentFloor = 0;
-		current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
-				Constants.NUMBER_OF_FLOORS);
+		current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, 1);
 		current[currentFloor].setCurrent();
 		inGame = false;
 		try {
