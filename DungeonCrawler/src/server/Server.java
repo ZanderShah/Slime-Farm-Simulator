@@ -23,7 +23,6 @@ public class Server {
 
 	private static final int REC_PACKET_SIZE = 5000;
 	
-	private HashMap<InetAddress, Client> clients = new HashMap<InetAddress, Client>();
 	private ArrayList<Client> clientList = new ArrayList<Client>();
 	private boolean inGame;
 	private DatagramSocket sock;
@@ -143,15 +142,20 @@ public class Server {
 	}
 	
 	public void parsePacket(DatagramPacket dp) throws Exception {
+		int client = -1;
+		for (int i = 0; i < clientList.size(); i++) {
+			if (clientList.get(i).getAddress().equals(dp.getAddress())) {
+				client = i;
+			}
+		}
 		switch (dp.getData()[0]) {
 		case 0: // Connected
-			if (!inGame && clients.size() < 4) {
+			if (!inGame && clientList.size() < 4) {
 				System.out.println("Client connected");
 				Client c = new Client(dp.getAddress());
-				if (clients.isEmpty()) {
+				if (clientList.isEmpty()) {
 					c.setHost(true);
 				}
-				clients.put(dp.getAddress(), c);
 				clientList.add(c);
 				c.send(new byte[] {0});
 			}
@@ -159,11 +163,11 @@ public class Server {
 		case 1: // Choose class
 			if (!inGame) {
 				System.out.println("Class chosen: " + dp.getData()[1]);
-				clients.get(dp.getAddress()).chooseClass(dp.getData()[1]);
+				clientList.get(client).chooseClass(dp.getData()[1]);
 			}
 			break;
 		case 2: // Start game
-			if (clients.get(dp.getAddress()).isHost()) {
+			if (clientList.get(client).isHost()) {
 				System.out.println("Game started");
 				startGame();
 				for (int i = 0; i < clientList.size(); i++) {
@@ -180,7 +184,7 @@ public class Server {
 				Object o = ois.readObject();
 				cs = (ControlState) o;
 				ois.close();
-				clients.get(dp.getAddress()).setControls(cs);
+				clientList.get(client).setControls(cs);
 			}
 			break;
 		}
