@@ -5,6 +5,7 @@ import java.awt.Point;
 
 import engine.AABB;
 import engine.Stats;
+import engine.damage.Knife;
 import engine.damage.SwordDamageSource;
 import utility.Constants;
 import utility.ControlState;
@@ -55,8 +56,7 @@ public class Thief extends Player {
 			r.addDamageSource(new SwordDamageSource(getPos(), Constants.THIEF_SWORD_SIZE, (int) getAttackDir().getAngle() - Constants.THIEF_SWING_ANGLE / 2,
 					Constants.THIEF_SWING_ANGLE, getStats().getAttackTime(), true, (getAbilityActive(1) != 0 ? Constants.THIEF_DAMAGE * 3 : Constants.THIEF_DAMAGE), Constants.THIEF_KNOCKBACK));
 			if (getAbilityActive(1) != 0) {
-				setAbilityActive(1, 0);
-				setCooldown(1, Constants.AB_COOLDOWNS[1][0]);
+				setAbilityActive(1, 1);
 			}
 		}
 		return attacked;
@@ -87,6 +87,17 @@ public class Thief extends Player {
 	// Cooldown 4 seconds
 	@Override
 	public void ability3(Point p, Room r) {
-
+		if (getCooldown(3) == 0) {
+			Vector2D knifeDir = (new Vector2D(p)).subtract(Constants.MIDDLE).getNormalized();
+			double damage = Constants.KNIFE_DAMAGE;
+			if (getAbilityActive(1) != 0) {
+				setAbilityActive(1, 1);
+				damage *= 3;
+			}
+			r.addDamageSource(new Knife(getPos(), new Vector2D(knifeDir.getAngle() - Constants.KNIFE_SPREAD), true, damage));
+			r.addDamageSource(new Knife(getPos(), knifeDir, true, damage));
+			r.addDamageSource(new Knife(getPos(), new Vector2D(knifeDir.getAngle() + Constants.KNIFE_SPREAD), true, damage));
+			setAbilityActive(3, 1);
+		}
 	}
 }

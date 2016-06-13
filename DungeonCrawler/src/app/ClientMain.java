@@ -25,8 +25,8 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-import player.Cleric;
 import player.Player;
+import player.Thief;
 import utility.Constants;
 import utility.ControlState;
 import utility.SpriteSheet;
@@ -196,7 +196,7 @@ public class ClientMain extends JFrame {
 		public void startGame() {
 			inGame = true;
 			if (Constants.OFFLINE) {
-				controlled = new Cleric();
+				controlled = new Thief();
 				controlled.setPos(new Vector2D(40, 40));
 				current[currentFloor].addPlayer(controlled);
 			}

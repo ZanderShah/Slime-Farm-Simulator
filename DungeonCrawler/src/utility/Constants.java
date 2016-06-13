@@ -71,6 +71,10 @@ public class Constants
 	public static final int THIEF_SWING_ANGLE = 30;
 	public static final double THIEF_DAMAGE = 40.0;
 	public static final int THIEF_KNOCKBACK = 15;
+	public static final double KNIFE_SPEED = 8.0;
+	public static final double KNIFE_DAMAGE = 10.0;
+	public static final int KNIFE_KNOCKBACK = 5;
+	public static final int KNIFE_SPREAD = 5;
 
 	// Mage specific stats
 	public static final int MAGE_SPRAY = 20;
