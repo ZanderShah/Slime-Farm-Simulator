@@ -42,7 +42,7 @@ public abstract class Player extends LivingEntity
 			getStats().setMaxHealth(
 					getStats().getMaxHealth() * Constants.LEVEL_HEALTH[pClass]);
 			getStats().setHealth(getStats().getMaxHealth());
-			getStats().setDamageMultipler(
+			getStats().setDamageMultiplier(
 					getStats().getDamageMultiplier()
 							* Constants.LEVEL_DAMAGE[pClass]);
 			getStats().setDefence(
