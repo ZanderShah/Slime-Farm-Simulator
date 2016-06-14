@@ -38,14 +38,25 @@ public abstract class Player extends LivingEntity
 		{
 			experience = 0;
 			level++;
+
+			getStats().setMaxHealth(
+					getStats().getMaxHealth() * Constants.LEVEL_HEALTH[pClass]);
+			getStats().setHealth(getStats().getMaxHealth());
+			getStats().setDamageMultipler(
+					getStats().getDamageMultiplier()
+							* Constants.LEVEL_DAMAGE[pClass]);
+			getStats().setDefence(
+					getStats().getDefence() * Constants.LEVEL_DEFENCE[pClass]);
+			getStats().setSpeed(
+					getStats().getSpeed() * Constants.LEVEL_SPEED[pClass]);
 		}
 	}
-	
+
 	public int getLevel()
 	{
 		return level;
 	}
-	
+
 	public int getExperience()
 	{
 		return experience;

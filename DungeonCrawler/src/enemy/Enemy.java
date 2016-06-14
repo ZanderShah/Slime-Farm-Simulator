@@ -35,7 +35,7 @@ public abstract class Enemy extends LivingEntity
 
 	public void addDamage(Room r)
 	{
-		r.addDamageSource(ds);
+		r.addDamageSource(ds, 1);
 	}
 
 	public void setDamageSource(MeleeEnemyDamageSource d)

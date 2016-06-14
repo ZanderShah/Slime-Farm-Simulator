@@ -147,8 +147,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		players.add(p);
 	}
 
-	public void addDamageSource(DamageSource ds)
+	public void addDamageSource(DamageSource ds, double damageMultiplier)
 	{
+		ds.setDamage(ds.getDamage() * damageMultiplier);
 		damageSources.add(ds);
 	}
 
@@ -333,7 +334,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		for (int i = 0; i < damageSources.size(); i++)
 		{
 			damageSources.get(i).update(r);
-			r.addDamageSource(damageSources.get(i));
+			r.addDamageSource(damageSources.get(i), 1);
 		}
 
 		currentRoom = false;

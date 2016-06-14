@@ -13,7 +13,8 @@ import utility.Constants;
 import utility.Vector2D;
 import world.Room;
 
-public abstract class DamageSource implements Drawable {
+public abstract class DamageSource implements Drawable
+{
 	private Hitbox hitbox;
 	private int frequency;
 	private int duration;
@@ -27,7 +28,8 @@ public abstract class DamageSource implements Drawable {
 	private StatusEffect effect;
 
 	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p,
-			double dam, int kb) {
+			double dam, int kb)
+	{
 		hitbox = h;
 		frequency = f;
 		duration = d;
@@ -39,7 +41,8 @@ public abstract class DamageSource implements Drawable {
 	}
 
 	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p,
-			double dam, StatusEffect e, int kb) {
+			double dam, StatusEffect e, int kb)
+	{
 		hitbox = h;
 		frequency = f;
 		duration = d;
@@ -51,11 +54,13 @@ public abstract class DamageSource implements Drawable {
 		knockback = kb;
 	}
 
-	public Hitbox getHitbox() {
+	public Hitbox getHitbox()
+	{
 		return hitbox;
 	}
 
-	public void update(Room r) {
+	public void update(Room r)
+	{
 		if (hitCounter == 0)
 			hitCounter = frequency;
 		if (hitCounter > 0)
@@ -64,47 +69,64 @@ public abstract class DamageSource implements Drawable {
 			duration--;
 	}
 
-	public void setHitbox(Hitbox hitbox) {
+	public void setHitbox(Hitbox hitbox)
+	{
 		this.hitbox = hitbox;
 	}
 
-	public int getHitCounter() {
+	public int getHitCounter()
+	{
 		return hitCounter;
 	}
 
-	public int getDuration() {
+	public int getDuration()
+	{
 		return duration;
 	}
 
-	public double getDamage() {
+	public double getDamage()
+	{
 		return damage;
 	}
 
-	public int getKnockback() {
+	public int getKnockback()
+	{
 		return knockback;
 	}
 
-	public StatusEffect getEffect() {
+	public StatusEffect getEffect()
+	{
 		return effect;
 	}
 
-	public boolean isSingleHit() {
+	public boolean isSingleHit()
+	{
 		return singleHit;
 	}
 
-	public boolean isPlayer() {
+	public boolean isPlayer()
+	{
 		return player;
 	}
 
-	public void setPlayer(boolean b) {
+	public void setPlayer(boolean b)
+	{
 		player = b;
 	}
 
-	public boolean hit(LivingEntity le) {
-		if (le.getHitbox().intersects(hitbox)) {
+	public void setDamage(double d)
+	{
+		damage = d;
+	}
+
+	public boolean hit(LivingEntity le)
+	{
+		if (le.getHitbox().intersects(hitbox))
+		{
 			le.damage(damage);
 			le.knockback(hitbox.getPosition(), knockback);
-			if (effect != null) {
+			if (effect != null)
+			{
 				le.giveStatusEffect(effect);
 			}
 			return true;
@@ -113,17 +135,21 @@ public abstract class DamageSource implements Drawable {
 	}
 
 	@Override
-	public void draw(Graphics g, Vector2D offset) {
-		if (Constants.DEBUG) {
+	public void draw(Graphics g, Vector2D offset)
+	{
+		if (Constants.DEBUG)
+		{
 			Vector2D shift = getHitbox().getPosition().add(offset);
-			if (hitbox instanceof AABB) {
+			if (hitbox instanceof AABB)
+			{
 				g.drawRect(
 						(int) shift.getX() - ((AABB) hitbox).getWidth() / 2,
 						(int) shift.getY() - ((AABB) hitbox).getHeight() / 2,
 						((AABB) hitbox).getWidth(),
 						((AABB) hitbox).getHeight());
 			}
-			else if (hitbox instanceof CircleHitbox) {
+			else if (hitbox instanceof CircleHitbox)
+			{
 				g.drawOval(
 						(int) shift.getX()
 								- ((CircleHitbox) hitbox).getRadius(),
@@ -132,7 +158,8 @@ public abstract class DamageSource implements Drawable {
 						((CircleHitbox) hitbox).getRadius() * 2,
 						((CircleHitbox) hitbox).getRadius() * 2);
 			}
-			else if (hitbox instanceof SwordHitbox) {
+			else if (hitbox instanceof SwordHitbox)
+			{
 				// lol how do you draw this
 			}
 		}

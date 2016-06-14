@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Stats implements Serializable {
 	private double maxHealth;
 	private double health;
+	private double damageMultiplier;
 	private int attackSpeed;
 	private int attackTime;
 	private double speed;
@@ -13,6 +14,7 @@ public class Stats implements Serializable {
 	public Stats(double mh, int as, int at, double s, double d) {
 		maxHealth = mh;
 		health = mh;
+		damageMultiplier = 1;
 		attackSpeed = as;
 		attackTime = at;
 		speed = s;
@@ -25,6 +27,11 @@ public class Stats implements Serializable {
 	
 	public double getHealth() {
 		return health;
+	}
+	
+	public double getDamageMultiplier()
+	{
+		return damageMultiplier;
 	}
 	
 	public int getAttackSpeed() {
@@ -49,6 +56,11 @@ public class Stats implements Serializable {
 	
 	public void setHealth(double h) {
 		health = h;
+	}
+	
+	public void setDamageMultipler(double dm)
+	{
+		damageMultiplier = dm;
 	}
 	
 	public void setAttackSpeed(int as) {
