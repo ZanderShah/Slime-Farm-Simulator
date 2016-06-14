@@ -57,6 +57,7 @@ public class ClientMain extends JFrame
 			try
 			{
 				gc.connect(InetAddress.getByName("10.242.161.92"));
+				//gc.connect(InetAddress.getByName("localhost"));
 			}
 			catch (Exception e)
 			{
