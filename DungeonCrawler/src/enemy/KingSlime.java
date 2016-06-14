@@ -19,11 +19,11 @@ public class KingSlime extends Enemy {
 		super();
 
 		setStats(new Stats(1000 / (int) (Math.pow(2, l)), 100, 100, 3, 30.0));
+		level = l;
 		setHitbox(new AABB(getPos().add(
 				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
 				getHeight()));
-		setPos(new Vector2D(x, y));
-		level = l;
+		setPos(new Vector2D(x, y));	
 		movementCounter = (int) (Math.random() * 150);
 		slideDir = new Vector2D();
 	}

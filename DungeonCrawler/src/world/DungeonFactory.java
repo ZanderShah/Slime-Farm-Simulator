@@ -3,33 +3,39 @@ package world;
 import java.awt.Image;
 import java.util.Random;
 
-import enemy.Slime;
 import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
+import enemy.KingSlime;
+import enemy.Slime;
 
-public class DungeonFactory {
+public class DungeonFactory
+{
 	private static Random rng;
 	private static int totalRooms;
 
-	private static int randomWidth() {
+	private static int randomWidth()
+	{
 		return (int) (rng.nextDouble() * (Constants.MAX_ROOM_WIDTH
 				- Constants.MIN_ROOM_WIDTH + 1))
 				+ Constants.MIN_ROOM_WIDTH;
 	}
 
-	private static int randomHeight() {
+	private static int randomHeight()
+	{
 		return (int) (rng.nextDouble() * (Constants.MAX_ROOM_HEIGHT
 				- Constants.MIN_ROOM_HEIGHT + 1))
 				+ Constants.MIN_ROOM_HEIGHT;
 	}
 
 	public static Room[] generateMap(int numberOfRooms, int difficulty,
-			int numberOfFloors, long seed) {
+			int numberOfFloors, long seed)
+	{
 		rng = new Random(seed);
 		Room entry[] = new Room[numberOfFloors];
 
-		for (int floor = 0; floor < numberOfFloors; floor++) {
+		for (int floor = 0; floor < numberOfFloors; floor++)
+		{
 			entry[floor] = new Room(850, 200, randomWidth(), randomHeight(),
 					difficulty, 0);
 			totalRooms = 1;
@@ -44,17 +50,17 @@ public class DungeonFactory {
 	}
 
 	private static void generateConnections(Room room, int left,
-			int difficulty) {
+			int difficulty)
+	{
 		if (left == 0)
 			return;
 
-		int roomsConnected = (int) (rng.nextDouble() * (Math.min(left, 4))) + 1,
-				successfulConnections = 0;
-		boolean newLeft = false, newRight = false, newUp = false,
-				newDown = false;
+		int roomsConnected = (int) (rng.nextDouble() * (Math.min(left, 4))) + 1, successfulConnections = 0;
+		boolean newLeft = false, newRight = false, newUp = false, newDown = false;
 
 		for (int tries = 0; tries < 10000
-				&& roomsConnected != successfulConnections; tries++) {
+				&& roomsConnected != successfulConnections; tries++)
+		{
 			int direction = (int) (rng.nextDouble() * 4) + 1;
 
 			int width = randomWidth(), height = randomHeight();
@@ -62,10 +68,11 @@ public class DungeonFactory {
 			if (direction == Constants.LEFT && room.getLeft() == null
 					&& fits(room, room.x() - width, room.y() + room.height()
 							/ 2 - height / 2, width, height,
-							new boolean[totalRooms])) {
+							new boolean[totalRooms]))
+			{
 				room.setLeft(new Room(room.x() - width, room.y()
 						+ room.height()
-								/ 2
+						/ 2
 						- height / 2, width, height, difficulty, totalRooms));
 				room.getLeft().setRight(room);
 				totalRooms++;
@@ -77,7 +84,8 @@ public class DungeonFactory {
 			else if (direction == Constants.UP && room.getUp() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
 							room.y() - height, width, height,
-							new boolean[totalRooms])) {
+							new boolean[totalRooms]))
+			{
 				room.setUp(new Room(room.x() + room.width() / 2 - width / 2,
 						room.y() - height, width, height, difficulty,
 						totalRooms));
@@ -93,7 +101,8 @@ public class DungeonFactory {
 							room.y() + room.height()
 									/ 2 - height / 2,
 							width, height,
-							new boolean[totalRooms])) {
+							new boolean[totalRooms]))
+			{
 				room.setRight(new Room(room.x() + room.width(),
 						room.y() + room.height()
 								/ 2 - height / 2,
@@ -109,7 +118,8 @@ public class DungeonFactory {
 			else if (direction == Constants.DOWN && room.getDown() == null
 					&& fits(room, room.x() + room.width() / 2 - width / 2,
 							room.y() + room.height(), width,
-							height, new boolean[totalRooms])) {
+							height, new boolean[totalRooms]))
+			{
 
 				room.setDown(new Room(room.x() + room.width() / 2 - width / 2,
 						room.y() + room.height(), width, height, difficulty,
@@ -139,9 +149,11 @@ public class DungeonFactory {
 	}
 
 	private static boolean fits(Room room, int x, int y, int width, int height,
-			boolean[] vis) {
+			boolean[] vis)
+	{
 		if (room.x() >= x + width || room.x() + room.width() <= x
-				|| room.y() >= y + height || room.y() + room.height() <= y) {
+				|| room.y() >= y + height || room.y() + room.height() <= y)
+		{
 			vis[room.id()] = true;
 
 			boolean ret = true;
@@ -168,14 +180,21 @@ public class DungeonFactory {
 		return false;
 	}
 
-	private static void setBossRoom(Room room, boolean[] vis, int goal) {
+	private static void setBossRoom(Room room, boolean[] vis, int goal)
+	{
 		if (room == null || vis[room.id()] || vis[goal])
 			return;
 
 		vis[room.id()] = true;
 
 		if (room.id() == goal)
+		{
 			room.setBossRoom();
+			KingSlime kingSlimey = new KingSlime(room.width() / 2 * 64,
+					room.height() / 2 * 64, 0);
+			room.addEnemy(kingSlimey);
+			kingSlimey.addDamage(room);
+		}
 
 		setBossRoom(room.getUp(), vis, goal);
 		setBossRoom(room.getDown(), vis, goal);
@@ -183,7 +202,8 @@ public class DungeonFactory {
 		setBossRoom(room.getRight(), vis, goal);
 	}
 
-	private static void addDoors(Room room, boolean[] vis) {
+	private static void addDoors(Room room, boolean[] vis)
+	{
 		if (room == null || vis[room.id()])
 			return;
 
@@ -193,18 +213,22 @@ public class DungeonFactory {
 			room.setDoor(
 					new LevelObject(new Vector2D(-SpriteSheet.DOORS[0]
 							.getWidth(null) / 2, room.height() * 64 / 2
-									- SpriteSheet.DOORS[0].getHeight(null) / 2),
+							- SpriteSheet.DOORS[0].getHeight(null) / 2),
 							false,
 							false, SpriteSheet.DOORS[0]),
 					Constants.LEFT);
 		if (room.getRight() != null)
 			room.setDoor(
-					new LevelObject(new Vector2D(room.width() * 64
-							- SpriteSheet.DOORS[0]
-									.getWidth(null) / 2,
-							room
-									.height() * 64 / 2
-									- SpriteSheet.DOORS[0].getHeight(null) / 2),
+					new LevelObject(
+							new Vector2D(room.width() * 64
+									- SpriteSheet.DOORS[0]
+											.getWidth(null) / 2,
+									room
+											.height()
+											* 64
+											/ 2
+											- SpriteSheet.DOORS[0]
+													.getHeight(null) / 2),
 							false,
 							false,
 							SpriteSheet.DOORS[0]),
@@ -218,8 +242,8 @@ public class DungeonFactory {
 		if (room.getDown() != null)
 			room.setDoor(new LevelObject(new Vector2D(room.width() * 64 / 2
 					- SpriteSheet.DOORS[1].getWidth(null) / 2, room.height()
-							* 64
-							- SpriteSheet.DOORS[1].getHeight(null) / 2),
+					* 64
+					- SpriteSheet.DOORS[1].getHeight(null) / 2),
 					false,
 					false,
 					SpriteSheet.DOORS[1]), Constants.DOWN);
@@ -231,13 +255,15 @@ public class DungeonFactory {
 	}
 
 	private static void fillWithObjects(Room room, int difficulty,
-			boolean[] vis) {
-		if (room == null || vis[room.id()])
+			boolean[] vis)
+	{
+		if (room == null || vis[room.id()] || room.isBossRoom())
 			return;
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 50; i++)
+		{
 			Image img;
 
 			boolean blocks = Math.round(rng.nextDouble()) == 0;
@@ -261,17 +287,21 @@ public class DungeonFactory {
 	}
 
 	private static void fillWithEnemies(Room room, int difficulty,
-			boolean[] vis) {
+			boolean[] vis)
+	{
 		if (room == null || vis[room.id()])
 			return;
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 1; i++) {
-			int x = room.randomX(SpriteSheet.ENEMIES[0], rng), y = room.randomY(SpriteSheet.ENEMIES[0], rng);
+		for (int i = 0; i < 1; i++)
+		{
+			int x = room.randomX(SpriteSheet.ENEMIES[0], rng), y = room
+					.randomY(SpriteSheet.ENEMIES[0], rng);
 			Slime slimey = new Slime(x, y);
 
-			if (room.hasSpaceFor(slimey.getHitbox())) {
+			if (room.hasSpaceFor(slimey.getHitbox()))
+			{
 				room.addEnemy(slimey);
 				slimey.addDamage(room);
 			}
