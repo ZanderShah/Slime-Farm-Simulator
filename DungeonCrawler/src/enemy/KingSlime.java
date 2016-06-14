@@ -1,15 +1,13 @@
 package enemy;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
-import player.Player;
-import utility.SpriteSheet;
-import utility.Vector2D;
-import world.Room;
 import engine.AABB;
 import engine.Stats;
 import engine.damage.MeleeEnemyDamageSource;
+import utility.SpriteSheet;
+import utility.Vector2D;
+import world.Room;
 
 public class KingSlime extends Enemy {
 	private int movementCounter;

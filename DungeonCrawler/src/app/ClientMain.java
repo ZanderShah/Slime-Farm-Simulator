@@ -34,11 +34,9 @@ import utility.Vector2D;
 import world.DungeonFactory;
 import world.Room;
 
-public class ClientMain extends JFrame
-{
+public class ClientMain extends JFrame {
 
-	public ClientMain()
-	{
+	public ClientMain() {
 		super("Dungeon Crawler");
 
 		Game gc = new Game();
@@ -48,33 +46,28 @@ public class ClientMain extends JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		gc.startGraphics();
-		if (Constants.OFFLINE)
-		{
+		if (Constants.OFFLINE) {
 			gc.startGame();
 		}
-		else
-		{
-			try
-			{
+		else {
+			try {
 				gc.connect(InetAddress.getByName("10.242.161.92"));
 				// gc.connect(InetAddress.getByName("localhost"));
 			}
-			catch (Exception e)
-			{
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		SpriteSheet.initializeImages();
 		ClientMain mt = new ClientMain();
 		mt.setVisible(true);
 	}
 
-	static void drawMinimap(Room t, Graphics g, Vector2D offset, boolean[] vis)
-	{
+	static void drawMinimap(Room t, Graphics g, Vector2D offset,
+			boolean[] vis) {
 		if (t == null || vis[t.id()])
 			return;
 
@@ -88,13 +81,13 @@ public class ClientMain extends JFrame
 	}
 
 	static class Game extends Canvas implements MouseListener,
-			MouseMotionListener, KeyListener
-	{
+			MouseMotionListener, KeyListener {
 		private static final int REC_PACKET_SIZE = 5000;
 
 		private ControlState cs;
 
 		private Player controlled;
+		private int classSelected;
 		private Room current[];
 		private int currentFloor;
 		private boolean inGame;
@@ -104,30 +97,28 @@ public class ClientMain extends JFrame
 		private ByteArrayOutputStream byteStream;
 		private ObjectOutputStream os;
 
-		public Game()
-		{
-			currentFloor = 0;
-			current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
-					Constants.NUMBER_OF_FLOORS, (new Random()).nextLong());
-			current[currentFloor].setCurrent();
+		public Game() {
+			
+			if (Constants.OFFLINE) {
+				currentFloor = 0;
+				current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0,
+						Constants.NUMBER_OF_FLOORS, (new Random()).nextLong());
+				current[currentFloor].setCurrent();
+			}
 
-			try
-			{
+			try {
 				sock = new DatagramSocket(Constants.CLIENT_PORT);
 			}
-			catch (SocketException e)
-			{
+			catch (SocketException e) {
 				e.printStackTrace();
 			}
 
 			byteStream = new ByteArrayOutputStream(5000);
-			try
-			{
+			try {
 				os = (new ObjectOutputStream(
 						new BufferedOutputStream(byteStream)));
 			}
-			catch (IOException e)
-			{
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 
@@ -141,34 +132,27 @@ public class ClientMain extends JFrame
 			cs = new ControlState();
 		}
 
-		public void connect(InetAddress i)
-		{
+		public void connect(InetAddress i) {
 			addr = i;
-			try
-			{
+			try {
 				sock.send(new DatagramPacket(new byte[] { 0 }, 1, i,
 						Constants.SERVER_PORT));
 			}
-			catch (Exception e)
-			{
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			(new Thread() {
 				@Override
-				public void run()
-				{
-					while (true)
-					{
+				public void run() {
+					while (true) {
 						DatagramPacket dp = new DatagramPacket(
 								new byte[REC_PACKET_SIZE], REC_PACKET_SIZE);
-						try
-						{
+						try {
 							sock.receive(dp);
 							parsePacket(dp);
 						}
-						catch (Exception e)
-						{
+						catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -176,29 +160,18 @@ public class ClientMain extends JFrame
 			}).start();
 		}
 
-		public void startGraphics()
-		{
+		public void startGraphics() {
 			createBufferStrategy(2);
 
 			(new Thread() {
-				public void run()
-				{
+				public void run() {
 					long lastUpdate = System.currentTimeMillis();
-					while (true)
-					{
-						do
-						{
-							do
-							{
+					while (true) {
+						do {
+							do {
 								Graphics graphics = Game.this
 										.getBufferStrategy().getDrawGraphics();
-								if (inGame)
-								{
-									if (controlled != null)
-									{
-										drawGame(graphics, controlled);
-									}
-								}
+								draw(graphics);
 								graphics.dispose();
 							}
 							while (Game.this.getBufferStrategy()
@@ -209,12 +182,10 @@ public class ClientMain extends JFrame
 								.contentsLost());
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
-						try
-						{
+						try {
 							Thread.sleep(Math.max(0, 1000 / 60 - diff));
 						}
-						catch (Exception e)
-						{
+						catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -222,11 +193,9 @@ public class ClientMain extends JFrame
 			}).start();
 		}
 
-		public void startGame()
-		{
+		public void startGame() {
 			inGame = true;
-			if (Constants.OFFLINE)
-			{
+			if (Constants.OFFLINE) {
 				controlled = new Mage();
 				controlled.setPos(new Vector2D(40, 40));
 				current[currentFloor].addPlayer(controlled);
@@ -234,16 +203,12 @@ public class ClientMain extends JFrame
 			(new Thread() {
 				long lastUpdate;
 
-				public void run()
-				{
+				public void run() {
 					lastUpdate = System.currentTimeMillis();
-					while (inGame)
-					{
+					while (inGame) {
 						// Update player with client data
-						if (!Constants.OFFLINE)
-						{
-							try
-							{
+						if (!Constants.OFFLINE) {
+							try {
 								byteStream = new ByteArrayOutputStream();
 								os = new ObjectOutputStream(byteStream);
 								os.flush();
@@ -252,8 +217,7 @@ public class ClientMain extends JFrame
 								byte[] object = byteStream.toByteArray();
 								byte[] message = new byte[object.length + 1];
 								message[0] = 3;
-								for (int i = 0; i < object.length; i++)
-								{
+								for (int i = 0; i < object.length; i++) {
 									message[i + 1] = object[i];
 								}
 								sock.send(
@@ -261,8 +225,7 @@ public class ClientMain extends JFrame
 												message.length,
 												addr, Constants.SERVER_PORT));
 							}
-							catch (Exception e)
-							{
+							catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
@@ -274,26 +237,22 @@ public class ClientMain extends JFrame
 
 						int roomCheck = current[currentFloor]
 								.atDoor(controlled);
-						if (roomCheck == Constants.LEFT)
-						{
+						if (roomCheck == Constants.LEFT) {
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getLeft(),
 											roomCheck);
 						}
-						else if (roomCheck == Constants.RIGHT)
-						{
+						else if (roomCheck == Constants.RIGHT) {
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getRight(),
 											roomCheck);
 						}
-						else if (roomCheck == Constants.UP)
-						{
+						else if (roomCheck == Constants.UP) {
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getUp(),
 											roomCheck);
 						}
-						else if (roomCheck == Constants.DOWN)
-						{
+						else if (roomCheck == Constants.DOWN) {
 							current[currentFloor] = current[currentFloor]
 									.moveTo(current[currentFloor].getDown(),
 											roomCheck);
@@ -302,12 +261,10 @@ public class ClientMain extends JFrame
 						long time = System.currentTimeMillis();
 						long diff = time - lastUpdate;
 						lastUpdate = time;
-						try
-						{
+						try {
 							Thread.sleep(Math.max(0, 1000 / 60 - diff));
 						}
-						catch (Exception e)
-						{
+						catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -315,10 +272,8 @@ public class ClientMain extends JFrame
 			}).start();
 		}
 
-		private void parsePacket(DatagramPacket dp) throws Exception
-		{
-			switch (dp.getData()[0])
-			{
+		private void parsePacket(DatagramPacket dp) throws Exception {
+			switch (dp.getData()[0]) {
 			case 0: // connected
 				System.out.println("Connected to server");
 				break;
@@ -326,35 +281,34 @@ public class ClientMain extends JFrame
 				ObjectInputStream ois = makeObjectStream(dp.getData());
 				long id = ois.readLong();
 				int type = ois.readInt();
+				classSelected = type;
 				System.out.println("Class selected: " + type);
 				controlled = Player.makePlayer(id, type);
 				break;
 			case 2: // game started
 				ois = makeObjectStream(dp.getData());
 				long seed = ois.readLong();
-				current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, seed);
+				current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS,
+						0, Constants.NUMBER_OF_FLOORS, seed);
 				System.out.println("Game starting");
 				startGame();
 				break;
 			case 3: // all player update
 				ois = makeObjectStream(dp.getData());
 				int numPlayers = ois.readInt();
-				for (int i = 0; i < numPlayers; i++)
-				{
+				for (int i = 0; i < numPlayers; i++) {
 					boolean exists = false;
 					Player p = (Player) ois.readObject();
 					for (int j = 0; j < current[currentFloor].getPlayers()
-							.size(); j++)
-					{
-						if (current[currentFloor].getPlayers().get(j).getID() == p
-								.getID())
-						{
+							.size(); j++) {
+						if (current[currentFloor].getPlayers().get(j)
+								.getID() == p
+										.getID()) {
 							current[currentFloor].getPlayers().set(j, p);
 							exists = true;
 						}
 					}
-					if (!exists)
-					{
+					if (!exists) {
 						current[currentFloor].getPlayers().add(p);
 					}
 				}
@@ -364,11 +318,9 @@ public class ClientMain extends JFrame
 				ois = makeObjectStream(dp.getData());
 				controlled = (Player) ois.readObject();
 				for (int i = 0; i < current[currentFloor].getPlayers()
-						.size(); i++)
-				{
+						.size(); i++) {
 					if (current[currentFloor].getPlayers().get(i)
-							.getID() == controlled.getID())
-					{
+							.getID() == controlled.getID()) {
 						current[currentFloor].getPlayers().set(i, controlled);
 					}
 				}
@@ -378,26 +330,58 @@ public class ClientMain extends JFrame
 		}
 
 		private ObjectInputStream makeObjectStream(byte[] bytes)
-				throws Exception
-		{
+				throws Exception {
 			ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
 			byteStream.read();
 			ObjectInputStream ois = new ObjectInputStream(byteStream);
 			return ois;
 		}
+		
+		public void draw(Graphics g) {
+			if (inGame) {
+				if (controlled != null) {
+					drawGame(g, controlled);
+				}
+			}
+			else {
+				drawCharMenu(g);				
+			}
+		}
+		
+		public void drawCharMenu(Graphics g) {
+			g.drawImage(SpriteSheet.MENUS[0], 0, 0, null);
+			g.setColor(new Color(255, 255, 255, 80));
+			switch (classSelected) {
+			case 0:
+				g.fillRect(373, 108, 278, 295);
+				break;
+			case 1:
+				g.fillRect(40, 438, 278, 295);
+				break;
+			case 2:
+				g.fillRect(706, 108, 278, 295);
+				break;
+			case 3:
+				g.fillRect(373, 438, 278, 295);
+				break;
+			case 4:
+				g.fillRect(40, 108, 278, 295);
+				break;
+			case 5:
+				g.fillRect(706, 438, 278, 295);
+				break;
+			}
+		}
 
-		public void drawGame(Graphics g, Player p)
-		{
+		public void drawGame(Graphics g, Player p) {
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			Vector2D offset = Constants.MIDDLE.subtract(p.getPos());
 
-			if (!inGame)
-			{
+			if (!inGame) {
 				g.drawImage(SpriteSheet.MENUS[0], 0, 0, null);
 			}
-			else
-			{
+			else {
 				g.setColor(Color.BLACK);
 				g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -409,8 +393,7 @@ public class ClientMain extends JFrame
 			}
 		}
 
-		public void drawHUD(Player p, Graphics g)
-		{
+		public void drawHUD(Player p, Graphics g) {
 			g.setColor(new Color(0, 0, 0, 127));
 			g.fillRect(0, getHeight() - 95, getWidth() - 450, 100);
 
@@ -434,10 +417,8 @@ public class ClientMain extends JFrame
 			g.drawString((p.getLevel() + 1) + "", 37, getHeight() - 25);
 			g.drawRect(30, getHeight() - 40, 19, 19);
 
-			for (int i = 0; i < 3; i++)
-			{
-				if (p.getAbilityActive(i + 1) > 0)
-				{
+			for (int i = 0; i < 3; i++) {
+				if (p.getAbilityActive(i + 1) != 0) {
 					g.setColor(new Color(255, 255, 255, 127));
 					g.fillRect(340 + 80 * i, getHeight() - 85,
 							10 + SpriteSheet.HUD_IMAGES[p.getType()][i]
@@ -447,8 +428,7 @@ public class ClientMain extends JFrame
 				}
 				g.drawImage(SpriteSheet.HUD_IMAGES[p.getType()][i],
 						345 + 80 * i, getHeight() - 80, null);
-				if (p.getCooldown(i + 1) > 0)
-				{
+				if (p.getCooldown(i + 1) > 0) {
 					g.setColor(new Color(255, 255, 255, 127));
 					g.fillArc(
 							345 + 80 * i,
@@ -459,73 +439,55 @@ public class ClientMain extends JFrame
 									.getHeight(null),
 							90,
 							(int) (p.getCooldown(i + 1) * 1.0
-									/ Constants.AB_COOLDOWNS[p.getType()][i] * 360));
+									/ Constants.AB_COOLDOWNS[p.getType()][i]
+									* 360));
 				}
 			}
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e)
-		{
+		public void mousePressed(MouseEvent e) {
 			int x = e.getX();
 			int y = e.getY();
-			if (!inGame)
-			{
-				try
-				{
-					if (x >= 42 && x <= 320 && y >= 363 && y <= 658)
-					{
+			if (!inGame) {
+				try {
+					if (x >= 42 && x <= 320 && y >= 108 && y <= 403) {
 						sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
 								addr, Constants.SERVER_PORT));
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
-								Constants.SERVER_PORT));
+						classSelected = 4;
 					}
-					else if (x >= 375 && x <= 653 && y >= 363 && y <= 658)
-					{
+					else if (x >= 375 && x <= 653 && y >= 108 && y <= 403) {
 						sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2,
 								addr, Constants.SERVER_PORT));
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
-								Constants.SERVER_PORT));
+						classSelected = 0;
 					}
-					else if (x >= 708 && x <= 986 && y >= 363 && y <= 658)
-					{
+					else if (x >= 708 && x <= 986 && y >= 108 && y <= 403) {
 						sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2,
 								addr, Constants.SERVER_PORT));
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
-								Constants.SERVER_PORT));
+						classSelected = 2;
 					}
-					else if (x >= 42 && x <= 320 && y >= 33 && y <= 328)
-					{
+					else if (x >= 42 && x <= 320 && y >= 438 && y <= 733) {
 						sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2,
 								addr, Constants.SERVER_PORT));
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
-								Constants.SERVER_PORT));
+						classSelected = 1;
 					}
-					else if (x >= 375 && x <= 653 && y >= 33 && y <= 328)
-					{
+					else if (x >= 375 && x <= 653 && y >= 438 && y <= 733) {
 						sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2,
 								addr, Constants.SERVER_PORT));
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
-								Constants.SERVER_PORT));
+						classSelected = 3;
 					}
-
-					else if (x >= 708 && x <= 986 && y >= 33 && y <= 328)
-					{
+					else if (x >= 708 && x <= 986 && y >= 438 && y <= 733) {
 						sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2,
 								addr, Constants.SERVER_PORT));
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
-								Constants.SERVER_PORT));
+						classSelected = 5;
 					}
 				}
-				catch (Exception e2)
-				{
+				catch (Exception e2) {
 					e2.printStackTrace();
 				}
 			}
-			else
-			{
-				switch (e.getButton())
-				{
+			else {
+				switch (e.getButton()) {
 				case MouseEvent.BUTTON1:
 					cs.press(ControlState.KEY_ATTACK);
 					break;
@@ -537,10 +499,8 @@ public class ClientMain extends JFrame
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e)
-		{
-			switch (e.getButton())
-			{
+		public void mouseReleased(MouseEvent e) {
+			switch (e.getButton()) {
 			case MouseEvent.BUTTON1:
 				cs.release(ControlState.KEY_ATTACK);
 				break;
@@ -551,22 +511,18 @@ public class ClientMain extends JFrame
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e)
-		{
+		public void mouseMoved(MouseEvent e) {
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent e)
-		{
+		public void mouseDragged(MouseEvent e) {
 			cs.updateMouse(e.getPoint());
 		}
 
 		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			switch (e.getKeyCode())
-			{
+		public void keyPressed(KeyEvent e) {
+			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
 				cs.press(ControlState.KEY_UP);
 				break;
@@ -586,26 +542,26 @@ public class ClientMain extends JFrame
 				cs.press(ControlState.KEY_AB2);
 				break;
 			}
-			if (!inGame)
-			{
-				try
-				{
-					/*
-					 * switch (e.getKeyCode()) { case KeyEvent.VK_0: sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_1: sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_2: sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_3: sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_4: sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_5: sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_ENTER: sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr, Constants.SERVER_PORT)); break; }
-					 */
+			if (!inGame) {
+				try {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						if (Constants.OFFLINE) {
+							startGame();
+						} else {
+							sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+									Constants.SERVER_PORT));
+						}
+					}
 				}
-				catch (Exception e1)
-				{
+				catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		}
 
 		@Override
-		public void keyReleased(KeyEvent e)
-		{
-			switch (e.getKeyCode())
-			{
+		public void keyReleased(KeyEvent e) {
+			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
 				cs.release(ControlState.KEY_UP);
 				break;
@@ -628,27 +584,22 @@ public class ClientMain extends JFrame
 		}
 
 		@Override
-		public void mouseClicked(MouseEvent e)
-		{
+		public void mouseClicked(MouseEvent e) {
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent e)
-		{
+		public void mouseEntered(MouseEvent e) {
 		}
 
 		@Override
-		public void mouseExited(MouseEvent e)
-		{
+		public void mouseExited(MouseEvent e) {
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e)
-		{
+		public void keyTyped(KeyEvent e) {
 		}
 
-		public void playerSelect()
-		{
+		public void playerSelect() {
 
 		}
 	}

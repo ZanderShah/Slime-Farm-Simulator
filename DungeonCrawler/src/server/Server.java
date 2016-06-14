@@ -3,10 +3,8 @@ package server;
 import java.awt.Graphics;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -29,8 +27,10 @@ public class Server {
 	private Room dungeon[];
 	private int currentFloor;
 	
-	private ByteArrayOutputStream byteStream;
+	private ByteArrayOutputStream byteOutStream;
+	private ByteArrayInputStream byteInStream;
 	private ObjectOutputStream os;
+	private ObjectInputStream is;
 	
 	public Server() {
 		currentFloor = 0;
@@ -66,13 +66,14 @@ public class Server {
 		inGame = true;
 		for (int i = 0; i < clientList.size(); i++) {
 			try {
-				byteStream = new ByteArrayOutputStream();
-				os = new ObjectOutputStream(byteStream);
+				byteOutStream = new ByteArrayOutputStream();
+				os = new ObjectOutputStream(byteOutStream);
 				os.flush();
 				os.writeLong(seed);
 				os.flush();
-				byte[] s = byteStream.toByteArray();
+				byte[] s = byteOutStream.toByteArray();
 				byte[] message = new byte[s.length + 1];
+				message[0] = 2;
 				for (int j = 0; j < s.length; j++) {
 					message[j + 1] = s[j];
 				}
@@ -96,7 +97,15 @@ public class Server {
 					// Send all players to all clients
 					for (int i = 0; i < clientList.size(); i++) {
 						try {
-							byte[] object = getObjectBytes((Serializable[]) dungeon[currentFloor].getPlayers().toArray());
+							byteOutStream = new ByteArrayOutputStream();
+							os = new ObjectOutputStream(byteOutStream);
+							os.flush();
+							os.writeInt(dungeon[currentFloor].getPlayers().size());
+							for (int j = 0; j < dungeon[currentFloor].getPlayers().size(); j++) {
+								os.writeObject(dungeon[currentFloor].getPlayers().get(j));
+							}
+							os.flush();
+							byte[] object = byteOutStream.toByteArray();
 							byte[] message = new byte[object.length + 1];
 							message[0] = 3;
 							for (int j = 0; j < object.length; j++) {
@@ -163,6 +172,19 @@ public class Server {
 				if (!inGame) {
 					System.out.println("Class chosen: " + dp.getData()[1]);
 					clientList.get(client).chooseClass(dp.getData()[1]);
+					byteOutStream = new ByteArrayOutputStream();
+					os = new ObjectOutputStream(byteOutStream);
+					os.flush();
+					os.writeLong(clientList.get(client).getPlayer().getID());
+					os.writeInt(dp.getData()[1]);
+					os.flush();
+					byte[] object = byteOutStream.toByteArray();
+					byte[] message = new byte[object.length + 1];
+					message[0] = 1;
+					for (int j = 0; j < object.length; j++) {
+						message[j + 1] = object[j];
+					}
+					clientList.get(client).send(message);
 				}
 				break;
 			case 2: // Start game
@@ -177,12 +199,12 @@ public class Server {
 			case 3: // Control update
 				if (inGame) {
 					ControlState cs = new ControlState();
-					ByteArrayInputStream byteStream = new ByteArrayInputStream(dp.getData());
-					byteStream.read();
-					ObjectInputStream ois = new ObjectInputStream(byteStream);
-					Object o = ois.readObject();
+					byteInStream = new ByteArrayInputStream(dp.getData());
+					byteInStream.read();
+					is = new ObjectInputStream(byteInStream);
+					Object o = is.readObject();
 					cs = (ControlState) o;
-					ois.close();
+					is.close();
 					clientList.get(client).setControls(cs);
 				}
 				break;
@@ -196,23 +218,23 @@ public class Server {
 		}
 	}
 	
-	public byte[] getObjectBytes(Serializable s) throws Exception {
-		byteStream = new ByteArrayOutputStream();
-		os = new ObjectOutputStream(byteStream);
+	public byte[] getObjectBytes(Object s) throws Exception {
+		byteOutStream = new ByteArrayOutputStream();
+		os = new ObjectOutputStream(byteOutStream);
 		os.flush();
 		os.writeObject(s);
 		os.flush();
-		return byteStream.toByteArray();
+		return byteOutStream.toByteArray();
 	}
 	
-	public byte[] getObjectBytes(Serializable[] s) throws Exception {
-		byteStream = new ByteArrayOutputStream();
-		os = new ObjectOutputStream(byteStream);
+	public byte[] getObjectBytes(Object[] s) throws Exception {
+		byteOutStream = new ByteArrayOutputStream();
+		os = new ObjectOutputStream(byteOutStream);
 		os.flush();
 		for (int i = 0; i < s.length; i++) {
 			os.writeObject(s[i]);
 		}
 		os.flush();
-		return byteStream.toByteArray();
+		return byteOutStream.toByteArray();
 	}
 }

@@ -273,6 +273,10 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		bossRoom = true;
 		this.nextLevel = nextLevel;
 	}
+	
+	public Room getNextLevel() {
+		return nextLevel;
+	}
 
 	public void addLevelObject(LevelObject o)
 	{
