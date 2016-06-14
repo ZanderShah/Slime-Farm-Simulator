@@ -155,7 +155,12 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public void removeDamageSource(DamageSource ds)
 	{
-		damageSources.remove(ds);
+		for (int i = 0; i < damageSources.size(); i++)
+			if (damageSources.get(i) == ds)
+			{
+				damageSources.remove(ds);
+				break;
+			}
 	}
 
 	public void addParticle(Particle p)
@@ -237,7 +242,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	{
 		return id;
 	}
-	
+
 	public int getDifficulty()
 	{
 		return difficulty;
@@ -343,7 +348,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 		return r;
 	}
-	
+
 	public void dropExperience(int num)
 	{
 		for (int i = 0; i < players.size(); i++)

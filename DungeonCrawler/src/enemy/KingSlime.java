@@ -44,11 +44,12 @@ public class KingSlime extends Enemy {
 		if (level < 3) {
 			KingSlime left = new KingSlime((int) getPos().getX(),
 					(int) getPos().getY(), level + 1);
+			r.addEnemy(left);
+			left.addDamage(r);
+			
 			KingSlime right = new KingSlime((int) getPos().getX(),
 					(int) getPos().getY(), level + 1);
-			r.addEnemy(left);
-			r.addEnemy(right);
-			left.addDamage(r);
+			r.addEnemy(right);		
 			right.addDamage(r);
 		}
 	}
