@@ -422,14 +422,19 @@ public class ClientMain extends JFrame
 			for (int i = 0; i < 3; i++)
 			{
 				if (p.getAbilityActive(i + 1) > 0)
+				{
+					g.setColor(new Color(255, 255, 255, 127));
 					g.fillRect(335 + 80 * i, getHeight() - 85,
 							10 + SpriteSheet.HUD_IMAGES[p.getType()][i]
 									.getWidth(null),
 							10 + SpriteSheet.HUD_IMAGES[p.getType()][i]
 									.getHeight(null));
+				}
 				g.drawImage(SpriteSheet.HUD_IMAGES[p.getType()][i],
 						340 + 80 * i, getHeight() - 80, null);
 				if (p.getCooldown(i + 1) > 0)
+				{
+					g.setColor(new Color(255, 255, 255, 127));
 					g.fillArc(
 							340 + 80 * i,
 							getHeight() - 80,
@@ -440,6 +445,7 @@ public class ClientMain extends JFrame
 							90,
 							(int) (p.getCooldown(i + 1) * 1.0
 									/ Constants.AB_COOLDOWNS[p.getType()][i] * 360));
+				}
 			}
 		}
 
