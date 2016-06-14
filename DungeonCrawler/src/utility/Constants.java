@@ -116,5 +116,5 @@ public class Constants
 			{ 1200, 1800, 300 } }; // Cleric
 
 	public static final int[] EXPERIENCE_REQUIRED = { 10, 20, 30, 50, 80, 130,
-			210, 340, 550, 890 };
+			210, 340, 550 };
 }
