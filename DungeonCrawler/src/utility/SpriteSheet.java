@@ -99,9 +99,14 @@ public class SpriteSheet
 			}
 
 			HUD_IMAGES = new Image[6][3];
-			for (int j = 1; j <= 3; j++)
+			for (int j = 1; j <= 3; j++){
 				HUD_IMAGES[2][j - 1] = ImageIO.read(new File(String.format(
 						"img//Icon%d%d.png", 2, j)));
+				HUD_IMAGES[1][j - 1] = ImageIO.read(new File(String.format(
+						"img//Icon%d%d.png", 2, j)));
+				HUD_IMAGES[4][j - 1] = ImageIO.read(new File(String.format(
+						"img//Icon%d%d.png", 2, j)));
+			}
 
 		}
 		catch (IOException e)
