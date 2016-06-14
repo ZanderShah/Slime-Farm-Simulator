@@ -8,21 +8,17 @@ import world.Room;
 import engine.LivingEntity;
 import engine.damage.MeleeEnemyDamageSource;
 
-public abstract class Enemy extends LivingEntity
-{
+public abstract class Enemy extends LivingEntity {
 
 	private MeleeEnemyDamageSource ds;
 
-	public Enemy()
-	{
+	public Enemy() {
 		super();
 	}
 
 	@Override
-	public void update(Room l)
-	{
-		if (getStats().getHealth() <= 0)
-		{
+	public void update(Room l) {
+		if (getStats().getHealth() <= 0) {
 			l.removeEnemy(this);
 			l.removeDamageSource(ds);
 			l.dropExperience((l.getDifficulty() + 1) * (l.getDifficulty() + 1)
@@ -36,26 +32,22 @@ public abstract class Enemy extends LivingEntity
 		}
 	}
 
-	public void addDamage(Room r)
-	{
+	public void addDamage(Room r) {
 		r.addDamageSource(ds, 1);
 	}
 
-	public void setDamageSource(MeleeEnemyDamageSource d)
-	{
+	public void setDamageSource(MeleeEnemyDamageSource d) {
 		ds = d;
 	}
 
-	public MeleeEnemyDamageSource getDamageSource()
-	{
+	public MeleeEnemyDamageSource getDamageSource() {
 		return ds;
 	}
 
 	@Override
 	public abstract void draw(Graphics g, Vector2D offset);
 
-	public void drawHealth(Graphics g, Vector2D offset)
-	{
+	public void drawHealth(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
 
 		g.setColor(Color.GRAY);
