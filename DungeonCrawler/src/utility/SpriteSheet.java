@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class SpriteSheet
 {
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
-			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, DOORS, WALLS,
+			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, TANK_IMAGES, WARRIOR_IMAGES, DOORS, WALLS,
 			PROJECTILES, ENEMIES;
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
@@ -40,6 +40,8 @@ public class SpriteSheet
 			MAGE_IMAGES = new Image[4];
 			HUNTER_IMAGES = new Image[4];
 			CLERIC_IMAGES = new Image[4];
+			TANK_IMAGES = new Image[4];
+			WARRIOR_IMAGES = new Image[4];
 			THIEF_IMAGES = new Image[4][2];
 			for (int i = 1; i <= 4; i++)
 			{
@@ -50,6 +52,10 @@ public class SpriteSheet
 				CLERIC_IMAGES[i - 1] = ImageIO.read(new File("img//Cleric" + i
 						+ ".png"));
 				THIEF_IMAGES[i - 1][0] = ImageIO.read(new File("img//Thief" + i
+						+ ".png"));
+				TANK_IMAGES[i - 1] = ImageIO.read(new File("img//Tank" + i
+						+ ".png"));
+				WARRIOR_IMAGES[i - 1] = ImageIO.read(new File("img//Warrior" + i
 						+ ".png"));
 			}
 
