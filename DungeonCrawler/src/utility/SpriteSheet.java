@@ -103,9 +103,9 @@ public class SpriteSheet
 				HUD_IMAGES[2][j - 1] = ImageIO.read(new File(String.format(
 						"img//Icon%d%d.png", 2, j)));
 				HUD_IMAGES[1][j - 1] = ImageIO.read(new File(String.format(
-						"img//Icon%d%d.png", 2, j)));
+						"img//Icon%d%d.png", 1, j)));
 				HUD_IMAGES[4][j - 1] = ImageIO.read(new File(String.format(
-						"img//Icon%d%d.png", 2, j)));
+						"img//Icon%d%d.png", 4, j)));
 			}
 
 		}
