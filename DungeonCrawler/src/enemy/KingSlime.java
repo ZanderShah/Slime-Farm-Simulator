@@ -53,6 +53,16 @@ public class KingSlime extends Enemy {
 					(int) getPos().getY(), level + 1);
 			r.addEnemy(right);		
 			right.addDamage(r);
+			
+			KingSlime up = new KingSlime((int) getPos().getX(),
+					(int) getPos().getY(), level + 1);
+			r.addEnemy(up);		
+			up.addDamage(r);
+			
+			KingSlime down = new KingSlime((int) getPos().getX(),
+					(int) getPos().getY(), level + 1);
+			r.addEnemy(down);		
+			down.addDamage(r);
 		}
 	}
 
@@ -67,8 +77,7 @@ public class KingSlime extends Enemy {
 
 			if (movementCounter == 60)
 			{
-				ArrayList<Player> targets = l.getPlayers();
-				slideDir = new Vector2D((int) (Math.random() * 360));
+				slideDir = EnemyAttackPatterns.runTowardsPlayer(l, getPos());
 				slideDir.multiplyBy(getStats().getSpeed());
 			}
 			if (movementCounter < slideTime) {
