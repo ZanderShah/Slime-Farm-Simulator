@@ -1,6 +1,7 @@
 package engine.damage;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import engine.AABB;
 import engine.CircleHitbox;
@@ -13,7 +14,7 @@ import utility.Constants;
 import utility.Vector2D;
 import world.Room;
 
-public abstract class DamageSource implements Drawable
+public abstract class DamageSource implements Drawable, Serializable
 {
 	private Hitbox hitbox;
 	private int frequency;
