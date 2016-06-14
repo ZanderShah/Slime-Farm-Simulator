@@ -329,6 +329,9 @@ public class ClientMain extends JFrame
 				controlled = Player.makePlayer(id, type);
 				break;
 			case 2: // game started
+				ois = makeObjectStream(dp.getData());
+				long seed = ois.readLong();
+				current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, seed);
 				System.out.println("Game starting");
 				startGame();
 				break;

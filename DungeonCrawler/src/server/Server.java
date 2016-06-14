@@ -3,12 +3,15 @@ package server;
 import java.awt.Graphics;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import utility.Constants;
 import utility.ControlState;
@@ -23,7 +26,7 @@ public class Server {
 	private ArrayList<Client> clientList = new ArrayList<Client>();
 	private boolean inGame;
 	private DatagramSocket sock;
-	private Room current[];
+	private Room dungeon[];
 	private int currentFloor;
 	
 	private ByteArrayOutputStream byteStream;
@@ -31,8 +34,8 @@ public class Server {
 	
 	public Server() {
 		currentFloor = 0;
-		current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, 1);
-		current[currentFloor].setCurrent();
+		dungeon = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, 1);
+		dungeon[currentFloor].setCurrent();
 		inGame = false;
 		try {
 			sock = new DatagramSocket(Constants.SERVER_PORT);
@@ -59,14 +62,26 @@ public class Server {
 	}
 	
 	public void startGame() {
+		long seed = (new Random()).nextLong();
 		inGame = true;
 		for (int i = 0; i < clientList.size(); i++) {
 			try {
-				clientList.get(i).send(new byte[] {2});
+				byteStream = new ByteArrayOutputStream();
+				os = new ObjectOutputStream(byteStream);
+				os.flush();
+				os.writeLong(seed);
+				os.flush();
+				byte[] s = byteStream.toByteArray();
+				byte[] message = new byte[s.length + 1];
+				for (int j = 0; j < s.length; j++) {
+					message[j + 1] = s[j];
+				}
+				clientList.get(i).send(message);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		
 		(new Thread() {
 			long lastUpdate;
 			
@@ -74,22 +89,14 @@ public class Server {
 				lastUpdate = System.currentTimeMillis();
 				while (true) {
 					for (int i = 0; i < clientList.size(); i++) {
-						clientList.get(i).update(current[currentFloor]);
+						clientList.get(i).update(dungeon[currentFloor]);
 					}
-					current[currentFloor].update();
+					dungeon[currentFloor].update();
 
 					// Send all players to all clients
 					for (int i = 0; i < clientList.size(); i++) {
 						try {
-							byteStream = new ByteArrayOutputStream();
-							os = new ObjectOutputStream(byteStream);
-							os.flush();
-							os.writeInt(current[currentFloor].getPlayers().size());
-							for (int j = 0; j < current[currentFloor].getPlayers().size(); j++) {
-								os.writeObject(current[currentFloor].getPlayers().get(j));
-							}
-							os.flush();
-							byte[] object = byteStream.toByteArray();
+							byte[] object = getObjectBytes((Serializable[]) dungeon[currentFloor].getPlayers().toArray());
 							byte[] message = new byte[object.length + 1];
 							message[0] = 3;
 							for (int j = 0; j < object.length; j++) {
@@ -106,12 +113,7 @@ public class Server {
 					// Send each client their own player
 					for (int i = 0; i < clientList.size(); i++) {
 						try {
-							byteStream = new ByteArrayOutputStream();
-							os = new ObjectOutputStream(byteStream);
-							os.flush();
-							os.writeObject(clientList.get(i).getPlayer());
-							os.flush();
-							byte[] object = byteStream.toByteArray();
+							byte[] object = getObjectBytes(clientList.get(i).getPlayer());
 							byte[] message = new byte[object.length + 1];
 							message[0] = 4;
 							for (int j = 0; j < object.length; j++) {
@@ -168,7 +170,7 @@ public class Server {
 					System.out.println("Game started");
 					startGame();
 					for (int i = 0; i < clientList.size(); i++) {
-						current[currentFloor].addPlayer(clientList.get(i).getPlayer());
+						dungeon[currentFloor].addPlayer(clientList.get(i).getPlayer());
 					}
 				}
 				break;
@@ -190,7 +192,27 @@ public class Server {
 	
 	public void draw(Graphics g) {
 		if (inGame) {
-			current[currentFloor].detailedDraw(g, new Vector2D(0, 0), null);
+			dungeon[currentFloor].detailedDraw(g, new Vector2D(0, 0), null);
 		}
+	}
+	
+	public byte[] getObjectBytes(Serializable s) throws Exception {
+		byteStream = new ByteArrayOutputStream();
+		os = new ObjectOutputStream(byteStream);
+		os.flush();
+		os.writeObject(s);
+		os.flush();
+		return byteStream.toByteArray();
+	}
+	
+	public byte[] getObjectBytes(Serializable[] s) throws Exception {
+		byteStream = new ByteArrayOutputStream();
+		os = new ObjectOutputStream(byteStream);
+		os.flush();
+		for (int i = 0; i < s.length; i++) {
+			os.writeObject(s[i]);
+		}
+		os.flush();
+		return byteStream.toByteArray();
 	}
 }
