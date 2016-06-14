@@ -1,6 +1,8 @@
 package engine;
 
-public class StatusEffect {
+import java.io.Serializable;
+
+public class StatusEffect implements Serializable {
 
 	public static final int HEALTH = 0;
 	public static final int SPEED = 1;

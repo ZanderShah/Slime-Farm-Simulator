@@ -144,45 +144,47 @@ public class Server {
 				client = i;
 			}
 		}
-		switch (dp.getData()[0]) {
-		case 0: // Connected
-			if (!inGame && clientList.size() < 4) {
-				System.out.println("Client connected");
-				Client c = new Client(dp.getAddress());
-				if (clientList.isEmpty()) {
-					c.setHost(true);
+		if (dp.getData()[0] == 0 || client != -1) {
+			switch (dp.getData()[0]) {
+			case 0: // Connected
+				if (!inGame && clientList.size() < 4) {
+					System.out.println("Client connected");
+					Client c = new Client(dp.getAddress());
+					if (clientList.isEmpty()) {
+						c.setHost(true);
+					}
+					clientList.add(c);
+					c.send(new byte[] {0});
 				}
-				clientList.add(c);
-				c.send(new byte[] {0});
-			}
-			break;
-		case 1: // Choose class
-			if (!inGame) {
-				System.out.println("Class chosen: " + dp.getData()[1]);
-				clientList.get(client).chooseClass(dp.getData()[1]);
-			}
-			break;
-		case 2: // Start game
-			if (clientList.get(client).isHost()) {
-				System.out.println("Game started");
-				startGame();
-				for (int i = 0; i < clientList.size(); i++) {
-					current[currentFloor].addPlayer(clientList.get(i).getPlayer());
+				break;
+			case 1: // Choose class
+				if (!inGame) {
+					System.out.println("Class chosen: " + dp.getData()[1]);
+					clientList.get(client).chooseClass(dp.getData()[1]);
 				}
+				break;
+			case 2: // Start game
+				if (clientList.get(client).isHost()) {
+					System.out.println("Game started");
+					startGame();
+					for (int i = 0; i < clientList.size(); i++) {
+						current[currentFloor].addPlayer(clientList.get(i).getPlayer());
+					}
+				}
+				break;
+			case 3: // Control update
+				if (inGame) {
+					ControlState cs = new ControlState();
+					ByteArrayInputStream byteStream = new ByteArrayInputStream(dp.getData());
+					byteStream.read();
+					ObjectInputStream ois = new ObjectInputStream(byteStream);
+					Object o = ois.readObject();
+					cs = (ControlState) o;
+					ois.close();
+					clientList.get(client).setControls(cs);
+				}
+				break;
 			}
-			break;
-		case 3: // Control update
-			if (inGame) {
-				ControlState cs = new ControlState();
-				ByteArrayInputStream byteStream = new ByteArrayInputStream(dp.getData());
-				byteStream.read();
-				ObjectInputStream ois = new ObjectInputStream(byteStream);
-				Object o = ois.readObject();
-				cs = (ControlState) o;
-				ois.close();
-				clientList.get(client).setControls(cs);
-			}
-			break;
 		}
 	}
 	
