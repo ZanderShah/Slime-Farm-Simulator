@@ -33,14 +33,16 @@ public class DungeonFactory
 	{
 		rng = new Random(seed);
 		Room entry[] = new Room[numberOfFloors];
+		for (int floor = 0; floor < numberOfFloors; floor++)
+			entry[floor] = new Room(850, 200, randomWidth(), randomHeight(),
+					difficulty, 0);
 
 		for (int floor = 0; floor < numberOfFloors; floor++)
 		{
-			entry[floor] = new Room(850, 200, randomWidth(), randomHeight(),
-					difficulty, 0);
 			totalRooms = 1;
 			generateConnections(entry[floor], numberOfRooms - 1, difficulty);
-			setBossRoom(entry[floor], new boolean[totalRooms], totalRooms - 1);
+			setBossRoom(entry[floor], new boolean[totalRooms], totalRooms - 1,
+					(floor + 1 < numberOfFloors ? entry[floor + 1] : null));
 			addDoors(entry[floor], new boolean[totalRooms]);
 			fillWithDecorativeObjects(entry[floor], difficulty,
 					new boolean[totalRooms]);
@@ -183,7 +185,8 @@ public class DungeonFactory
 		return false;
 	}
 
-	private static void setBossRoom(Room room, boolean[] vis, int goal)
+	private static void setBossRoom(Room room, boolean[] vis, int goal,
+			Room nextLevel)
 	{
 		if (room == null || vis[room.id()] || vis[goal])
 			return;
@@ -192,17 +195,17 @@ public class DungeonFactory
 
 		if (room.id() == goal)
 		{
-			room.setBossRoom();
+			room.setBossRoom(nextLevel);
 			KingSlime kingSlimey = new KingSlime(room.width() / 2 * 64,
 					room.height() / 2 * 64, 0);
 			room.addEnemy(kingSlimey);
 			kingSlimey.addDamage(room);
 		}
 
-		setBossRoom(room.getUp(), vis, goal);
-		setBossRoom(room.getDown(), vis, goal);
-		setBossRoom(room.getLeft(), vis, goal);
-		setBossRoom(room.getRight(), vis, goal);
+		setBossRoom(room.getUp(), vis, goal, nextLevel);
+		setBossRoom(room.getDown(), vis, goal, nextLevel);
+		setBossRoom(room.getLeft(), vis, goal, nextLevel);
+		setBossRoom(room.getRight(), vis, goal, nextLevel);
 	}
 
 	private static void addDoors(Room room, boolean[] vis)

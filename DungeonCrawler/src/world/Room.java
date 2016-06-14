@@ -26,7 +26,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	// bottom left is (0, 0) and top right is (width, height)
 	private int x, y, width, height, difficulty, id;
 	private boolean currentRoom, bossRoom;
-	private Room up, down, left, right;
+	private Room up, down, left, right, nextLevel;
 	private ArrayList<LevelObject> objects;
 	private LevelObject[] doors;
 	private ArrayList<DamageSource> damageSources;
@@ -48,7 +48,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		this.id = id;
 
 		currentRoom = bossRoom = false;
-		up = down = left = right = null;
+		up = down = left = right = nextLevel = null;
 		objects = new ArrayList<LevelObject>();
 		doors = new LevelObject[5];
 		damageSources = new ArrayList<DamageSource>();
@@ -236,6 +236,11 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	{
 		return id;
 	}
+	
+	public int getDifficulty()
+	{
+		return difficulty;
+	}
 
 	public void clean()
 	{
@@ -258,10 +263,10 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		return bossRoom;
 	}
 
-	public void setBossRoom()
+	public void setBossRoom(Room nextLevel)
 	{
 		bossRoom = true;
-
+		this.nextLevel = nextLevel;
 	}
 
 	public void addLevelObject(LevelObject o)
@@ -336,6 +341,12 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		clean();
 
 		return r;
+	}
+	
+	public void dropExperience(int num)
+	{
+		for (int i = 0; i < players.size(); i++)
+			players.get(i).addExperience(num);
 	}
 
 	public void stopTearing2017()

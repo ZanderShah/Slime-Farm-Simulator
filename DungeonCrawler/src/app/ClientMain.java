@@ -405,38 +405,46 @@ public class ClientMain extends JFrame
 		public void drawHUD(Player p, Graphics g)
 		{
 			g.setColor(new Color(0, 0, 0, 127));
-			g.fillRect(0, getHeight() - 95, getWidth() - 455, 100);
+			g.fillRect(0, getHeight() - 95, getWidth() - 450, 100);
 
+			// Health bar
 			g.setColor(Color.GRAY.darker());
-			g.fillRect(25, getHeight() - 80, 300, 20);
-
+			g.fillRect(30, getHeight() - 75, 300, 20);
 			g.setColor(Color.RED);
-			g.fillRect(25, getHeight() - 80, (int) (300.0 * p.getStats()
+			g.fillRect(30, getHeight() - 75, (int) (300.0 * p.getStats()
 					.getHealth() / p.getStats().getMaxHealth()), 20);
-
 			g.setColor(Color.WHITE);
-			g.drawString((int) p.getStats().getHealth() + "/"
-					+ (int) p.getStats().getMaxHealth(), 160,
-					getHeight() - 65);
+			g.drawString("HP", 10, getHeight() - 60);
+
+			// Experience bar
+			g.setColor(Color.GRAY.darker());
+			g.fillRect(50, getHeight() - 40, 280, 20);
+			g.setColor(new Color(236, 229, 130));
+			g.fillRect(50, getHeight() - 40, (int) (280.0 * p.getExperience()
+					/ Constants.EXPERIENCE_REQUIRED[p.getLevel()]), 20);
+			g.setColor(Color.WHITE);
+			g.drawString("EXP", 5, getHeight() - 25);
+			g.drawString((p.getLevel() + 1) + "", 37, getHeight() - 25);
+			g.drawRect(30, getHeight() - 40, 19, 19);
 
 			for (int i = 0; i < 3; i++)
 			{
 				if (p.getAbilityActive(i + 1) > 0)
 				{
 					g.setColor(new Color(255, 255, 255, 127));
-					g.fillRect(335 + 80 * i, getHeight() - 85,
+					g.fillRect(340 + 80 * i, getHeight() - 85,
 							10 + SpriteSheet.HUD_IMAGES[p.getType()][i]
 									.getWidth(null),
 							10 + SpriteSheet.HUD_IMAGES[p.getType()][i]
 									.getHeight(null));
 				}
 				g.drawImage(SpriteSheet.HUD_IMAGES[p.getType()][i],
-						340 + 80 * i, getHeight() - 80, null);
+						345 + 80 * i, getHeight() - 80, null);
 				if (p.getCooldown(i + 1) > 0)
 				{
 					g.setColor(new Color(255, 255, 255, 127));
 					g.fillArc(
-							340 + 80 * i,
+							345 + 80 * i,
 							getHeight() - 80,
 							SpriteSheet.HUD_IMAGES[p.getType()][i]
 									.getWidth(null),
