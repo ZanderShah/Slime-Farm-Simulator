@@ -12,11 +12,11 @@ import utility.Vector2D;
 
 public class PoisonArrow extends Projectile {
 
-	public PoisonArrow(Vector2D pos, Vector2D dir, boolean player) {
+	public PoisonArrow(Vector2D pos, Vector2D dir, boolean player, long id) {
 		super(new AABB(pos, 3, 3), 0, -1, pos,
 				dir.getNormalized().multiply(Constants.ARROW_SPEED), true,
 				player, Constants.ARROW_DAMAGE,
-				new StatusEffect(1200, 40, -2, StatusEffect.HEALTH, false), Constants.ARROW_KNOCKBACK);
+				new StatusEffect(1200, 40, -2, StatusEffect.HEALTH, false), Constants.ARROW_KNOCKBACK, id);
 	}
 
 	@Override

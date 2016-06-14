@@ -57,7 +57,7 @@ public class Hunter extends Player {
 					.subtract(Constants.MIDDLE)
 					.getNormalized();
 			r.addDamageSource(new Arrow(getPos().add(dir.multiply(30)), dir,
-					true), getStats().getDamageMultiplier());
+					true, getID()), getStats().getDamageMultiplier());
 		}
 		super.update(cs, r);
 	}
@@ -70,21 +70,21 @@ public class Hunter extends Player {
 				if (getAbilityActive(1) != 0) {
 					r.addDamageSource(new PoisonArrow(getPos().add(
 							getAttackDir().multiply(30)), getAttackDir(),
-							true), getStats().getDamageMultiplier());
+							true, getID()), getStats().getDamageMultiplier());
 					setAbilityActive(1, 0);
 					setCooldown(1, Constants.AB_COOLDOWNS[4][0]);
 				}
 				else if (getAbilityActive(2) != 0) {
 					r.addDamageSource(new PiercingArrow(getPos().add(
 							getAttackDir().multiply(30)), getAttackDir(),
-							true), getStats().getDamageMultiplier());
+							true, getID()), getStats().getDamageMultiplier());
 					setAbilityActive(2, 0);
 					setCooldown(2, Constants.AB_COOLDOWNS[4][1]);
 				}
 				else {
 					r.addDamageSource(new Arrow(getPos().add(
 							getAttackDir().multiply(30)), getAttackDir(),
-							true), getStats().getDamageMultiplier());
+							true, getID()), getStats().getDamageMultiplier());
 				}
 			}
 			return attacked;

@@ -20,7 +20,7 @@ public abstract class Enemy extends LivingEntity {
 	public void update(Room l) {
 		if (getStats().getHealth() <= 0) {
 			l.removeEnemy(this);
-			l.removeDamageSource(ds);
+			l.removeDamageSource(getID());
 			l.dropExperience((l.getDifficulty() + 1) * (l.getDifficulty() + 1)
 					* 5);
 			onDeath(l);

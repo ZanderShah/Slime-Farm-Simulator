@@ -11,8 +11,8 @@ import utility.Vector2D;
 
 public class Knife extends Projectile {
 
-	public Knife(Vector2D pos, Vector2D dir, boolean player, double dam) {
-		super(new AABB(pos.clone(), 5, 5), 0, -1, pos, dir.getNormalized().multiply(Constants.KNIFE_SPEED), true, player, dam, Constants.KNIFE_KNOCKBACK);
+	public Knife(Vector2D pos, Vector2D dir, boolean player, double dam, long id) {
+		super(new AABB(pos.clone(), 5, 5), 0, -1, pos, dir.getNormalized().multiply(Constants.KNIFE_SPEED), true, player, dam, Constants.KNIFE_KNOCKBACK, id);
 	}
 
 	@Override

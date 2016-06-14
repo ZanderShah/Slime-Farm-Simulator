@@ -67,7 +67,7 @@ public class Mage extends Player {
 
 				// Create beam particles
 				r.addDamageSource(new BeamParticle(60, getPos().add(spray),
-						beamDirection.multiply(10.0), true), getStats()
+						beamDirection.multiply(10.0), true, getID()), getStats()
 								.getDamageMultiplier());
 			}
 		}
@@ -92,7 +92,7 @@ public class Mage extends Player {
 															+ 1))
 													- Constants.MAGE_SPRAY
 															/ 2))),
-							true),
+							true, getID()),
 					getStats().getDamageMultiplier());
 		}
 		return attacked;
@@ -121,7 +121,7 @@ public class Mage extends Player {
 			setAbilityActive(2, Constants.MAGE_DEBUFF_LENGTH);
 			currentDebuff = new MageDebuff(getPos(),
 					Constants.MAGE_DEBUFF_RANGE, Constants.MAGE_DEBUFF_LENGTH,
-					true);
+					true, getID());
 			r.addDamageSource(currentDebuff, 1);
 			giveStatusEffect(new StatusEffect(Constants.MAGE_DEBUFF_LENGTH, 0,
 					0.85, StatusEffect.SPEED, true));
@@ -137,7 +137,7 @@ public class Mage extends Player {
 			Vector2D pos = (new Vector2D(p)).add(getPos()).subtract(
 					Constants.MIDDLE);
 			r.addDamageSource(new FireCircle(pos, Constants.MAGE_FIRE_RANGE,
-					30, Constants.MAGE_FIRE_LENGTH, true, 10), getStats()
+					30, Constants.MAGE_FIRE_LENGTH, true, 10, getID()), getStats()
 							.getDamageMultiplier());
 			r.addEmitter(new ParticleEmitter(0, pos, new Vector2D(),
 					Constants.MAGE_FIRE_LENGTH, 60, 5, 20, 20,

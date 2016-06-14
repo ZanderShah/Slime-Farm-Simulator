@@ -119,6 +119,7 @@ public class Server {
 							e.printStackTrace();
 						}
 					}
+					
 					// Send each client their own player
 					for (int i = 0; i < clientList.size(); i++) {
 						try {
@@ -130,6 +131,31 @@ public class Server {
 							}
 							
 							clientList.get(i).send(message);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+					for (int i = 0; i < clientList.size(); i++) {
+						try {
+							byteOutStream = new ByteArrayOutputStream();
+							os = new ObjectOutputStream(byteOutStream);
+							os.flush();
+							os.writeInt(dungeon[currentFloor].getDamageSources().size());
+							for (int j = 0; j < dungeon[currentFloor].getDamageSources().size(); j++) {
+								os.writeObject(dungeon[currentFloor].getDamageSources().get(j));
+							}
+							os.flush();
+							byte[] object = byteOutStream.toByteArray();
+							byte[] message = new byte[object.length + 1];
+							message[0] = 5;
+							for (int j = 0; j < object.length; j++) {
+								message[j + 1] = object[j];
+							}
+							
+							for (int j = 0; j < clientList.size(); j++) {
+								clientList.get(j).send(message);
+							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

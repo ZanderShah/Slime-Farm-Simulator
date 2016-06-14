@@ -8,8 +8,8 @@ import utility.Vector2D;
 
 public class MageDebuff extends CircleDamageSource {
 
-	public MageDebuff(Vector2D pos, int rad, int d, boolean p) {
-		super(pos, rad, 0, d, false, p, 0, new StatusEffect(1, 0, 0.75, StatusEffect.DEF, true), 0);
+	public MageDebuff(Vector2D pos, int rad, int d, boolean p, long id) {
+		super(pos, rad, 0, d, false, p, 0, new StatusEffect(1, 0, 0.75, StatusEffect.DEF, true), 0, id);
 	}
 
 	@Override

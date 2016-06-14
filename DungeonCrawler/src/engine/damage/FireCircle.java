@@ -8,8 +8,8 @@ import utility.Vector2D;
 
 public class FireCircle extends CircleDamageSource {
 
-	public FireCircle(Vector2D pos, int rad, int f, int d, boolean p, double dam) {
-		super(pos, rad, f, d, false, p, dam, 0);
+	public FireCircle(Vector2D pos, int rad, int f, int d, boolean p, double dam, long id) {
+		super(pos, rad, f, d, false, p, dam, 0, id);
 	}
 
 	@Override

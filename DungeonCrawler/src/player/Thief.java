@@ -77,7 +77,7 @@ public class Thief extends Player
 					true,
 					(getAbilityActive(1) != 0 ? Constants.THIEF_DAMAGE * 3
 							: Constants.THIEF_DAMAGE),
-					Constants.THIEF_KNOCKBACK), getStats()
+					Constants.THIEF_KNOCKBACK, getID()), getStats()
 					.getDamageMultiplier());
 			if (getAbilityActive(1) != 0)
 			{
@@ -131,12 +131,12 @@ public class Thief extends Player
 				damage *= 3;
 			}
 			r.addDamageSource(new Knife(getPos(), new Vector2D(knifeDir
-					.getAngle() - Constants.KNIFE_SPREAD), true, damage),
+					.getAngle() - Constants.KNIFE_SPREAD), true, damage, getID()),
 					getStats().getDamageMultiplier());
-			r.addDamageSource(new Knife(getPos(), knifeDir, true, damage),
+			r.addDamageSource(new Knife(getPos(), knifeDir, true, damage, getID()),
 					getStats().getDamageMultiplier());
 			r.addDamageSource(new Knife(getPos(), new Vector2D(knifeDir
-					.getAngle() + Constants.KNIFE_SPREAD), true, damage),
+					.getAngle() + Constants.KNIFE_SPREAD), true, damage, getID()),
 					getStats().getDamageMultiplier());
 			setAbilityActive(3, 1);
 		}

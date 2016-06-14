@@ -16,6 +16,8 @@ import world.Room;
 
 public abstract class DamageSource implements Drawable, Serializable
 {
+	private long source;
+	
 	private Hitbox hitbox;
 	private int frequency;
 	private int duration;
@@ -29,7 +31,7 @@ public abstract class DamageSource implements Drawable, Serializable
 	private StatusEffect effect;
 
 	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p,
-			double dam, int kb)
+			double dam, int kb, long s)
 	{
 		hitbox = h;
 		frequency = f;
@@ -39,10 +41,11 @@ public abstract class DamageSource implements Drawable, Serializable
 		player = p;
 		damage = dam;
 		knockback = kb;
+		source = s;
 	}
 
 	public DamageSource(Hitbox h, int f, int d, boolean single, boolean p,
-			double dam, StatusEffect e, int kb)
+			double dam, StatusEffect e, int kb, long s)
 	{
 		hitbox = h;
 		frequency = f;
@@ -73,6 +76,10 @@ public abstract class DamageSource implements Drawable, Serializable
 	public void setHitbox(Hitbox hitbox)
 	{
 		this.hitbox = hitbox;
+	}
+	
+	public long getSourceID() {
+		return source;
 	}
 
 	public int getHitCounter()

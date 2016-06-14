@@ -84,7 +84,7 @@ public class Tank extends Player
 			r.addEmitter(new ParticleEmitter(0, getPos(), new Vector2D(), 2,
 					40, 0, 0, 80, Constants.TANK_STUN_RANGE, 0, 40));
 			r.addDamageSource(new TankStun(getPos(), Constants.TANK_STUN_RANGE,
-					true), getStats().getDamageMultiplier());
+					true, getID()), getStats().getDamageMultiplier());
 			setCooldown(2, Constants.AB_COOLDOWNS[3][1]);
 		}
 	}

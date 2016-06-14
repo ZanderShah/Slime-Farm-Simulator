@@ -6,12 +6,12 @@ import utility.Vector2D;
 
 public abstract class CircleDamageSource extends DamageSource {
 
-	public CircleDamageSource(Vector2D pos, int rad, int f, int d, boolean single, boolean p, double dam, int kb) {
-		super(new CircleHitbox(pos, rad), f, d, single, p, dam, kb);
+	public CircleDamageSource(Vector2D pos, int rad, int f, int d, boolean single, boolean p, double dam, int kb, long id) {
+		super(new CircleHitbox(pos, rad), f, d, single, p, dam, kb, id);
 	}
 	
-	public CircleDamageSource(Vector2D pos, int rad, int f, int d, boolean single, boolean p, double dam, StatusEffect e, int kb) {
-		super(new CircleHitbox(pos, rad), f, d, single, p, dam, e, kb);
+	public CircleDamageSource(Vector2D pos, int rad, int f, int d, boolean single, boolean p, double dam, StatusEffect e, int kb, long id) {
+		super(new CircleHitbox(pos, rad), f, d, single, p, dam, e, kb, id);
 	}
 	
 	public CircleHitbox getHitbox() {

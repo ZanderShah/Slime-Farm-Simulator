@@ -35,7 +35,7 @@ public class KingSlime extends Enemy {
 	@Override
 	public void addDamage(Room r) {
 		setDamageSource(new MeleeEnemyDamageSource(getHitbox(),
-				50 / (int) (Math.pow(2, level)), 30));
+				50 / (int) (Math.pow(2, level)), 30, getID()));
 		super.addDamage(r);
 	}
 

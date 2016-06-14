@@ -10,13 +10,13 @@ public abstract class NonRepeatingDamageSource extends DamageSource {
 	
 	private ArrayList<LivingEntity> alreadyHit;
 	
-	public NonRepeatingDamageSource(Hitbox h, int d, boolean p, int dam, int kb) {
-		super(h, 0, d, false, p, dam, kb);
+	public NonRepeatingDamageSource(Hitbox h, int d, boolean p, int dam, int kb, long id) {
+		super(h, 0, d, false, p, dam, kb, id);
 		alreadyHit = new ArrayList<LivingEntity>();
 	}
 	
-	public NonRepeatingDamageSource(Hitbox h, int d, boolean p, int dam, StatusEffect e, int kb) {
-		super(h, 0, d, false, p, dam, e, kb);
+	public NonRepeatingDamageSource(Hitbox h, int d, boolean p, int dam, StatusEffect e, int kb, long id) {
+		super(h, 0, d, false, p, dam, e, kb, id);
 		alreadyHit = new ArrayList<LivingEntity>();
 	}
 	
