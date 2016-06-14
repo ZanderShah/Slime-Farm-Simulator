@@ -57,7 +57,7 @@ public class ClientMain extends JFrame
 			try
 			{
 				gc.connect(InetAddress.getByName("10.242.161.92"));
-				//gc.connect(InetAddress.getByName("localhost"));
+				// gc.connect(InetAddress.getByName("localhost"));
 			}
 			catch (Exception e)
 			{
@@ -389,14 +389,21 @@ public class ClientMain extends JFrame
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			Vector2D offset = Constants.MIDDLE.subtract(p.getPos());
 
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, getWidth(), getHeight());
+			if (!inGame)
+			{
+				g.drawImage(SpriteSheet.MENUS[0], 0, 0, null);
+			}
+			else
+			{
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, getWidth(), getHeight());
 
-			current[currentFloor].detailedDraw(g, offset, controlled);
-			drawMinimap(current[currentFloor], g, offset,
-					new boolean[Constants.NUMBER_OF_ROOMS]);
+				current[currentFloor].detailedDraw(g, offset, controlled);
+				drawMinimap(current[currentFloor], g, offset,
+						new boolean[Constants.NUMBER_OF_ROOMS]);
 
-			drawHUD(p, g);
+				drawHUD(p, g);
+			}
 		}
 
 		public void drawHUD(Player p, Graphics g)
@@ -457,14 +464,72 @@ public class ClientMain extends JFrame
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
-			switch (e.getButton())
+			int x = e.getX();
+			int y = e.getY();
+			if (!inGame)
 			{
-			case MouseEvent.BUTTON1:
-				cs.press(ControlState.KEY_ATTACK);
-				break;
-			case MouseEvent.BUTTON3:
-				cs.press(ControlState.KEY_AB3);
-				break;
+				try
+				{
+					if (x >= 42 && x <= 320 && y >= 363 && y <= 658)
+					{
+						sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
+								addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+								Constants.SERVER_PORT));
+					}
+					else if (x >= 375 && x <= 653 && y >= 363 && y <= 658)
+					{
+						sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2,
+								addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+								Constants.SERVER_PORT));
+					}
+					else if (x >= 708 && x <= 986 && y >= 363 && y <= 658)
+					{
+						sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2,
+								addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+								Constants.SERVER_PORT));
+					}
+					else if (x >= 42 && x <= 320 && y >= 33 && y <= 328)
+					{
+						sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2,
+								addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+								Constants.SERVER_PORT));
+					}
+					else if (x >= 375 && x <= 653 && y >= 33 && y <= 328)
+					{
+						sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2,
+								addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+								Constants.SERVER_PORT));
+					}
+
+					else if (x >= 708 && x <= 986 && y >= 33 && y <= 328)
+					{
+						sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2,
+								addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+								Constants.SERVER_PORT));
+					}
+				}
+				catch (Exception e2)
+				{
+					e2.printStackTrace();
+				}
+			}
+			else
+			{
+				switch (e.getButton())
+				{
+				case MouseEvent.BUTTON1:
+					cs.press(ControlState.KEY_ATTACK);
+					break;
+				case MouseEvent.BUTTON3:
+					cs.press(ControlState.KEY_AB3);
+					break;
+				}
 			}
 		}
 
@@ -522,37 +587,9 @@ public class ClientMain extends JFrame
 			{
 				try
 				{
-					switch (e.getKeyCode())
-					{
-					case KeyEvent.VK_0:
-						sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2,
-								addr, Constants.SERVER_PORT));
-						break;
-					case KeyEvent.VK_1:
-						sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2,
-								addr, Constants.SERVER_PORT));
-						break;
-					case KeyEvent.VK_2:
-						sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2,
-								addr, Constants.SERVER_PORT));
-						break;
-					case KeyEvent.VK_3:
-						sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2,
-								addr, Constants.SERVER_PORT));
-						break;
-					case KeyEvent.VK_4:
-						sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
-								addr, Constants.SERVER_PORT));
-						break;
-					case KeyEvent.VK_5:
-						sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2,
-								addr, Constants.SERVER_PORT));
-						break;
-					case KeyEvent.VK_ENTER:
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
-								Constants.SERVER_PORT));
-						break;
-					}
+					/*
+					 * switch (e.getKeyCode()) { case KeyEvent.VK_0: sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_1: sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_2: sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_3: sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_4: sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_5: sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2, addr, Constants.SERVER_PORT)); break; case KeyEvent.VK_ENTER: sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr, Constants.SERVER_PORT)); break; }
+					 */
 				}
 				catch (Exception e1)
 				{
@@ -605,6 +642,11 @@ public class ClientMain extends JFrame
 		@Override
 		public void keyTyped(KeyEvent e)
 		{
+		}
+
+		public void playerSelect()
+		{
+
 		}
 	}
 }

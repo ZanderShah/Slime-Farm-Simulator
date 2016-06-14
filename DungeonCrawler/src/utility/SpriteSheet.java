@@ -11,7 +11,7 @@ public class SpriteSheet
 {
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
 			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, TANK_IMAGES, WARRIOR_IMAGES, DOORS, WALLS,
-			PROJECTILES, ENEMIES;
+			PROJECTILES, ENEMIES, MENUS;
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
 
@@ -107,6 +107,9 @@ public class SpriteSheet
 				HUD_IMAGES[4][j - 1] = ImageIO.read(new File(String.format(
 						"img//Icon%d%d.png", 4, j)));
 			}
+			
+			MENUS = new Image[1];
+			MENUS[0] = ImageIO.read(new File("img//PlayerSelectMenu.png"));
 
 		}
 		catch (IOException e)
