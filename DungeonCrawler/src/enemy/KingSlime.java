@@ -67,8 +67,7 @@ public class KingSlime extends Enemy {
 
 			if (movementCounter == 60)
 			{
-				ArrayList<Player> targets = l.getPlayers();
-				slideDir = new Vector2D((int) (Math.random() * 360));
+				slideDir = EnemyAttackPatterns.runTowardsPlayer(l, getPos());
 				slideDir.multiplyBy(getStats().getSpeed());
 			}
 			if (movementCounter < slideTime) {
