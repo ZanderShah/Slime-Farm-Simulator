@@ -518,33 +518,44 @@ public class ClientMain extends JFrame
 				cs.press(ControlState.KEY_AB2);
 				break;
 			}
-			if (!inGame) {
-				try {
-					switch (e.getKeyCode()) {
+			if (!inGame)
+			{
+				try
+				{
+					switch (e.getKeyCode())
+					{
 					case KeyEvent.VK_0:
-						sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2, addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2,
+								addr, Constants.SERVER_PORT));
 						break;
 					case KeyEvent.VK_1:
-						sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2, addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2,
+								addr, Constants.SERVER_PORT));
 						break;
 					case KeyEvent.VK_2:
-						sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2, addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2,
+								addr, Constants.SERVER_PORT));
 						break;
 					case KeyEvent.VK_3:
-						sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2, addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2,
+								addr, Constants.SERVER_PORT));
 						break;
 					case KeyEvent.VK_4:
-						sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2, addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
+								addr, Constants.SERVER_PORT));
 						break;
 					case KeyEvent.VK_5:
-						sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2, addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2,
+								addr, Constants.SERVER_PORT));
 						break;
 					case KeyEvent.VK_ENTER:
-						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr, Constants.SERVER_PORT));
+						sock.send(new DatagramPacket(new byte[] { 2 }, 1, addr,
+								Constants.SERVER_PORT));
 						break;
 					}
 				}
-				catch (Exception e1) {
+				catch (Exception e1)
+				{
 					e1.printStackTrace();
 				}
 			}

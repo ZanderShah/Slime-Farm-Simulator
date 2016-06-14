@@ -135,7 +135,6 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		for (int i = 0; i < damageSources.size(); i++)
 			if (damageSources.get(i) == ds) {
 				damageSources.remove(ds);
-				break;
 			}
 	}
 

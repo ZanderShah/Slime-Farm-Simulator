@@ -1,7 +1,9 @@
 package enemy;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
+import player.Player;
 import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
@@ -62,7 +64,10 @@ public class KingSlime extends Enemy {
 		}
 		else {
 			movementCounter--;
-			if (movementCounter == slideTime) {
+
+			if (movementCounter == 60)
+			{
+				ArrayList<Player> targets = l.getPlayers();
 				slideDir = new Vector2D((int) (Math.random() * 360));
 				slideDir.multiplyBy(getStats().getSpeed());
 			}
