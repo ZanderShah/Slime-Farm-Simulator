@@ -404,31 +404,43 @@ public class ClientMain extends JFrame
 
 		public void drawHUD(Player p, Graphics g)
 		{
-			g.setColor(Color.GRAY);
-			g.fillRect(0, getHeight() - 200, getWidth(), 200);
+			g.setColor(new Color(0, 0, 0, 127));
+			g.fillRect(0, getHeight() - 95, getWidth() - 455, 100);
 
 			g.setColor(Color.GRAY.darker());
-			g.fillRect(100, getHeight() - 180, 300, 20);
+			g.fillRect(25, getHeight() - 80, 300, 20);
 
 			g.setColor(Color.RED);
-			g.fillRect(100, getHeight() - 180, (int) (300.0 * p.getStats()
+			g.fillRect(25, getHeight() - 80, (int) (300.0 * p.getStats()
 					.getHealth() / p.getStats().getMaxHealth()), 20);
 
 			g.setColor(Color.WHITE);
 			g.drawString((int) p.getStats().getHealth() + "/"
-					+ (int) p.getStats().getMaxHealth(), 230,
-					getHeight() - 165);
+					+ (int) p.getStats().getMaxHealth(), 160,
+					getHeight() - 65);
 
-			g.drawString(
-					"Ability 1: " + p.getAbilityActive(1) + " Ability 2: "
-							+ p.getAbilityActive(2) + " Ability 3: "
-							+ p.getAbilityActive(3),
-					100, getHeight() - 140);
-			g.drawString(
-					"Ability 1: " + p.getCooldown(1) + " Ability 2: "
-							+ p.getCooldown(2) + " Ability 3: "
-							+ p.getCooldown(3),
-					100, getHeight() - 100);
+			for (int i = 0; i < 3; i++)
+			{
+				if (p.getAbilityActive(i + 1) > 0)
+					g.fillRect(335 + 80 * i, getHeight() - 85,
+							10 + SpriteSheet.HUD_IMAGES[p.getType()][i]
+									.getWidth(null),
+							10 + SpriteSheet.HUD_IMAGES[p.getType()][i]
+									.getHeight(null));
+				g.drawImage(SpriteSheet.HUD_IMAGES[p.getType()][i],
+						340 + 80 * i, getHeight() - 80, null);
+				if (p.getCooldown(i + 1) > 0)
+					g.fillArc(
+							340 + 80 * i,
+							getHeight() - 80,
+							SpriteSheet.HUD_IMAGES[p.getType()][i]
+									.getWidth(null),
+							SpriteSheet.HUD_IMAGES[p.getType()][i]
+									.getHeight(null),
+							90,
+							(int) (p.getCooldown(i + 1) * 1.0
+									/ Constants.AB_COOLDOWNS[p.getType()][i] * 360));
+			}
 		}
 
 		@Override

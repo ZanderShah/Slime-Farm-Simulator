@@ -42,7 +42,10 @@ public class DungeonFactory
 			generateConnections(entry[floor], numberOfRooms - 1, difficulty);
 			setBossRoom(entry[floor], new boolean[totalRooms], totalRooms - 1);
 			addDoors(entry[floor], new boolean[totalRooms]);
-			fillWithObjects(entry[floor], difficulty, new boolean[totalRooms]);
+			fillWithDecorativeObjects(entry[floor], difficulty,
+					new boolean[totalRooms]);
+			fillWithBlockingObjects(entry[floor], difficulty,
+					new boolean[totalRooms]);
 			fillWithEnemies(entry[floor], difficulty, new boolean[totalRooms]);
 		}
 
@@ -254,7 +257,33 @@ public class DungeonFactory
 		addDoors(room.getRight(), vis);
 	}
 
-	private static void fillWithObjects(Room room, int difficulty,
+	private static void fillWithDecorativeObjects(Room room, int difficulty,
+			boolean[] vis)
+	{
+		if (room == null || vis[room.id()])
+			return;
+
+		vis[room.id()] = true;
+
+		for (int i = 0; i < 25; i++)
+		{
+			Image img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES, rng);
+
+			int x = room.randomX(img, rng), y = room.randomY(img, rng);
+
+			LevelObject lo = new LevelObject(new Vector2D(x, y), false, false,
+					img);
+			if (room.hasSpaceFor(lo.hitbox(), false))
+				room.addLevelObject(lo);
+		}
+
+		fillWithDecorativeObjects(room.getUp(), difficulty, vis);
+		fillWithDecorativeObjects(room.getDown(), difficulty, vis);
+		fillWithDecorativeObjects(room.getLeft(), difficulty, vis);
+		fillWithDecorativeObjects(room.getRight(), difficulty, vis);
+	}
+
+	private static void fillWithBlockingObjects(Room room, int difficulty,
 			boolean[] vis)
 	{
 		if (room == null || vis[room.id()] || room.isBossRoom())
@@ -262,28 +291,22 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 25; i++)
 		{
-			Image img;
-
-			boolean blocks = Math.round(rng.nextDouble()) == 0;
-			if (blocks)
-				img = SpriteSheet.random(SpriteSheet.BLOCKING_IMAGES, rng);
-			else
-				img = SpriteSheet.random(SpriteSheet.DECORATIVE_IMAGES, rng);
+			Image img = SpriteSheet.random(SpriteSheet.BLOCKING_IMAGES, rng);
 
 			int x = room.randomX(img, rng), y = room.randomY(img, rng);
 
-			LevelObject lo = new LevelObject(new Vector2D(x, y), false, blocks,
+			LevelObject lo = new LevelObject(new Vector2D(x, y), false, true,
 					img);
-			if (room.hasSpaceFor(lo.hitbox()))
+			if (room.hasSpaceFor(lo.hitbox(), false))
 				room.addLevelObject(lo);
 		}
 
-		fillWithObjects(room.getUp(), difficulty, vis);
-		fillWithObjects(room.getDown(), difficulty, vis);
-		fillWithObjects(room.getLeft(), difficulty, vis);
-		fillWithObjects(room.getRight(), difficulty, vis);
+		fillWithBlockingObjects(room.getUp(), difficulty, vis);
+		fillWithBlockingObjects(room.getDown(), difficulty, vis);
+		fillWithBlockingObjects(room.getLeft(), difficulty, vis);
+		fillWithBlockingObjects(room.getRight(), difficulty, vis);
 	}
 
 	private static void fillWithEnemies(Room room, int difficulty,
@@ -294,13 +317,13 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0], rng), y = room
 					.randomY(SpriteSheet.ENEMIES[0], rng);
 			Slime slimey = new Slime(x, y);
 
-			if (room.hasSpaceFor(slimey.getHitbox()))
+			if (room.hasSpaceFor(slimey.getHitbox(), true))
 			{
 				room.addEnemy(slimey);
 				slimey.addDamage(room);

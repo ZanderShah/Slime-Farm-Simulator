@@ -484,7 +484,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		return false;
 	}
 
-	public boolean hasSpaceFor(AABB n)
+	public boolean hasSpaceFor(AABB n, boolean onTop)
 	{
 		if (n.getPosition().getX() < 64
 				|| n.getPosition().getX() + n.getWidth() > (width - 1) * 64
@@ -493,8 +493,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 			return false;
 
 		for (LevelObject o : objects)
-			if (n.intersects(o.hitbox()))
+			if (n.intersects(o.hitbox()) && (!onTop || o.blocksPlayer()))
 				return false;
+
 		for (int i = 1; i < doors.length; i++)
 			if (doors[i] != null && n.intersects(doors[i].hitbox()))
 				return false;

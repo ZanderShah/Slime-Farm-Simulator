@@ -12,7 +12,7 @@ public class SpriteSheet
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
 			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, DOORS, WALLS,
 			PROJECTILES, ENEMIES;
-	public static Image[][] THIEF_IMAGES, PARTICLES;
+	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
 
 	public static Image random(Image[] source, Random rng)
@@ -84,11 +84,18 @@ public class SpriteSheet
 			for (int i = 1; i <= 5; i++)
 				ENEMIES[i - 1] = ImageIO.read(new File(String.format(
 						"img//Enemy%d.png", i)));
-			
+
 			KING_SLIME = new Image[4];
-			for (int i = 1; i <= 4; i++) {
-				KING_SLIME[i - 1] = ImageIO.read(new File(String.format("img//KingSlime%d.png", i)));
+			for (int i = 1; i <= 4; i++)
+			{
+				KING_SLIME[i - 1] = ImageIO.read(new File(String.format(
+						"img//KingSlime%d.png", i)));
 			}
+
+			HUD_IMAGES = new Image[6][3];
+			for (int j = 1; j <= 3; j++)
+				HUD_IMAGES[2][j - 1] = ImageIO.read(new File(String.format(
+						"img//Icon%d%d.png", 2, j)));
 
 		}
 		catch (IOException e)

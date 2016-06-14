@@ -12,11 +12,8 @@ import world.Room;
 
 public abstract class Player extends LivingEntity {
 	private Vector2D attackDirection;
-	
 	private int[] cooldowns;
-	
 	private int[] abilitiesActive;
-	
 	private int pClass;
 	
 	public Player(int c) {
