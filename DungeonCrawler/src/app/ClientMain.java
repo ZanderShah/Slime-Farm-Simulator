@@ -56,7 +56,7 @@ public class ClientMain extends JFrame
 		{
 			try
 			{
-				gc.connect(InetAddress.getByName("localhost"));
+				gc.connect(InetAddress.getByName("10.242.161.92"));
 			}
 			catch (Exception e)
 			{
@@ -147,7 +147,8 @@ public class ClientMain extends JFrame
 			{
 				sock.send(new DatagramPacket(new byte[] { 0 }, 1, i,
 						Constants.SERVER_PORT));
-				sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2, i,
+				Thread.sleep(10);
+				sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2, i,
 						Constants.SERVER_PORT));
 				sock.send(new DatagramPacket(new byte[] { 2 }, 1, i,
 						Constants.SERVER_PORT));

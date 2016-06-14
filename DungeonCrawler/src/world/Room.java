@@ -159,7 +159,6 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 			if (damageSources.get(i) == ds)
 			{
 				damageSources.remove(ds);
-				break;
 			}
 	}
 
