@@ -28,6 +28,14 @@ public class DungeonFactory
 				+ Constants.MIN_ROOM_HEIGHT;
 	}
 
+	/**
+	 * Generates an array of entrance rooms
+	 * @param numberOfRooms the number of rooms in each floor
+	 * @param difficulty the difficulty base difficulty
+	 * @param numberOfFloors the number of floors
+	 * @param seed seed for random number generation
+	 * @return an array of entrance rooms
+	 */
 	public static Room[] generateMap(int numberOfRooms, int difficulty,
 			int numberOfFloors, long seed)
 	{
@@ -40,7 +48,7 @@ public class DungeonFactory
 		for (int floor = 0; floor < numberOfFloors; floor++)
 		{
 			totalRooms = 1;
-			generateConnections(entry[floor], numberOfRooms - 1, difficulty);
+			generateConnections(entry[floor], numberOfRooms - 1, difficulty + floor);
 			setBossRoom(entry[floor], new boolean[totalRooms], 0,
 					(floor + 1 < numberOfFloors ? entry[floor + 1] : null));
 			addDoors(entry[floor], new boolean[totalRooms]);
@@ -54,6 +62,12 @@ public class DungeonFactory
 		return entry;
 	}
 
+	/**
+	 * Recursively generates connections between rooms
+	 * @param room the current room
+	 * @param left how many rooms still need to be placed
+	 * @param difficulty the difficulty of the floor
+	 */
 	private static void generateConnections(Room room, int left,
 			int difficulty)
 	{
@@ -153,6 +167,16 @@ public class DungeonFactory
 			generateConnections(room.getDown(), split, difficulty);
 	}
 
+	/**
+	 * Recursively checks whether a room will fit in the current floor
+	 * @param room the current room
+	 * @param x x-coordinate of the room
+	 * @param y y-coordinate of the room
+	 * @param width the width of the room
+	 * @param height the height of the room
+	 * @param vis boolean array of visited rooms
+	 * @return whether or not the room can fit in the current floor
+	 */
 	private static boolean fits(Room room, int x, int y, int width, int height,
 			boolean[] vis)
 	{
@@ -185,6 +209,13 @@ public class DungeonFactory
 		return false;
 	}
 
+	/**
+	 * Recursively searches for a specific room to make the boss room
+	 * @param room the current room
+	 * @param vis boolean array of visited rooms
+	 * @param goal where the boss room should be
+	 * @param nextLevel the room that the boss room will lead to
+	 */
 	private static void setBossRoom(Room room, boolean[] vis, int goal,
 			Room nextLevel)
 	{
@@ -208,6 +239,11 @@ public class DungeonFactory
 		setBossRoom(room.getRight(), vis, goal, nextLevel);
 	}
 
+	/**
+	 * Adds doors to rooms
+	 * @param room the current room
+	 * @param vis boolean array of visited rooms
+	 */
 	private static void addDoors(Room room, boolean[] vis)
 	{
 		if (room == null || vis[room.id()])
