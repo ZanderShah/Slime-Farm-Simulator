@@ -11,7 +11,7 @@ public class SpriteSheet
 {
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
 			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, TANK_IMAGES, WARRIOR_IMAGES, DOORS, WALLS,
-			PROJECTILES, ENEMIES, MENUS;
+			PROJECTILES, ENEMIES, MENUS, MELEE_ATTACKS;
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
 
@@ -110,7 +110,12 @@ public class SpriteSheet
 			
 			MENUS = new Image[1];
 			MENUS[0] = ImageIO.read(new File("img//PlayerSelectMenu.png"));
-
+			MENUS[1] = ImageIO.read(new File("img//MainMenu.png"));
+			MENUS[2] = ImageIO.read(new File("img//HelpMenu.png"));
+			
+			MELEE_ATTACKS = new Image[2];
+			MELEE_ATTACKS[0] = ImageIO.read(new File("WarriorSwing.png"));
+			MELEE_ATTACKS[0] = ImageIO.read(new File("ThiefSwing.png"));
 		}
 		catch (IOException e)
 		{

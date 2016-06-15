@@ -2,8 +2,11 @@ package engine.damage;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import engine.SwordHitbox;
+import utility.SpriteSheet;
 import utility.Vector2D;
 
 public class SwordDamageSource extends DamageSource
@@ -22,8 +25,13 @@ public class SwordDamageSource extends DamageSource
 		SwordHitbox sh = (SwordHitbox) getHitbox();
 		Vector2D shifted = sh.getPosition().add(offset);
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillArc((int) shifted.getX() - sh.getRadius(),
+		/*g.fillArc((int) shifted.getX() - sh.getRadius(),
 				(int) shifted.getY() - sh.getRadius(), sh.getRadius() * 2,
-				sh.getRadius() * 2, sh.getStart(), sh.getAngle());
+				sh.getRadius() * 2, sh.getStart(), sh.getAngle());*/
+		//g.drawImage(SpriteSheet.MELEE_ATTACKS[0], )
+		AffineTransform af = new AffineTransform();
+		af.rotate(-Math.toRadians(sh.getAngle()), shifted.getX(), shifted.getY());
+		af.translate(shifted.getX(), shifted.getY());
+		((Graphics2D) g).drawImage(SpriteSheet.MELEE_ATTACKS[0], af, null);
 	}
 }

@@ -6,8 +6,10 @@ import java.awt.Point;
 
 import utility.Constants;
 import utility.ControlState;
+import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
+import engine.AABB;
 import engine.Stats;
 import engine.damage.SwordDamageSource;
 
@@ -20,24 +22,28 @@ public class Warrior extends Player {
 				Constants.WARRIOR_ATTACK_SPEED,
 				Constants.WARRIOR_ATTACK_LENGTH, Constants.WARRIOR_SPEED,
 				Constants.WARRIOR_DEFENCE));
+		setHitbox(new AABB(getPos().add(
+				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
+				getHeight()));
 	}
 
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
-		g.setColor(Color.GRAY);
-		g.fillRect((int) shifted.getX() - getWidth() / 2, (int) shifted.getY()
-				- getHeight() / 2, getWidth(), getHeight());
+		g.drawImage(SpriteSheet.WARRIOR_IMAGES[getDirection()],
+				(int) shifted.getX() - getWidth() / 2, (int) shifted.getY()
+						- getHeight() / 2,
+				null);
 	}
 
 	@Override
 	public int getWidth() {
-		return SIZE;
+		return SpriteSheet.WARRIOR_IMAGES[getDirection()].getWidth(null);
 	}
 
 	@Override
 	public int getHeight() {
-		return SIZE;
+		return SpriteSheet.WARRIOR_IMAGES[0].getHeight(null);
 	}
 
 	@Override
