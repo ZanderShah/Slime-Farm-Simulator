@@ -3,7 +3,7 @@ package utility;
 public class Constants
 {
 	public static final boolean DEBUG = true;
-	public static final boolean OFFLINE = false;
+	public static final boolean OFFLINE = true;
 
 	public static final int SCREEN_WIDTH = 1024;
 	public static final int SCREEN_HEIGHT = 768;
@@ -108,7 +108,10 @@ public class Constants
 	public static final int CLERIC_HEAL_LENGTH = 900;
 	public static final double CLERIC_HEAL_STRENGTH = 2.0;
 	public static final int CLERIC_BURST_LENGTH = 20;
-	public static final double CLERIC_BURST_STRENGTH = 1.0;
+	public static final double CLERIC_BURST_STRENGTH = 20.0;
+	public static final double BOLT_SPEED = 4.0;
+	public static final double BOLT_DAMAGE = 35.0;
+	public static final int BOLT_KNOCKBACK = 15;
 
 	public static final int[][] AB_COOLDOWNS = { { 360, 300, 300 }, // Warrior
 			{ 600, 90, 300 }, // Thief
