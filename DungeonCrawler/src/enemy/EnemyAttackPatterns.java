@@ -19,4 +19,9 @@ public class EnemyAttackPatterns
 		return (targets.size() == 0 ? null : targets.get(best).getPos()
 				.subtract(pos).getNormalized());
 	}
+	
+	static Vector2D random()
+	{
+		return new Vector2D(Math.random() * 360);
+	}
 }
