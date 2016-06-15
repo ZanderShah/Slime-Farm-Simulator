@@ -343,42 +343,43 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public Room moveTo(Room r, int direction)
 	{
-//		System.out.println("MOVE");
-//		Vector2D newPos;
-//		if (direction == Constants.LEFT)
-//			newPos = new Vector2D(r.x() - SpriteSheet.DOORS[1].getWidth(null),
-//					r.height() / 2);
-//		else if (direction == Constants.RIGHT)
-//			newPos = new Vector2D(SpriteSheet.DOORS[1].getWidth(null),
-//					r.height() / 2);
-//		else if (direction == Constants.UP)
-//			newPos = new Vector2D(r.width() / 2, r.y()
-//					- SpriteSheet.DOORS[0].getHeight(null));
-//		else
-//			newPos = new Vector2D(r.width() / 2,
-//					SpriteSheet.DOORS[0].getHeight(null));
-//
-//		for (int i = 0; i < players.size(); i++)
-//		{
-//			r.addPlayer(players.get(i));
-//			players.get(i).update(r);
-//			players.get(i).setPos(newPos);
-//		}
-//
-//		for (int i = 0; i < damageSources.size(); i++)
-//		{
-//			damageSources.get(i).update(r);
-//			r.addDamageSource(damageSources.get(i), 1);
-//		}
-//
-//		currentRoom = false;
-//		r.setCurrent();
-//		clean();
-		
+		System.out.println(direction);
+		Vector2D newPos;
+		if (direction == Constants.LEFT)
+			newPos = new Vector2D(r.x() - SpriteSheet.DOORS[0].getWidth(null),
+					r.height() / 2 * 64);
+		else if (direction == Constants.RIGHT)
+			newPos = new Vector2D(SpriteSheet.DOORS[0].getWidth(null),
+					r.height() / 2 * 64);
+		else if (direction == Constants.UP)
+			newPos = new Vector2D(r.width() / 2 * 64, r.y()
+					- SpriteSheet.DOORS[1].getHeight(null));
+		else
+			newPos = new Vector2D(r.width() / 2 * 64,
+					SpriteSheet.DOORS[1].getHeight(null));
+
+		for (int i = 0; i < players.size(); i++)
+		{
+			r.addPlayer(players.get(i));
+			players.get(i).update(r);
+			players.get(i).setPos(newPos);
+		}
+
+		for (int i = 0; i < damageSources.size(); i++)
+		{
+			damageSources.get(i).update(r);
+			r.addDamageSource(damageSources.get(i), 1);
+		}
+
+		currentRoom = false;
+		r.setCurrent();
+		clean();
+
 		return r;
 	}
-		
-	public ArrayList<Enemy> getEnemies() {
+
+	public ArrayList<Enemy> getEnemies()
+	{
 		return enemies;
 	}
 
@@ -510,7 +511,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		if (!isCleared() || players.size() == 0)
 			return -1;
 
-		for (int i = 1; i < doors.length; i++)
+		for (int i = 0; i < doors.length; i++)
 		{
 			for (int p = 0; p < players.size(); p++)
 				if (doors[i] != null
