@@ -14,8 +14,8 @@ public class Constants
 
 	public static final int NUMBER_OF_ROOMS = 12, NUMBER_OF_FLOORS = 5;
 	public static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
-	public static final int MIN_ROOM_WIDTH = 20, MAX_ROOM_WIDTH = 30,
-			MIN_ROOM_HEIGHT = 20, MAX_ROOM_HEIGHT = 30;
+	public static final int MIN_ROOM_WIDTH = 10, MAX_ROOM_WIDTH = 20,
+			MIN_ROOM_HEIGHT = 10, MAX_ROOM_HEIGHT = 20;
 	// I feel like putting all this stuff into a file makes balancing easier
 
 	public static final boolean TRIPPY_SLIMES = true;
@@ -118,8 +118,13 @@ public class Constants
 	public static final int[] EXPERIENCE_REQUIRED = { 10, 20, 30, 50, 80, 130,
 			210, 340, 550 };
 	public static final double[] LEVEL_HEALTH = { 1.3, 1.1, 1, 1.4, 1, 1.1 };
-	public static final double[] LEVEL_DAMAGE = { 1.3, 1.2, 1.025, 1.2, 1.4, 1.1 };
+	public static final double[] LEVEL_DAMAGE = { 1.3, 1.2, 1.025, 1.2, 1.4,
+			1.1 };
 	public static final double[] LEVEL_DEFENCE = { 1.2, 1, 1, 1.3, 1, 1 };
 	public static final double[] LEVEL_SPEED = { 1.025, 1.05, 1.025, 1.025,
 			1.025, 1.025 };
+
+	// Slime specific stats
+	public static final double SLIMEBALL_SPEED = 4.0;
+	public static final double SLIMEBALL_DAMAGE = 20.0;
 }

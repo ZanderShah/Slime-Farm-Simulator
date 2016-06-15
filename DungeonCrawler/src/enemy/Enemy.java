@@ -22,7 +22,7 @@ public abstract class Enemy extends LivingEntity {
 			l.removeEnemy(this);
 			l.removeDamageSource(getID());
 			l.dropExperience((l.getDifficulty() + 1) * (l.getDifficulty() + 1)
-					* 5);
+					* 3);
 			onDeath(l);
 		}
 		else {

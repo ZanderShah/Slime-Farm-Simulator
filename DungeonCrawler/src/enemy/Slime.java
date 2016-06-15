@@ -1,78 +1,16 @@
 package enemy;
 
-import java.awt.Graphics;
-
-import engine.AABB;
-import engine.Stats;
-import engine.damage.MeleeEnemyDamageSource;
-import utility.SpriteSheet;
 import utility.Vector2D;
-import world.Room;
+import engine.AABB;
 
-public class Slime extends Enemy {
-	private int movementCounter;
-	private Vector2D slideDir;
-
-	private int colour;
-
-	public Slime(int x, int y) {
+public abstract class Slime extends Enemy
+{
+	public Slime(int x, int y)
+	{
 		super();
-
-		setStats(new Stats(100, 100, 100, 100, 10.0));
 		setHitbox(new AABB(getPos().add(
 				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
 				getHeight()));
 		setPos(new Vector2D(x, y));
-		movementCounter = (int) (Math.random() * 150);
-		slideDir = new Vector2D();
-
-		colour = (int) (Math.random() * 5);
 	}
-
-	public void addDamage(Room r) {
-		setDamageSource(
-				new MeleeEnemyDamageSource(getHitbox(), 10, 15, getID()));
-		super.addDamage(r);
-	}
-
-	@Override
-	public void update(Room l) {
-		if (movementCounter == 0) {
-			movementCounter = (int) (Math.random() * 60 + 150);
-			setSpeed(new Vector2D());
-		}
-		else {
-			movementCounter--;
-			if (movementCounter == 30) {
-				slideDir = (!l.isBossRoom() ? new Vector2D(Math.random() * 360)
-						: EnemyAttackPatterns.runTowardsPlayer(l, getPos()));
-				slideDir.multiplyBy(2);
-			}
-			if (movementCounter < 30) {
-				setSpeed(slideDir);
-			}
-		}
-
-		super.update(l);
-	}
-
-	@Override
-	public int getWidth() {
-		return SpriteSheet.ENEMIES[0].getWidth(null);
-	}
-
-	@Override
-	public int getHeight() {
-		return SpriteSheet.ENEMIES[0].getHeight(null);
-	}
-
-	@Override
-	public void draw(Graphics g, Vector2D offset) {
-		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.ENEMIES[colour], (int) shifted.getX()
-				- getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
-
-		drawHealth(g, offset);
-	}
-
 }

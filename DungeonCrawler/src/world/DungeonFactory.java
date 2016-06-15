@@ -8,6 +8,7 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 import enemy.KingSlime;
 import enemy.Slime;
+import enemy.SlimeFactory;
 
 public class DungeonFactory
 {
@@ -48,7 +49,8 @@ public class DungeonFactory
 		for (int floor = 0; floor < numberOfFloors; floor++)
 		{
 			totalRooms = 1;
-			generateConnections(entry[floor], numberOfRooms - 1, difficulty + floor);
+			generateConnections(entry[floor], numberOfRooms - 1, difficulty
+					+ floor);
 			setBossRoom(entry[floor], new boolean[totalRooms], 0,
 					(floor + 1 < numberOfFloors ? entry[floor + 1] : null));
 			addDoors(entry[floor], new boolean[totalRooms]);
@@ -360,7 +362,7 @@ public class DungeonFactory
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0], rng), y = room
 					.randomY(SpriteSheet.ENEMIES[0], rng);
-			Slime slimey = new Slime(x, y);
+			Slime slimey = SlimeFactory.getSlime(x, y);
 
 			if (room.hasSpaceFor(slimey.getHitbox(), true))
 			{
