@@ -32,6 +32,8 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 import world.DungeonFactory;
 import world.Room;
+import enemy.Enemy;
+import engine.damage.DamageSource;
 
 public class ClientMain extends JFrame {
 
@@ -47,8 +49,7 @@ public class ClientMain extends JFrame {
 		gc.startGraphics();
 		if (!Constants.OFFLINE) {
 			try {
-				gc.connect(InetAddress.getByName("10.242.161.92"));
-				// gc.connect(InetAddress.getByName("localhost"));
+				gc.connect(InetAddress.getByName("10.242.180.153"));
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -319,6 +320,26 @@ public class ClientMain extends JFrame {
 							.getID() == controlled.getID()) {
 						current[currentFloor].getPlayers().set(i, controlled);
 					}
+				}
+				ois.close();
+				break;
+			case 5: // damage source update
+				ois = makeObjectStream(dp.getData());
+				int numDS = ois.readInt();
+				current[currentFloor].getDamageSources().clear();
+				for (int i = 0; i < numDS; i++) {
+					DamageSource ds = (DamageSource) ois.readObject();
+					current[currentFloor].getDamageSources().add(ds);
+				}
+				ois.close();
+				break;
+			case 6: // enemy update
+				ois = makeObjectStream(dp.getData());
+				int numEnemies = ois.readInt();
+				current[currentFloor].getEnemies().clear();
+				for (int i = 0; i < numEnemies; i++) {
+					Enemy e = (Enemy) ois.readObject();
+					current[currentFloor].getEnemies().add(e);
 				}
 				ois.close();
 				break;

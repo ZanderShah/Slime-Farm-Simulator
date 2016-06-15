@@ -22,9 +22,7 @@ public class KingSlime extends Enemy {
 
 		setStats(new Stats(1000 / (int) (Math.pow(2, l)), 100, 100, 3 * Math.pow(1.2, l), 30.0));
 		level = l;
-		setHitbox(new AABB(getPos().add(
-				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
-				getHeight()));
+		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
 		setPos(new Vector2D(x, y));
 		movementCounter = (int) (Math.random() * 150);
 		slideDir = new Vector2D();
@@ -34,32 +32,27 @@ public class KingSlime extends Enemy {
 
 	@Override
 	public void addDamage(Room r) {
-		setDamageSource(new MeleeEnemyDamageSource(getHitbox(),
-				50 / (int) (Math.pow(2, level)), 30, getID()));
+		setDamageSource(new MeleeEnemyDamageSource(getHitbox(), 50 / (int) (Math.pow(2, level)), 30, getID()));
 		super.addDamage(r);
 	}
 
 	@Override
 	public void onDeath(Room r) {
 		if (level < 3) {
-			KingSlime left = new KingSlime((int) getPos().getX(),
-					(int) getPos().getY(), level + 1);
+			KingSlime left = new KingSlime((int) getPos().getX(), (int) getPos().getY(), level + 1);
 			r.addEnemy(left);
 			left.addDamage(r);
-			
-			KingSlime right = new KingSlime((int) getPos().getX(),
-					(int) getPos().getY(), level + 1);
-			r.addEnemy(right);		
+
+			KingSlime right = new KingSlime((int) getPos().getX(), (int) getPos().getY(), level + 1);
+			r.addEnemy(right);
 			right.addDamage(r);
-			
-			KingSlime up = new KingSlime((int) getPos().getX(),
-					(int) getPos().getY(), level + 1);
-			r.addEnemy(up);		
+
+			KingSlime up = new KingSlime((int) getPos().getX(), (int) getPos().getY(), level + 1);
+			r.addEnemy(up);
 			up.addDamage(r);
-			
-			KingSlime down = new KingSlime((int) getPos().getX(),
-					(int) getPos().getY(), level + 1);
-			r.addEnemy(down);		
+
+			KingSlime down = new KingSlime((int) getPos().getX(), (int) getPos().getY(), level + 1);
+			r.addEnemy(down);
 			down.addDamage(r);
 		}
 	}
@@ -69,12 +62,10 @@ public class KingSlime extends Enemy {
 		if (movementCounter == 0) {
 			movementCounter = waitTime;
 			setSpeed(new Vector2D());
-		}
-		else {
+		} else {
 			movementCounter--;
 
-			if (movementCounter == 60)
-			{
+			if (movementCounter == 60) {
 				slideDir = EnemyAttackPatterns.runTowardsPlayer(l, getPos());
 				slideDir.multiplyBy(getStats().getSpeed());
 			}
@@ -99,8 +90,7 @@ public class KingSlime extends Enemy {
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.KING_SLIME[level], (int) shifted.getX()
-				- getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.KING_SLIME[level], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 
 		drawHealth(g, offset);
 	}

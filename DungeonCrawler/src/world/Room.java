@@ -8,16 +8,16 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import player.Player;
+import utility.Constants;
+import utility.SpriteSheet;
+import utility.Vector2D;
 import enemy.Enemy;
 import engine.AABB;
 import engine.Particle;
 import engine.ParticleEmitter;
 import engine.damage.DamageSource;
 import engine.damage.Projectile;
-import player.Player;
-import utility.Constants;
-import utility.SpriteSheet;
-import utility.Vector2D;
 
 public class Room // implements Drawable (There should be 2 Drawable, one with
 // offset and one without
@@ -275,6 +275,10 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public ArrayList<DamageSource> getDamageSources() {
 		return damageSources;
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
 	}
 
 	public Room moveTo(Room r, int direction) {
