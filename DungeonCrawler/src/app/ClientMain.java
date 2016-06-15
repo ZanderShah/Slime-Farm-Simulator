@@ -47,9 +47,11 @@ public class ClientMain extends JFrame {
 
 		gc.startGraphics();
 
-		if (!Constants.OFFLINE) {
-			try {
-				gc.connect(InetAddress.getByName("localhost"));
+		if (!Constants.OFFLINE)
+		{
+			try
+			{
+				gc.connect(InetAddress.getByName("135.23.87.22"));
 			}
 			catch (Exception e) {
 				e.printStackTrace();

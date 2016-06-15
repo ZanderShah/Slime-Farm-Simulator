@@ -525,6 +525,14 @@ public class Room implements Drawable
 
 	public boolean hasCollisionWith(AABB hitbox)
 	{
+		// Can only walk into a door if the room is cleared
+		AABB doorHitbox = new AABB(hitbox.getPosition(), hitbox.getWidth() + 4,
+				hitbox.getHeight() + 4);
+		for (int i = 1; i < doors.length; i++)
+			if (doors[i] != null
+					&& doorHitbox.intersects(doors[i].hitbox()))
+				return false;
+
 		// Outside of map and not on door
 		if ((hitbox.getPosition().getX() - hitbox.getWidth() / 2)
 				* (hitbox.getPosition().getY() - hitbox.getHeight() / 2) < 0

@@ -10,7 +10,8 @@ import javax.imageio.ImageIO;
 public class SpriteSheet
 {
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
-			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, TANK_IMAGES, WARRIOR_IMAGES, DOORS, WALLS,
+			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, TANK_IMAGES,
+			WARRIOR_IMAGES, DOORS, WALLS,
 			PROJECTILES, ENEMIES, MENUS, MELEE_ATTACKS;
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
@@ -55,7 +56,8 @@ public class SpriteSheet
 						+ ".png"));
 				TANK_IMAGES[i - 1] = ImageIO.read(new File("img//Tank" + i
 						+ ".png"));
-				WARRIOR_IMAGES[i - 1] = ImageIO.read(new File("img//Warrior" + i
+				WARRIOR_IMAGES[i - 1] = ImageIO.read(new File("img//Warrior"
+						+ i
 						+ ".png"));
 			}
 
@@ -65,9 +67,10 @@ public class SpriteSheet
 						+ i + ".png"));
 			}
 
-			DOORS = new Image[2];
-			DOORS[0] = ImageIO.read(new File("img//TemporaryDoor1.png"));
-			DOORS[1] = ImageIO.read(new File("img//TemporaryDoor2.png"));
+			DOORS = new Image[5];
+			for (int i = 1; i <= 4; i++)
+				DOORS[i] = ImageIO.read(new File(String.format(
+						"img//Door%d.png", i)));
 
 			WALLS = new Image[1];
 			WALLS[0] = ImageIO.read(new File("img//Wall.png"));
@@ -99,7 +102,8 @@ public class SpriteSheet
 			}
 
 			HUD_IMAGES = new Image[6][3];
-			for (int j = 1; j <= 3; j++){
+			for (int j = 1; j <= 3; j++)
+			{
 				HUD_IMAGES[2][j - 1] = ImageIO.read(new File(String.format(
 						"img//Icon%d%d.png", 2, j)));
 				HUD_IMAGES[1][j - 1] = ImageIO.read(new File(String.format(
@@ -107,12 +111,12 @@ public class SpriteSheet
 				HUD_IMAGES[4][j - 1] = ImageIO.read(new File(String.format(
 						"img//Icon%d%d.png", 4, j)));
 			}
-			
+
 			MENUS = new Image[3];
 			MENUS[1] = ImageIO.read(new File("img//PlayerSelectMenu.png"));
 			MENUS[0] = ImageIO.read(new File("img//MainMenu.png"));
 			MENUS[2] = ImageIO.read(new File("img//HelpMenu.png"));
-			
+
 			MELEE_ATTACKS = new Image[2];
 			MELEE_ATTACKS[0] = ImageIO.read(new File("img//WarriorSwing.png"));
 			MELEE_ATTACKS[1] = ImageIO.read(new File("img//ThiefSwing.png"));
