@@ -96,6 +96,7 @@ public class ClientMain extends JFrame
 		private Room current[];
 		private int currentFloor;
 		private boolean inGame;
+		private int menu;
 
 		private InetAddress addr;
 		private DatagramSocket sock;
@@ -222,6 +223,7 @@ public class ClientMain extends JFrame
 		public void startGame()
 		{
 			inGame = true;
+			menu = 0;
 			if (Constants.OFFLINE)
 			{
 				controlled = Player.makePlayer(classSelected);
@@ -426,28 +428,29 @@ public class ClientMain extends JFrame
 
 		public void drawCharMenu(Graphics g)
 		{
-			g.drawImage(SpriteSheet.MENUS[0], 0, 0, null);
-			g.setColor(new Color(255, 255, 255, 80));
-			switch (classSelected)
-			{
-			case 0:
-				g.fillRect(373, 108, 278, 295);
-				break;
-			case 1:
-				g.fillRect(40, 438, 278, 295);
-				break;
-			case 2:
-				g.fillRect(706, 108, 278, 295);
-				break;
-			case 3:
-				g.fillRect(373, 438, 278, 295);
-				break;
-			case 4:
-				g.fillRect(40, 108, 278, 295);
-				break;
-			case 5:
-				g.fillRect(706, 438, 278, 295);
-				break;
+			g.drawImage(SpriteSheet.MENUS[menu], 0, 0, null);
+			if (menu == 1){
+				g.setColor(new Color(255, 255, 255, 80));
+				switch (classSelected)
+				{
+				case 0:
+					g.fillRect(373, 108, 278, 295);
+					break;
+				case 1:
+					g.fillRect(40, 438, 278, 295);
+					break;
+				case 2:
+					g.fillRect(706, 108, 278, 295);
+					break;
+				case 3:
+					g.fillRect(373, 438, 278, 295);
+					break;
+				case 4:
+					g.fillRect(40, 108, 278, 295);
+					break;
+				case 5:
+					g.fillRect(706, 438, 278, 295);
+					break;
 			}
 		}
 
@@ -459,7 +462,7 @@ public class ClientMain extends JFrame
 
 			if (!inGame)
 			{
-				g.drawImage(SpriteSheet.MENUS[0], 0, 0, null);
+				g.drawImage(SpriteSheet.MENUS[menu], 0, 0, null);
 			}
 			else
 			{
@@ -537,6 +540,16 @@ public class ClientMain extends JFrame
 			int y = e.getY();
 			if (!inGame)
 			{
+				if (menu == 0){
+					if (x >= 400 && x <= 620 && y >= 140 && y <= 200)
+						menu = 1;
+					else if (x >= 400 && x <= 620 && y >= 60 && y <= 120)
+						menu = 2;
+				}
+				else if (menu == 2)
+					(x >= 780 && x <= 1000 && y >= 20 && y <= 80)
+						menu = 1;
+				else if (menu == 1){
 				try
 				{
 					if (x >= 42 && x <= 320 && y >= 108 && y <= 403)
@@ -591,6 +604,7 @@ public class ClientMain extends JFrame
 				catch (Exception e2)
 				{
 					e2.printStackTrace();
+				}
 				}
 			}
 			else
