@@ -30,7 +30,9 @@ public class SwordDamageSource extends DamageSource
 				sh.getRadius() * 2, sh.getStart(), sh.getAngle());*/
 		//g.drawImage(SpriteSheet.MELEE_ATTACKS[0], )
 		AffineTransform af = new AffineTransform();
-		af.rotate(-Math.toRadians(sh.getAngle()), shifted.getX(), shifted.getY());
+		//af.translate(shifted.getX(), shifted.getY()-53);
+		//af.translate(0,53);
+		af.rotate(-Math.toRadians(sh.getStart() + sh.getAngle()/2));
 		af.translate(shifted.getX(), shifted.getY());
 		((Graphics2D) g).drawImage(SpriteSheet.MELEE_ATTACKS[0], af, null);
 	}
