@@ -33,7 +33,7 @@ public class SwordDamageSource extends DamageSource
 		//af.translate(shifted.getX(), shifted.getY()-53);
 		//af.translate(0,53);
 		af.rotate(-Math.toRadians(sh.getStart() + sh.getAngle()/2));
-		af.translate(shifted.getX(), shifted.getY());
+		//af.translate(shifted.getX(), shifted.getY());
 		((Graphics2D) g).drawImage(SpriteSheet.MELEE_ATTACKS[0], af, null);
 	}
 }
