@@ -90,7 +90,13 @@ public class Server {
 				lastUpdate = System.currentTimeMillis();
 				while (true) {
 					for (int i = 0; i < clientList.size(); i++) {
-						clientList.get(i).update(dungeon[currentFloor]);
+						if (clientList.get(i).getPacketTime() > Constants.TIMEOUT) {
+							clientList.get(i).getPlayer().damage(999999999);
+							clientList.remove(i);
+							i--;
+						} else {
+							clientList.get(i).update(dungeon[currentFloor]);
+						}
 					}
 					dungeon[currentFloor].update();
 
@@ -136,29 +142,50 @@ public class Server {
 						}
 					}
 					
-					for (int i = 0; i < clientList.size(); i++) {
-						try {
-							byteOutStream = new ByteArrayOutputStream();
-							os = new ObjectOutputStream(byteOutStream);
-							os.flush();
-							os.writeInt(dungeon[currentFloor].getDamageSources().size());
-							for (int j = 0; j < dungeon[currentFloor].getDamageSources().size(); j++) {
-								os.writeObject(dungeon[currentFloor].getDamageSources().get(j));
-							}
-							os.flush();
-							byte[] object = byteOutStream.toByteArray();
-							byte[] message = new byte[object.length + 1];
-							message[0] = 5;
-							for (int j = 0; j < object.length; j++) {
-								message[j + 1] = object[j];
-							}
-							
-							for (int j = 0; j < clientList.size(); j++) {
-								clientList.get(j).send(message);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
+					try {
+						byteOutStream = new ByteArrayOutputStream();
+						os = new ObjectOutputStream(byteOutStream);
+						os.flush();
+						os.writeInt(dungeon[currentFloor].getDamageSources().size());
+						for (int j = 0; j < dungeon[currentFloor].getDamageSources().size(); j++) {
+							os.writeObject(dungeon[currentFloor].getDamageSources().get(j));
 						}
+						os.flush();
+						byte[] object = byteOutStream.toByteArray();
+						byte[] message = new byte[object.length + 1];
+						message[0] = 5;
+						for (int j = 0; j < object.length; j++) {
+							message[j + 1] = object[j];
+						}
+						
+						for (int j = 0; j < clientList.size(); j++) {
+							clientList.get(j).send(message);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					try {
+						byteOutStream = new ByteArrayOutputStream();
+						os = new ObjectOutputStream(byteOutStream);
+						os.flush();
+						os.writeInt(dungeon[currentFloor].getEnemies().size());
+						for (int j = 0; j < dungeon[currentFloor].getEnemies().size(); j++) {
+							os.writeObject(dungeon[currentFloor].getEnemies().get(j));
+						}
+						os.flush();
+						byte[] object = byteOutStream.toByteArray();
+						byte[] message = new byte[object.length + 1];
+						message[0] = 6;
+						for (int j = 0; j < object.length; j++) {
+							message[j + 1] = object[j];
+						}
+						
+						for (int j = 0; j < clientList.size(); j++) {
+							clientList.get(j).send(message);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 					
 					long time = System.currentTimeMillis();

@@ -12,6 +12,8 @@ public class Constants
 	public static final int CLIENT_PORT = 7382;
 	public static final int SERVER_PORT = 7383;
 
+	public static final long TIMEOUT = 10000;
+
 	public static final int NUMBER_OF_ROOMS = 12, NUMBER_OF_FLOORS = 5;
 	public static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	public static final int MIN_ROOM_WIDTH = 10, MAX_ROOM_WIDTH = 20,
