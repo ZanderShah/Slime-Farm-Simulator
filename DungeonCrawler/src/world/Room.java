@@ -14,13 +14,13 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 import enemy.Enemy;
 import engine.AABB;
+import engine.Drawable;
 import engine.Particle;
 import engine.ParticleEmitter;
 import engine.damage.DamageSource;
 import engine.damage.Projectile;
 
-public class Room // implements Drawable (There should be 2 Drawable, one with
-// offset and one without
+public class Room implements Drawable
 {
 	// x y are used only for position relative to other rooms, when dealing with
 	// the room individually,
@@ -343,20 +343,15 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public Room moveTo(Room r, int direction)
 	{
-		System.out.println(direction);
 		Vector2D newPos;
 		if (direction == Constants.LEFT)
-			newPos = new Vector2D(r.x() - SpriteSheet.DOORS[0].getWidth(null),
-					r.height() / 2 * 64);
+			newPos = new Vector2D((r.width() - 1) * 64, r.height() / 2 * 64);
 		else if (direction == Constants.RIGHT)
-			newPos = new Vector2D(SpriteSheet.DOORS[0].getWidth(null),
-					r.height() / 2 * 64);
+			newPos = new Vector2D(64, r.height() / 2 * 64);
 		else if (direction == Constants.UP)
-			newPos = new Vector2D(r.width() / 2 * 64, r.y()
-					- SpriteSheet.DOORS[1].getHeight(null));
+			newPos = new Vector2D(r.width() / 2 * 64, (r.height() - 1) * 64);
 		else
-			newPos = new Vector2D(r.width() / 2 * 64,
-					SpriteSheet.DOORS[1].getHeight(null));
+			newPos = new Vector2D(r.width() / 2 * 64, 64);
 
 		for (int i = 0; i < players.size(); i++)
 		{
@@ -485,11 +480,9 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		for (int i = 0; i < players.size(); i++)
 		{
 			if (i >= 0 && i < players.size())
-			{ // this shouldn't be necessary
-				// but it keeps saying that it's
-				// out
-				// of bounds with index: 0,
-				// size: 1
+			{
+				// this shouldn't be necessary but it keeps saying that it's out
+				// of bounds with index: 0, size: 1
 				if (p != null && players.get(i) != null
 						&& players.get(i).getID() == p.getID())
 				{
@@ -511,18 +504,20 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		if (!isCleared() || players.size() == 0)
 			return -1;
 
-		for (int i = 0; i < doors.length; i++)
+		for (int i = 1; i < doors.length; i++)
 		{
-			for (int p = 0; p < players.size(); p++)
-				if (doors[i] != null
-						&& !players.get(p).getHitbox()
-								.intersects(doors[i].hitbox()))
-				{
-					return -1;
-				}
-
 			if (doors[i] != null)
-				return i;
+			{
+				int numAtDoor = 0;
+
+				for (int p = 0; p < players.size(); p++)
+					if (players.get(p).getHitbox()
+							.intersects(doors[i].hitbox()))
+						numAtDoor++;
+
+				if (numAtDoor == players.size())
+					return i;
+			}
 		}
 
 		return -1;
@@ -530,7 +525,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 
 	public boolean hasCollisionWith(AABB hitbox)
 	{
-		// Outside of map
+		// Outside of map and not on door
 		if ((hitbox.getPosition().getX() - hitbox.getWidth() / 2)
 				* (hitbox.getPosition().getY() - hitbox.getHeight() / 2) < 0
 				|| (hitbox.getPosition().getX() + hitbox.getWidth() / 2) > width

@@ -256,7 +256,7 @@ public class DungeonFactory
 		if (room.getLeft() != null)
 			room.setDoor(
 					new LevelObject(new Vector2D(-SpriteSheet.DOORS[0]
-							.getWidth(null) / 2, room.height() * 64 / 2
+							.getWidth(null), room.height() * 64 / 2
 							- SpriteSheet.DOORS[0].getHeight(null) / 2),
 							false,
 							false, SpriteSheet.DOORS[0]),
@@ -264,9 +264,7 @@ public class DungeonFactory
 		if (room.getRight() != null)
 			room.setDoor(
 					new LevelObject(
-							new Vector2D(room.width() * 64
-									- SpriteSheet.DOORS[0]
-											.getWidth(null) / 2,
+							new Vector2D(room.width() * 64,
 									room
 											.height()
 											* 64
@@ -280,14 +278,13 @@ public class DungeonFactory
 		if (room.getUp() != null)
 			room.setDoor(new LevelObject(new Vector2D(room.width() * 64 / 2
 					- SpriteSheet.DOORS[1].getWidth(null) / 2,
-					-SpriteSheet.DOORS[1].getHeight(null) / 2), false,
+					-SpriteSheet.DOORS[1].getHeight(null)), false,
 					false,
 					SpriteSheet.DOORS[1]), Constants.UP);
 		if (room.getDown() != null)
 			room.setDoor(new LevelObject(new Vector2D(room.width() * 64 / 2
 					- SpriteSheet.DOORS[1].getWidth(null) / 2, room.height()
-					* 64
-					- SpriteSheet.DOORS[1].getHeight(null) / 2),
+					* 64),
 					false,
 					false,
 					SpriteSheet.DOORS[1]), Constants.DOWN);
