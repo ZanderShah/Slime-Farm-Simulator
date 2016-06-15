@@ -3,7 +3,7 @@ package utility;
 public class Constants
 {
 	public static final boolean DEBUG = true;
-	public static final boolean OFFLINE = true;
+	public static final boolean OFFLINE = false;
 
 	public static final int SCREEN_WIDTH = 1024;
 	public static final int SCREEN_HEIGHT = 768;

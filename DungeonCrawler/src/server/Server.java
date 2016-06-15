@@ -20,22 +20,21 @@ import world.Room;
 public class Server {
 
 	private static final int REC_PACKET_SIZE = 5000;
-	
+
 	private ArrayList<Client> clientList = new ArrayList<Client>();
 	private boolean inGame;
 	private DatagramSocket sock;
 	private Room dungeon[];
 	private int currentFloor;
-	
+	private long gameStart;
+
 	private ByteArrayOutputStream byteOutStream;
 	private ByteArrayInputStream byteInStream;
 	private ObjectOutputStream os;
 	private ObjectInputStream is;
-	
+
 	public Server() {
 		currentFloor = 0;
-		dungeon = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, 1);
-		dungeon[currentFloor].setCurrent();
 		inGame = false;
 		try {
 			sock = new DatagramSocket(Constants.SERVER_PORT);
@@ -43,7 +42,7 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void startServer() {
 		(new Thread() {
 			@Override
@@ -60,9 +59,12 @@ public class Server {
 			}
 		}).start();
 	}
-	
+
 	public void startGame() {
+		gameStart = System.currentTimeMillis();
 		long seed = (new Random()).nextLong();
+		dungeon = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS, seed);
+		dungeon[currentFloor].setCurrent();
 		inGame = true;
 		for (int i = 0; i < clientList.size(); i++) {
 			try {
@@ -82,15 +84,16 @@ public class Server {
 				e.printStackTrace();
 			}
 		}
-		
+
 		(new Thread() {
 			long lastUpdate;
-			
+
 			public void run() {
 				lastUpdate = System.currentTimeMillis();
 				while (true) {
 					for (int i = 0; i < clientList.size(); i++) {
-						if (clientList.get(i).getPacketTime() > Constants.TIMEOUT) {
+						if (System.currentTimeMillis() - clientList.get(i).getPacketTime() > Constants.TIMEOUT
+								&& System.currentTimeMillis() - gameStart > Constants.TIMEOUT && inGame) {
 							clientList.get(i).getPlayer().damage(999999999);
 							clientList.remove(i);
 							i--;
@@ -101,31 +104,29 @@ public class Server {
 					dungeon[currentFloor].update();
 
 					// Send all players to all clients
-					for (int i = 0; i < clientList.size(); i++) {
-						try {
-							byteOutStream = new ByteArrayOutputStream();
-							os = new ObjectOutputStream(byteOutStream);
-							os.flush();
-							os.writeInt(dungeon[currentFloor].getPlayers().size());
-							for (int j = 0; j < dungeon[currentFloor].getPlayers().size(); j++) {
-								os.writeObject(dungeon[currentFloor].getPlayers().get(j));
-							}
-							os.flush();
-							byte[] object = byteOutStream.toByteArray();
-							byte[] message = new byte[object.length + 1];
-							message[0] = 3;
-							for (int j = 0; j < object.length; j++) {
-								message[j + 1] = object[j];
-							}
-							
-							for (int j = 0; j < clientList.size(); j++) {
-								clientList.get(j).send(message);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
+					try {
+						byteOutStream = new ByteArrayOutputStream();
+						os = new ObjectOutputStream(byteOutStream);
+						os.flush();
+						os.writeInt(dungeon[currentFloor].getPlayers().size());
+						for (int j = 0; j < dungeon[currentFloor].getPlayers().size(); j++) {
+							os.writeObject(dungeon[currentFloor].getPlayers().get(j));
 						}
+						os.flush();
+						byte[] object = byteOutStream.toByteArray();
+						byte[] message = new byte[object.length + 1];
+						message[0] = 3;
+						for (int j = 0; j < object.length; j++) {
+							message[j + 1] = object[j];
+						}
+
+						for (int j = 0; j < clientList.size(); j++) {
+							clientList.get(j).send(message);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					
+
 					// Send each client their own player
 					for (int i = 0; i < clientList.size(); i++) {
 						try {
@@ -135,13 +136,13 @@ public class Server {
 							for (int j = 0; j < object.length; j++) {
 								message[j + 1] = object[j];
 							}
-							
+
 							clientList.get(i).send(message);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
-					
+
 					try {
 						byteOutStream = new ByteArrayOutputStream();
 						os = new ObjectOutputStream(byteOutStream);
@@ -157,14 +158,14 @@ public class Server {
 						for (int j = 0; j < object.length; j++) {
 							message[j + 1] = object[j];
 						}
-						
+
 						for (int j = 0; j < clientList.size(); j++) {
 							clientList.get(j).send(message);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 					try {
 						byteOutStream = new ByteArrayOutputStream();
 						os = new ObjectOutputStream(byteOutStream);
@@ -180,14 +181,14 @@ public class Server {
 						for (int j = 0; j < object.length; j++) {
 							message[j + 1] = object[j];
 						}
-						
+
 						for (int j = 0; j < clientList.size(); j++) {
 							clientList.get(j).send(message);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 					long time = System.currentTimeMillis();
 					long diff = time - lastUpdate;
 					lastUpdate = time;
@@ -200,7 +201,7 @@ public class Server {
 			}
 		}).start();
 	}
-	
+
 	public void parsePacket(DatagramPacket dp) throws Exception {
 		int client = -1;
 		for (int i = 0; i < clientList.size(); i++) {
@@ -218,7 +219,7 @@ public class Server {
 						c.setHost(true);
 					}
 					clientList.add(c);
-					c.send(new byte[] {0});
+					c.send(new byte[] { 0 });
 				}
 				break;
 			case 1: // Choose class
@@ -264,13 +265,13 @@ public class Server {
 			}
 		}
 	}
-	
+
 	public void draw(Graphics g) {
 		if (inGame) {
 			dungeon[currentFloor].detailedDraw(g, new Vector2D(0, 0), null);
 		}
 	}
-	
+
 	public byte[] getObjectBytes(Object s) throws Exception {
 		byteOutStream = new ByteArrayOutputStream();
 		os = new ObjectOutputStream(byteOutStream);
@@ -279,7 +280,7 @@ public class Server {
 		os.flush();
 		return byteOutStream.toByteArray();
 	}
-	
+
 	public byte[] getObjectBytes(Object[] s) throws Exception {
 		byteOutStream = new ByteArrayOutputStream();
 		os = new ObjectOutputStream(byteOutStream);
