@@ -51,7 +51,7 @@ public class DungeonFactory
 			totalRooms = 1;
 			generateConnections(entry[floor], numberOfRooms - 1, difficulty
 					+ floor);
-			setBossRoom(entry[floor], new boolean[totalRooms], 0,
+			setBossRoom(entry[floor], new boolean[totalRooms], totalRooms - 1,
 					(floor + 1 < numberOfFloors ? entry[floor + 1] : null));
 			addDoors(entry[floor], new boolean[totalRooms]);
 			fillWithDecorativeObjects(entry[floor], difficulty,
@@ -358,7 +358,7 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 0; i++)
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0], rng), y = room
 					.randomY(SpriteSheet.ENEMIES[0], rng);
