@@ -255,39 +255,45 @@ public class DungeonFactory
 
 		if (room.getLeft() != null)
 			room.setDoor(
-					new LevelObject(new Vector2D(-SpriteSheet.DOORS[0]
-							.getWidth(null), room.height() * 64 / 2
-							- SpriteSheet.DOORS[0].getHeight(null) / 2),
+					new LevelObject(new Vector2D(
+							-SpriteSheet.DOORS[Constants.LEFT]
+									.getWidth(null), room.height()
+									* 64
+									/ 2
+									- SpriteSheet.DOORS[Constants.LEFT]
+											.getHeight(null) / 2),
 							false,
-							false, SpriteSheet.DOORS[0]),
+							false, SpriteSheet.DOORS[Constants.LEFT]),
 					Constants.LEFT);
 		if (room.getRight() != null)
 			room.setDoor(
 					new LevelObject(
-							new Vector2D(room.width() * 64,
+							new Vector2D(
+									room.width() * 64,
 									room
 											.height()
 											* 64
 											/ 2
-											- SpriteSheet.DOORS[0]
+											- SpriteSheet.DOORS[Constants.RIGHT]
 													.getHeight(null) / 2),
 							false,
 							false,
-							SpriteSheet.DOORS[0]),
+							SpriteSheet.DOORS[Constants.RIGHT]),
 					Constants.RIGHT);
 		if (room.getUp() != null)
 			room.setDoor(new LevelObject(new Vector2D(room.width() * 64 / 2
-					- SpriteSheet.DOORS[1].getWidth(null) / 2,
-					-SpriteSheet.DOORS[1].getHeight(null)), false,
+					- SpriteSheet.DOORS[Constants.UP].getWidth(null) / 2,
+					-SpriteSheet.DOORS[Constants.UP].getHeight(null)), false,
 					false,
-					SpriteSheet.DOORS[1]), Constants.UP);
+					SpriteSheet.DOORS[Constants.UP]), Constants.UP);
 		if (room.getDown() != null)
 			room.setDoor(new LevelObject(new Vector2D(room.width() * 64 / 2
-					- SpriteSheet.DOORS[1].getWidth(null) / 2, room.height()
+					- SpriteSheet.DOORS[Constants.DOWN].getWidth(null) / 2,
+					room.height()
 					* 64),
 					false,
 					false,
-					SpriteSheet.DOORS[1]), Constants.DOWN);
+					SpriteSheet.DOORS[Constants.DOWN]), Constants.DOWN);
 
 		addDoors(room.getUp(), vis);
 		addDoors(room.getDown(), vis);
@@ -355,7 +361,7 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 0; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0], rng), y = room
 					.randomY(SpriteSheet.ENEMIES[0], rng);
