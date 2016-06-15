@@ -95,8 +95,7 @@ public class ClientMain extends JFrame
 		private int classSelected;
 		private Room current[];
 		private int currentFloor;
-		private boolean inGame;
-		private int menu;
+		private int gameState;
 
 		private InetAddress addr;
 		private DatagramSocket sock;
@@ -222,8 +221,7 @@ public class ClientMain extends JFrame
 
 		public void startGame()
 		{
-			inGame = true;
-			menu = 0;
+			gameState = 4;
 			if (Constants.OFFLINE)
 			{
 				controlled = Player.makePlayer(classSelected);
@@ -236,7 +234,7 @@ public class ClientMain extends JFrame
 				public void run()
 				{
 					lastUpdate = System.currentTimeMillis();
-					while (inGame)
+					while (gameState == 4)
 					{
 						// Update player with client data
 						if (!Constants.OFFLINE)
@@ -413,7 +411,7 @@ public class ClientMain extends JFrame
 
 		public void draw(Graphics g)
 		{
-			if (inGame)
+			if (gameState == 4)
 			{
 				if (controlled != null)
 				{
@@ -428,8 +426,8 @@ public class ClientMain extends JFrame
 
 		public void drawCharMenu(Graphics g)
 		{
-			g.drawImage(SpriteSheet.MENUS[menu], 0, 0, null);
-			if (menu == 1){
+			g.drawImage(SpriteSheet.MENUS[gameState], 0, 0, null);
+			if (gameState == 1){
 				g.setColor(new Color(255, 255, 255, 80));
 				switch (classSelected)
 				{
@@ -451,6 +449,7 @@ public class ClientMain extends JFrame
 				case 5:
 					g.fillRect(706, 438, 278, 295);
 					break;
+				}
 			}
 		}
 
@@ -460,9 +459,9 @@ public class ClientMain extends JFrame
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			Vector2D offset = Constants.MIDDLE.subtract(p.getPos());
 
-			if (!inGame)
+			if (gameState != 4)
 			{
-				g.drawImage(SpriteSheet.MENUS[menu], 0, 0, null);
+				g.drawImage(SpriteSheet.MENUS[gameState], 0, 0, null);
 			}
 			else
 			{
@@ -538,73 +537,65 @@ public class ClientMain extends JFrame
 		{
 			int x = e.getX();
 			int y = e.getY();
-			if (!inGame)
+			if (gameState != 4)
 			{
-				if (menu == 0){
-					if (x >= 400 && x <= 620 && y >= 140 && y <= 200)
-						menu = 1;
-					else if (x >= 400 && x <= 620 && y >= 60 && y <= 120)
-						menu = 2;
+				if (gameState == 0){
+					if (x >= 400 && x <= 620 && y >= 568 && y <= 628)
+						gameState = 1;
+					else if (x >= 400 && x <= 620 && y >= 648 && y <= 708)
+						gameState = 2;
 				}
-				else if (menu == 2)
-					(x >= 780 && x <= 1000 && y >= 20 && y <= 80)
-						menu = 1;
-				else if (menu == 1){
-				try
-				{
-					if (x >= 42 && x <= 320 && y >= 108 && y <= 403)
-					{
-						if (!Constants.OFFLINE)
-							sock.send(new DatagramPacket(new byte[] { 1, 4 },
-									2,
-									addr, Constants.SERVER_PORT));
-						classSelected = 4;
-					}
-					else if (x >= 375 && x <= 653 && y >= 108 && y <= 403)
-					{
-						if (!Constants.OFFLINE)
-							sock.send(new DatagramPacket(new byte[] { 1, 0 },
-									2,
-									addr, Constants.SERVER_PORT));
-						classSelected = 0;
-					}
-					else if (x >= 708 && x <= 986 && y >= 108 && y <= 403)
-					{
-						if (!Constants.OFFLINE)
-							sock.send(new DatagramPacket(new byte[] { 1, 2 },
-									2,
-									addr, Constants.SERVER_PORT));
-						classSelected = 2;
-					}
-					else if (x >= 42 && x <= 320 && y >= 438 && y <= 733)
-					{
-						if (!Constants.OFFLINE)
-							sock.send(new DatagramPacket(new byte[] { 1, 1 },
-									2,
-									addr, Constants.SERVER_PORT));
-						classSelected = 1;
-					}
-					else if (x >= 375 && x <= 653 && y >= 438 && y <= 733)
-					{
-						if (!Constants.OFFLINE)
-							sock.send(new DatagramPacket(new byte[] { 1, 3 },
-									2,
-									addr, Constants.SERVER_PORT));
-						classSelected = 3;
-					}
-					else if (x >= 708 && x <= 986 && y >= 438 && y <= 733)
-					{
-						if (!Constants.OFFLINE)
-							sock.send(new DatagramPacket(new byte[] { 1, 5 },
-									2,
-									addr, Constants.SERVER_PORT));
-						classSelected = 5;
-					}
-				}
-				catch (Exception e2)
-				{
-					e2.printStackTrace();
-				}
+				else if (gameState == 2){
+					if (x >= 780 && x <= 1000 && y >= 688 && y <= 748)
+						gameState = 1;
+				}	
+				else if (gameState == 1){
+						try {
+							if (x >= 42 && x <= 320 && y >= 108 && y <= 403) {
+								if (!Constants.OFFLINE)
+									sock.send(new DatagramPacket(new byte[] {
+											1, 4 }, 2, addr,
+											Constants.SERVER_PORT));
+								classSelected = 4;
+							} else if (x >= 375 && x <= 653 && y >= 108
+									&& y <= 403) {
+								if (!Constants.OFFLINE)
+									sock.send(new DatagramPacket(new byte[] {
+											1, 0 }, 2, addr,
+											Constants.SERVER_PORT));
+								classSelected = 0;
+							} else if (x >= 708 && x <= 986 && y >= 108
+									&& y <= 403) {
+								if (!Constants.OFFLINE)
+									sock.send(new DatagramPacket(new byte[] {
+											1, 2 }, 2, addr,
+											Constants.SERVER_PORT));
+								classSelected = 2;
+							} else if (x >= 42 && x <= 320 && y >= 438
+									&& y <= 733) {
+								if (!Constants.OFFLINE)
+									sock.send(new DatagramPacket(new byte[] {
+											1, 1 }, 2, addr,
+											Constants.SERVER_PORT));
+								classSelected = 1;
+							} else if (x >= 375 && x <= 653 && y >= 438
+									&& y <= 733) {
+								if (!Constants.OFFLINE)
+									sock.send(new DatagramPacket(new byte[] {
+											1, 3 }, 2, addr,
+											Constants.SERVER_PORT));
+								classSelected = 3;
+							} else if (x >= 708 && x <= 986 && y >= 438
+									&& y <= 733) {
+								if (!Constants.OFFLINE)
+									sock.send(new DatagramPacket(new byte[] {
+											1, 5 }, 2, addr,
+											Constants.SERVER_PORT));
+								classSelected = 5;
+							}
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						}	
 				}
 			}
 			else
@@ -671,7 +662,7 @@ public class ClientMain extends JFrame
 				cs.press(ControlState.KEY_AB2);
 				break;
 			}
-			if (!inGame)
+			if (gameState == 1)
 			{
 				try
 				{
