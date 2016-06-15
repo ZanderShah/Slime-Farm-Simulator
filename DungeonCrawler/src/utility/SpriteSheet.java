@@ -75,7 +75,7 @@ public class SpriteSheet
 			WALLS = new Image[1];
 			WALLS[0] = ImageIO.read(new File("img//Wall.png"));
 
-			PROJECTILES = new Image[8];
+			PROJECTILES = new Image[9];
 			for (int i = 1; i <= 3; i++)
 				PROJECTILES[i - 1] = ImageIO.read(new File("img//Flame" + i
 						+ ".png"));
@@ -84,6 +84,7 @@ public class SpriteSheet
 				PROJECTILES[3 + i] = ImageIO.read(new File("img//Arrow" + i
 						+ ".png"));
 			PROJECTILES[7] = ImageIO.read(new File("img//ThiefR.png"));
+			PROJECTILES[8] = ImageIO.read(new File("img//Lightning.png"));
 
 			PARTICLES = new Image[1][2];
 			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png"));
@@ -102,15 +103,22 @@ public class SpriteSheet
 			}
 
 			HUD_IMAGES = new Image[6][3];
-			for (int j = 1; j <= 3; j++)
-			{
-				HUD_IMAGES[2][j - 1] = ImageIO.read(new File(String.format(
-						"img//Icon%d%d.png", 2, j)));
-				HUD_IMAGES[1][j - 1] = ImageIO.read(new File(String.format(
-						"img//Icon%d%d.png", 1, j)));
-				HUD_IMAGES[4][j - 1] = ImageIO.read(new File(String.format(
-						"img//Icon%d%d.png", 4, j)));
-			}
+			for (int i = 0; i < 6; i++)
+				for (int j = 1; j <= 3; j++)
+				{
+					try
+					{
+						HUD_IMAGES[i][j - 1] = ImageIO.read(new File(String
+								.format(
+										"img//Icon%d%d.png", i, j)));
+					}
+					catch (Exception e)
+					{
+						HUD_IMAGES[i][j - 1] = ImageIO.read(new File(String
+								.format(
+										"img//Icon11.png", i, j)));
+					}
+				}
 
 			MENUS = new Image[3];
 			MENUS[1] = ImageIO.read(new File("img//PlayerSelectMenu.png"));

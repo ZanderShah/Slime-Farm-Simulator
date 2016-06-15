@@ -25,7 +25,9 @@ public class KingSlime extends Enemy
 		setStats(new Stats(1000 / (int) (Math.pow(2, l)), 100, 100,
 				3 * Math.pow(1.2, l), 30.0));
 		level = l;
-		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
+		setHitbox(new AABB(getPos().add(
+				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
+				getHeight()));
 		setPos(new Vector2D(x, y));
 		movementCounter = (int) (Math.random() * 150);
 		slideDir = new Vector2D();
@@ -108,7 +110,8 @@ public class KingSlime extends Enemy
 	public void draw(Graphics g, Vector2D offset)
 	{
 		Vector2D shifted = getPos().add(offset);
-		g.drawImage(SpriteSheet.KING_SLIME[level], (int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
+		g.drawImage(SpriteSheet.KING_SLIME[level], (int) shifted.getX()
+				- getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 
 		drawHealth(g, offset);
 	}

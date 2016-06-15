@@ -11,6 +11,7 @@ import world.Room;
 import engine.AABB;
 import engine.Stats;
 import engine.StatusEffect;
+import engine.damage.Bolt;
 
 public class Cleric extends Player
 {
@@ -59,6 +60,11 @@ public class Cleric extends Player
 	public boolean attack(Point p, Room r)
 	{
 		boolean attacked = super.attack(p, r);
+
+		if (attacked)
+			r.addDamageSource(new Bolt(getPos().add(
+					getAttackDir().multiply(30)), getAttackDir(),
+					true, getID()), getStats().getDamageMultiplier());
 
 		return attacked;
 	}
