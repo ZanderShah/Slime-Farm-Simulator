@@ -16,7 +16,7 @@ public class EnemyAttackPatterns
 			if (targets.get(i).getPos().subtract(pos).getLength() < targets
 					.get(best).getPos().subtract(pos).getLength())
 				best = i;
-		return (targets.size() == 0 ? null : targets.get(best).getPos()
+		return (targets.size() == 0 ? random() : targets.get(best).getPos()
 				.subtract(pos).getNormalized());
 	}
 	
