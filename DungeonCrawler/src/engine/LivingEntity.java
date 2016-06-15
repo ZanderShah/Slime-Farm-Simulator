@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public abstract class LivingEntity implements Drawable, Serializable {
 	public Vector2D getSpeed() {
 		return speed;
 	}
-	
+
 	public void setID(long id) {
 		this.id = id;
 	}
@@ -115,7 +116,7 @@ public abstract class LivingEntity implements Drawable, Serializable {
 	}
 
 	public void onDeath(Room r) {
-		
+
 	}
 
 	public void knockback(Vector2D source, int strength) {
@@ -131,15 +132,11 @@ public abstract class LivingEntity implements Drawable, Serializable {
 				effectiveDefence *= effects.get(i).getStrength();
 			}
 		}
-		stats.setHealth(Math.max(
-				0,
-				stats.getHealth()
-						- Math.max(0, amount * (1 - effectiveDefence / 100))));
+		stats.setHealth(Math.max(0, stats.getHealth() - Math.max(0, amount * (1 - effectiveDefence / 100))));
 	}
 
 	public void heal(double amount) {
-		stats.setHealth(Math.min(stats.getMaxHealth(), stats.getHealth()
-				+ amount));
+		stats.setHealth(Math.min(stats.getMaxHealth(), stats.getHealth() + amount));
 	}
 
 	public void update(Room l) {
@@ -149,14 +146,12 @@ public abstract class LivingEntity implements Drawable, Serializable {
 			if (effects.get(s).getTime() == 0) {
 				effects.remove(s);
 				s--;
-			}
-			else if (effects.get(s).getType() == StatusEffect.HEALTH) {
+			} else if (effects.get(s).getType() == StatusEffect.HEALTH) {
 				if (effects.get(s).getStrength() < 0)
 					damage(-effects.get(s).getStrength());
 				else
 					heal(effects.get(s).getStrength());
-			}
-			else if (effects.get(s).getType() == StatusEffect.STUN) {
+			} else if (effects.get(s).getType() == StatusEffect.STUN) {
 				stunned = true;
 			}
 		}
@@ -167,8 +162,7 @@ public abstract class LivingEntity implements Drawable, Serializable {
 				knockback = new Vector2D();
 				speed = new Vector2D();
 				setImmobile(false);
-			}
-			else {
+			} else {
 				speed = knockback.getNormalized().multiply(4);
 			}
 		}
@@ -177,10 +171,8 @@ public abstract class LivingEntity implements Drawable, Serializable {
 			AABB tempX = hitbox.clone();
 			AABB tempY = hitbox.clone();
 
-			tempX.updatePosition(position.add(new Vector2D(speed.getX()
-					+ (speed.getX() < 0 ? -1 : 1), 0)));
-			tempY.updatePosition(position.add(new Vector2D(0, speed.getY()
-					+ (speed.getY() < 0 ? -1 : 1))));
+			tempX.updatePosition(position.add(new Vector2D(speed.getX() + (speed.getX() < 0 ? -1 : 1), 0)));
+			tempY.updatePosition(position.add(new Vector2D(0, speed.getY() + (speed.getY() < 0 ? -1 : 1))));
 
 			Vector2D newSpeed = new Vector2D(0, 0);
 
@@ -199,4 +191,15 @@ public abstract class LivingEntity implements Drawable, Serializable {
 
 	@Override
 	public abstract void draw(Graphics g, Vector2D offset);
+
+	public void drawHealth(Graphics g, Vector2D offset) {
+		Vector2D shifted = getPos().add(offset);
+
+		g.setColor(Color.GRAY);
+		g.fillRect((int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2 - 10, getWidth(), 5);
+
+		g.setColor(Color.RED);
+		g.fillRect((int) shifted.getX() - getWidth() / 2, (int) shifted.getY() - getHeight() / 2 - 10, (int) (getStats().getHealth()
+				/ getStats().getMaxHealth() * getWidth()), 5);
+	}
 }

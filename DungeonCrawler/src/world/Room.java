@@ -8,16 +8,16 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import player.Player;
+import utility.Constants;
+import utility.SpriteSheet;
+import utility.Vector2D;
 import enemy.Enemy;
 import engine.AABB;
 import engine.Particle;
 import engine.ParticleEmitter;
 import engine.damage.DamageSource;
 import engine.damage.Projectile;
-import player.Player;
-import utility.Constants;
-import utility.SpriteSheet;
-import utility.Vector2D;
 
 public class Room // implements Drawable (There should be 2 Drawable, one with
 // offset and one without
@@ -277,6 +277,10 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		return damageSources;
 	}
 
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
 	public Room moveTo(Room r, int direction) {
 		Vector2D newPos;
 		if (direction == Constants.LEFT)
@@ -345,16 +349,16 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 		g.drawRect(x, y, width, height);
 
 		if (getUp() != null) {
-			g.fillOval(x + width / 2 - 4, y - 4, 8, 8);
+			g.fillOval(x + width / 2 - 2, y - 2, 4, 4);
 		}
 		if (getDown() != null) {
-			g.fillOval(x + width / 2 - 4, y + height - 4, 8, 8);
+			g.fillOval(x + width / 2 - 2, y + height - 2, 4, 4);
 		}
 		if (getLeft() != null) {
-			g.fillOval(x - 4, y + height / 2 - 4, 8, 8);
+			g.fillOval(x - 2, y + height / 2 - 2, 4, 4);
 		}
 		if (getRight() != null) {
-			g.fillOval(x + width - 4, y + height / 2 - 4, 8, 8);
+			g.fillOval(x + width - 2, y + height / 2 - 2, 4, 4);
 		}
 	}
 
