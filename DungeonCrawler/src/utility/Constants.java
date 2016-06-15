@@ -44,7 +44,7 @@ public class Constants
 	public static final int MAGE_ATTACK_SPEED = 2;
 	public static final int TANK_ATTACK_SPEED = 80;
 	public static final int HUNTER_ATTACK_SPEED = 60;
-	public static final int CLERIC_ATTACK_SPEED = 60;
+	public static final int CLERIC_ATTACK_SPEED = 150;
 
 	// Class attack lengths (basic attack, duration of usage)
 	public static final int WARRIOR_ATTACK_LENGTH = 40;
@@ -109,9 +109,9 @@ public class Constants
 	public static final double CLERIC_HEAL_STRENGTH = 2.0;
 	public static final int CLERIC_BURST_LENGTH = 20;
 	public static final double CLERIC_BURST_STRENGTH = 20.0;
-	public static final double BOLT_SPEED = 4.0;
-	public static final double BOLT_DAMAGE = 35.0;
-	public static final int BOLT_KNOCKBACK = 15;
+	public static final double BOLT_SPEED = 1.0;
+	public static final double BOLT_DAMAGE = 40.0;
+	public static final int BOLT_KNOCKBACK = 20;
 
 	public static final int[][] AB_COOLDOWNS = { { 360, 300, 300 }, // Warrior
 			{ 600, 90, 300 }, // Thief

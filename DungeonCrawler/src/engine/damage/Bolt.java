@@ -11,11 +11,13 @@ import utility.Vector2D;
 
 public class Bolt extends Projectile
 {
-
 	public Bolt(Vector2D pos, Vector2D dir, boolean player, long id)
 	{
-		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(
-				Constants.BOLT_SPEED), true, player, Constants.BOLT_DAMAGE,
+		super(new AABB(pos, SpriteSheet.PROJECTILES[8].getWidth(null),
+				SpriteSheet.PROJECTILES[8].getHeight(null)), 5, -1, pos, dir
+				.getNormalized().multiply(
+						Constants.BOLT_SPEED), false, player,
+				Constants.BOLT_DAMAGE,
 				Constants.BOLT_KNOCKBACK, id);
 	}
 
