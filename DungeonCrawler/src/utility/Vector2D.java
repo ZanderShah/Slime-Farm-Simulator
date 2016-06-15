@@ -227,4 +227,8 @@ public class Vector2D implements Serializable/*, Comparable<Vector2D>*/ {
 	public String toString() {
 		return "[" + x + ", " + y + "]";
 	}
+
+	public Point toPoint() {
+		return new Point((int) x, (int) y);
+	}
 }

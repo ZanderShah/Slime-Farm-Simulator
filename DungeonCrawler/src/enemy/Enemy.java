@@ -25,8 +25,7 @@ public abstract class Enemy extends LivingEntity {
 					* 5);
 			onDeath(l);
 		}
-		else
-		{
+		else {
 			ds.setHitbox(getHitbox());
 			super.update(l);
 		}

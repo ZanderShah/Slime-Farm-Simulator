@@ -25,7 +25,6 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-import player.Mage;
 import player.Player;
 import utility.Constants;
 import utility.ControlState;
@@ -46,10 +45,7 @@ public class ClientMain extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		gc.startGraphics();
-		if (Constants.OFFLINE) {
-			gc.startGame();
-		}
-		else {
+		if (!Constants.OFFLINE) {
 			try {
 				gc.connect(InetAddress.getByName("10.242.161.92"));
 				// gc.connect(InetAddress.getByName("localhost"));
@@ -196,7 +192,7 @@ public class ClientMain extends JFrame {
 		public void startGame() {
 			inGame = true;
 			if (Constants.OFFLINE) {
-				controlled = new Mage();
+				controlled = Player.makePlayer(classSelected);
 				controlled.setPos(new Vector2D(40, 40));
 				current[currentFloor].addPlayer(controlled);
 			}
@@ -452,32 +448,38 @@ public class ClientMain extends JFrame {
 			if (!inGame) {
 				try {
 					if (x >= 42 && x <= 320 && y >= 108 && y <= 403) {
-						sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
+						if (!Constants.OFFLINE)
+							sock.send(new DatagramPacket(new byte[] { 1, 4 }, 2,
 								addr, Constants.SERVER_PORT));
 						classSelected = 4;
 					}
 					else if (x >= 375 && x <= 653 && y >= 108 && y <= 403) {
-						sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2,
+						if (!Constants.OFFLINE)
+							sock.send(new DatagramPacket(new byte[] { 1, 0 }, 2,
 								addr, Constants.SERVER_PORT));
 						classSelected = 0;
 					}
 					else if (x >= 708 && x <= 986 && y >= 108 && y <= 403) {
-						sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2,
+						if (!Constants.OFFLINE)
+							sock.send(new DatagramPacket(new byte[] { 1, 2 }, 2,
 								addr, Constants.SERVER_PORT));
 						classSelected = 2;
 					}
 					else if (x >= 42 && x <= 320 && y >= 438 && y <= 733) {
-						sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2,
+						if (!Constants.OFFLINE)
+							sock.send(new DatagramPacket(new byte[] { 1, 1 }, 2,
 								addr, Constants.SERVER_PORT));
 						classSelected = 1;
 					}
 					else if (x >= 375 && x <= 653 && y >= 438 && y <= 733) {
-						sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2,
+						if (!Constants.OFFLINE)
+							sock.send(new DatagramPacket(new byte[] { 1, 3 }, 2,
 								addr, Constants.SERVER_PORT));
 						classSelected = 3;
 					}
 					else if (x >= 708 && x <= 986 && y >= 438 && y <= 733) {
-						sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2,
+						if (!Constants.OFFLINE)
+							sock.send(new DatagramPacket(new byte[] { 1, 5 }, 2,
 								addr, Constants.SERVER_PORT));
 						classSelected = 5;
 					}

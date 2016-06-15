@@ -3,6 +3,7 @@ package world;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
@@ -81,20 +82,23 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 			DamageSource d = damageSources.get(i);
 			d.update(this);
 			if (d.getDuration() == 0) {
-				damageSources.remove(i);
+				damageSources.remove(d);
 				i--;
 			}
 			else {
 				boolean destroyed = false;
 				if (d instanceof Projectile) {
-					for (int l = 0; l < objects.size(); l++) {
-						if (objects.get(l).blocksPlayer()
-								&& objects.get(l).hitbox()
-										.intersects(d.getHitbox())
-								&& i >= 0) {
-							damageSources.remove(i);
-							i--;
-							destroyed = true;
+					if (!(new Rectangle(0, 0, width * 64, height * 64).contains(((Projectile) d).getPosition().toPoint()))) {
+						damageSources.remove(d);
+						i--;
+						destroyed = true;
+					} else {
+						for (int l = 0; l < objects.size(); l++) {
+							if (objects.get(l).blocksPlayer() && objects.get(l).hitbox().intersects(d.getHitbox()) && i >= 0) {
+								damageSources.remove(d);
+								i--;
+								destroyed = true;
+							}
 						}
 					}
 				}
@@ -103,7 +107,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 						for (int e = 0; e < enemies.size(); e++) {
 							if (d.hit(enemies.get(e)) && d.isSingleHit()
 									&& i >= 0) {
-								damageSources.remove(i);
+								damageSources.remove(d);
 								i--;
 							}
 						}
@@ -112,7 +116,7 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 						for (int p = 0; p < players.size(); p++) {
 							if (d.hit(players.get(p)) && d.isSingleHit()
 									&& i >= 0) {
-								damageSources.remove(i);
+								damageSources.remove(d);
 								i--;
 							}
 						}
@@ -132,11 +136,13 @@ public class Room // implements Drawable (There should be 2 Drawable, one with
 	}
 
 	public void removeDamageSource(long id) {
-		for (int i = 0; i < damageSources.size(); i++)
+		for (int i = 0; i < damageSources.size(); i++) {
+			DamageSource d = damageSources.get(i);
 			if (damageSources.get(i).getSourceID() == id) {
-				damageSources.remove(i);
+				damageSources.remove(d);
 				i--;
 			}
+		}
 	}
 
 	public void addParticle(Particle p) {

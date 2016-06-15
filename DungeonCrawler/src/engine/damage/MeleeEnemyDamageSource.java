@@ -8,8 +8,8 @@ import utility.Constants;
 import utility.Vector2D;
 
 public class MeleeEnemyDamageSource extends DamageSource {
-	public MeleeEnemyDamageSource(Hitbox h, int dam, int kb, long id) {
-		super(h, 30, -1, false, false, 10, 15, id);
+	public MeleeEnemyDamageSource(Hitbox h, double dam, int kb, long id) {
+		super(h, 30, -1, false, false, dam, kb, id);
 	}
 
 	@Override
