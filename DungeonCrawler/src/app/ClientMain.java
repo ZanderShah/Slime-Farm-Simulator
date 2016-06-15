@@ -53,7 +53,7 @@ public class ClientMain extends JFrame
 		{
 			try
 			{
-				gc.connect(InetAddress.getByName("10.242.180.153"));
+				gc.connect(InetAddress.getByName("135.23.87.22"));
 			}
 			catch (Exception e)
 			{
