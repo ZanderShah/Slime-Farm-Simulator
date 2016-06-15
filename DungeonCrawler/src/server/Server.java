@@ -97,9 +97,10 @@ public class Server {
 							clientList.get(i).getPlayer().damage(999999999);
 							clientList.remove(i);
 							i--;
-						} else {
-							clientList.get(i).update(dungeon[currentFloor]);
 						}
+					}
+					for (int i = 0; i < clientList.size(); i++) {
+						clientList.get(i).update(dungeon[currentFloor]);
 					}
 					dungeon[currentFloor].update();
 
@@ -207,6 +208,7 @@ public class Server {
 		for (int i = 0; i < clientList.size(); i++) {
 			if (clientList.get(i).getAddress().equals(dp.getAddress())) {
 				client = i;
+				clientList.get(i).updatePacketTime();
 			}
 		}
 		if (dp.getData()[0] == 0 || client != -1) {
