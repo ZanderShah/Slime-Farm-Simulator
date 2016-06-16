@@ -513,13 +513,14 @@ public class Room implements Drawable
 				if (p != null && players.get(i) != null
 						&& players.get(i).getID() == p.getID())
 				{
-					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
+					p.draw(g, Constants.MIDDLE.subtract(p.getPos()),
+							Constants.OFFLINE);
 				}
 				else
 				{
 					if (players.get(i) != null)
 					{
-						players.get(i).draw(g, offset);
+						players.get(i).draw(g, offset, Constants.OFFLINE);
 					}
 				}
 			}

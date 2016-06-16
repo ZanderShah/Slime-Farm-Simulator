@@ -15,6 +15,7 @@ public class SpriteSheet
 			PROJECTILES, ENEMIES, MENUS, MELEE_ATTACKS;
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
+	public static Image HEALING;
 
 	public static Image random(Image[] source, Random rng)
 	{
@@ -129,6 +130,8 @@ public class SpriteSheet
 			MELEE_ATTACKS = new Image[2];
 			MELEE_ATTACKS[0] = ImageIO.read(new File("img//WarriorSwing.png"));
 			MELEE_ATTACKS[1] = ImageIO.read(new File("img//ThiefSwing.png"));
+			
+			HEALING = ImageIO.read(new File("img//Healing.png"));
 		}
 		catch (IOException e)
 		{

@@ -18,7 +18,7 @@ public class Constants
 	public static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	public static final int MIN_ROOM_WIDTH = 10, MAX_ROOM_WIDTH = 20,
 			MIN_ROOM_HEIGHT = 10, MAX_ROOM_HEIGHT = 20;
-	
+
 	// I feel like putting all this stuff into a file makes balancing easier
 
 	public static final boolean TRIPPY_SLIMES = true;
@@ -115,13 +115,14 @@ public class Constants
 	public static final double BOLT_SPEED = 1.0;
 	public static final double BOLT_DAMAGE = 40.0;
 	public static final int BOLT_KNOCKBACK = 20;
+	public static final int CLERIC_INVULNERABLE_LENGTH = 400;
 
 	public static final int[][] AB_COOLDOWNS = { { 360, 300, 300 }, // Warrior
 			{ 600, 90, 300 }, // Thief
 			{ 600, 900, 1200 }, // Mage
 			{ 1500, 900, 1200 }, // Tank
 			{ 600, 600, 600 }, // Hunter
-			{ 1200, 1800, 300 } }; // Cleric
+			{ 1200, 1800, 2500 } }; // Cleric
 
 	public static final int[] EXPERIENCE_REQUIRED = { 10, 20, 30, 50, 80, 130,
 			210, 340, 550 };
@@ -129,7 +130,7 @@ public class Constants
 	public static final double[] LEVEL_DAMAGE = { 1.3, 1.2, 1.025, 1.2, 1.4,
 			1.1 };
 	public static final double[] LEVEL_DEFENCE = { 1.2, 1, 1, 1.3, 1, 1 };
-	public static final double[] LEVEL_SPEED = { 1.025, 1.05, 1.025, 1.025,
+	public static final double[] LEVEL_SPEED = { 1.025, 1.075, 1.025, 1.025,
 			1.025, 1.025 };
 
 	// Slime specific stats
