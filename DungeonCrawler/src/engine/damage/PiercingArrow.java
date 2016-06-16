@@ -9,6 +9,11 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * An arrow that pierces through enemies, hitting multiple times
+ * @author Callum
+ *
+ */
 public class PiercingArrow extends Projectile {
 
 	public PiercingArrow(Vector2D pos, Vector2D dir, boolean player, long id) {

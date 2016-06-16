@@ -7,6 +7,11 @@ import engine.StatusEffect;
 import utility.Constants;
 import utility.Vector2D;
 
+/**
+ * Tank's stun ability, stuns near by enemies
+ * @author Callum
+ *
+ */
 public class TankStun extends CircleDamageSource {
 
 	public TankStun(Vector2D pos, int rad, boolean p, long id) {

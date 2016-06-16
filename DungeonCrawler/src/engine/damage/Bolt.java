@@ -9,6 +9,11 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * Lightning bolt shot by the cleric
+ * @author Callum
+ *
+ */
 public class Bolt extends Projectile
 {
 	public Bolt(Vector2D pos, Vector2D dir, boolean player, long id)

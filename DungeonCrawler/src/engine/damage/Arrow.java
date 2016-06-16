@@ -9,6 +9,11 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * An arrow, fired by hunter
+ * @author Callum
+ *
+ */
 public class Arrow extends Projectile
 {
 

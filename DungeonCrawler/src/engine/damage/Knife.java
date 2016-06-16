@@ -9,6 +9,11 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * Thief's throwing knife
+ * @author Callum
+ *
+ */
 public class Knife extends Projectile
 {
 

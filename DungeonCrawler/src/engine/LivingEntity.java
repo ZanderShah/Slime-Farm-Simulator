@@ -143,9 +143,13 @@ public abstract class LivingEntity implements Drawable, Serializable
 
 	public void knockback(Vector2D source, int strength)
 	{
-		setImmobile(true);
 		knockback.addToThis(position.subtract(source));
 		knockingBack = strength;
+	}
+
+	public int getKnockback()
+	{
+		return knockingBack;
 	}
 
 	public void damage(double amount)
@@ -204,7 +208,6 @@ public abstract class LivingEntity implements Drawable, Serializable
 			{
 				knockback = new Vector2D();
 				speed = new Vector2D();
-				setImmobile(false);
 			}
 			else
 			{
@@ -252,9 +255,11 @@ public abstract class LivingEntity implements Drawable, Serializable
 				- getHeight() / 2 - 10, getWidth(), 5);
 
 		g.setColor(Color.RED);
-		g.fillRect((int) shifted.getX() - getWidth() / 2, (int) shifted.getY()
-				- getHeight() / 2 - 10, (int) (getStats().getHealth()
-				/ getStats().getMaxHealth() * getWidth()), 5);
+		g.fillRect(
+				(int) shifted.getX() - getWidth() / 2,
+				(int) shifted.getY() - getHeight() / 2 - 10,
+				(int) (getStats().getHealth() / getStats().getMaxHealth() * getWidth()),
+				5);
 	}
 
 	public void drawStatusEffects(Graphics g, Vector2D offset)

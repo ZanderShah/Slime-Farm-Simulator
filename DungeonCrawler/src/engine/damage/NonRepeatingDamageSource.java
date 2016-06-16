@@ -6,6 +6,11 @@ import engine.Hitbox;
 import engine.LivingEntity;
 import engine.StatusEffect;
 
+/**
+ * A damage source that can only hit each entity once (not ever used)
+ * @author Callum
+ *
+ */
 public abstract class NonRepeatingDamageSource extends DamageSource {
 	
 	private ArrayList<LivingEntity> alreadyHit;

@@ -14,6 +14,11 @@ import utility.Constants;
 import utility.Vector2D;
 import world.Room;
 
+/**
+ * Represents anything in the game that can deal damage
+ * @author Callum
+ *
+ */
 public abstract class DamageSource implements Drawable, Serializable {
 	private long source;
 
@@ -59,6 +64,10 @@ public abstract class DamageSource implements Drawable, Serializable {
 		return hitbox;
 	}
 
+	/**
+	 * Updates the damage source within a room
+	 * @param r the room that the damage source is in
+	 */
 	public void update(Room r) {
 		if (hitCounter == 0)
 			hitCounter = frequency;
@@ -112,6 +121,11 @@ public abstract class DamageSource implements Drawable, Serializable {
 		damage = d;
 	}
 
+	/**
+	 * Attempts to hit a living entity
+	 * @param le the entity to try hitting
+	 * @return whether or not the entity was successfully hit
+	 */
 	public boolean hit(LivingEntity le) {
 		if (le.getHitbox().intersects(hitbox)) {
 			le.damage(damage);

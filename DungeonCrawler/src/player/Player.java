@@ -2,16 +2,14 @@ package player;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayList;
 
-import utility.Constants;
-import utility.ControlState;
-import utility.SpriteSheet;
-import utility.Vector2D;
-import world.Room;
 import engine.LivingEntity;
 import engine.Stats;
 import engine.StatusEffect;
+import utility.Constants;
+import utility.ControlState;
+import utility.Vector2D;
+import world.Room;
 
 public abstract class Player extends LivingEntity
 {
@@ -76,7 +74,6 @@ public abstract class Player extends LivingEntity
 				if (abilitiesActive[i] == 0 && i > 0)
 				{
 					setCooldown(i, Constants.AB_COOLDOWNS[pClass][i - 1]);
-					// lol super sketch
 					if (this instanceof Thief && i == 2)
 					{
 						setImmobile(false);
@@ -98,25 +95,27 @@ public abstract class Player extends LivingEntity
 		{
 			Vector2D speed = new Vector2D();
 
-			if (cs.getPressed(ControlState.KEY_UP))
-			{
-				speed.addToThis(new Vector2D(0, -1));
-				setDirection(2);
-			}
-			if (cs.getPressed(ControlState.KEY_LEFT))
-			{
-				speed.addToThis(new Vector2D(-1, 0));
-				setDirection(1);
-			}
-			if (cs.getPressed(ControlState.KEY_DOWN))
-			{
-				speed.addToThis(new Vector2D(0, 1));
-				setDirection(0);
-			}
-			if (cs.getPressed(ControlState.KEY_RIGHT))
-			{
-				speed.addToThis(new Vector2D(1, 0));
-				setDirection(3);
+			if (getKnockback() == 0) {
+				if (cs.getPressed(ControlState.KEY_UP))
+				{
+					speed.addToThis(new Vector2D(0, -1));
+					setDirection(2);
+				}
+				if (cs.getPressed(ControlState.KEY_LEFT))
+				{
+					speed.addToThis(new Vector2D(-1, 0));
+					setDirection(1);
+				}
+				if (cs.getPressed(ControlState.KEY_DOWN))
+				{
+					speed.addToThis(new Vector2D(0, 1));
+					setDirection(0);
+				}
+				if (cs.getPressed(ControlState.KEY_RIGHT))
+				{
+					speed.addToThis(new Vector2D(1, 0));
+					setDirection(3);
+				}
 			}
 			if (cs.getPressed(ControlState.KEY_ATTACK))
 			{

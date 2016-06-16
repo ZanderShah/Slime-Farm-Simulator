@@ -6,6 +6,11 @@ import engine.AABB;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * A single particle of Mage's beam
+ * @author Callum
+ *
+ */
 public class BeamParticle extends Projectile {
 
 	public BeamParticle(int duration, Vector2D pos, Vector2D spd,
