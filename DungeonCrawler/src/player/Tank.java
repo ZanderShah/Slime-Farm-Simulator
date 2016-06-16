@@ -37,7 +37,7 @@ public class Tank extends Player {
 	public boolean attack(Point p, Room r) {
 		boolean attacked = super.attack(p, r);
 		if (attacked)
-			ds = new SwordDamageSource(getPos(), Constants.TANK_SWORD_SIZE, (int) getAttackDir().getAngle() - Constants.TANK_SWING_ANGLE / 2, Constants.TANK_SWING_ANGLE, Constants.TANK_ATTACK_LENGTH, true, Constants.TANK_DAMAGE, Constants.TANK_KNOCKBACK, getID(), 0);
+			ds = new SwordDamageSource(getPos(), Constants.TANK_SWORD_SIZE, (int) getAttackDir().getAngle() - Constants.TANK_SWING_ANGLE / 2, Constants.TANK_SWING_ANGLE, Constants.TANK_ATTACK_LENGTH, true, Constants.TANK_DAMAGE, Constants.TANK_KNOCKBACK, getID(), 4);
 		r.addDamageSource(ds, getStats().getDamageMultiplier());
 		return super.attack(p, r);
 	}
