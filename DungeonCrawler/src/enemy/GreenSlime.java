@@ -24,7 +24,7 @@ public class GreenSlime extends Slime
 	{
 		super(x, y);
 
-		setStats(new Stats(100, 100, 100, 100, 10.0));
+		setStats(new Stats(25, 100, 100, 100, 10.0));
 		movementCounter = (int) (Math.random() * 150);
 		slideDir = new Vector2D();
 	}
