@@ -66,7 +66,7 @@ public class Constants
 	// Warrior specific stats
 	public static final int WARRIOR_SWORD_SIZE = 64;
 	public static final int WARRIOR_SWING_ANGLE = 120;
-	public static final double WARRIOR_DAMAGE = 30.0;
+	public static final double WARRIOR_DAMAGE = 15.0;
 	public static final int WARRIOR_KNOCKBACK = 20;
 	public static final int WARRIOR_RAGE_LENGTH = 500;
 
