@@ -133,7 +133,11 @@ public class Warrior extends Player
 		if (getAbilityActive(0) == 0 && getAbilityActive(3) == 0
 				&& getCooldown(3) == 0)
 		{
-
+			setAbilityActive(3, getStats().getAttackTime());
+			Vector2D direction = (new Vector2D(p).subtract(Constants.MIDDLE));
+			direction.normalize();
+			ds = new SwordDamageSource(getPos(), 104, (int) direction.getAngle() - 10, 20, getStats().getAttackTime(), true, Constants.WARRIOR_DAMAGE * 2, Constants.WARRIOR_KNOCKBACK * 2, getID(), 3);
+			r.addDamageSource(ds, getStats().getDamageMultiplier());
 		}
 	}
 }
