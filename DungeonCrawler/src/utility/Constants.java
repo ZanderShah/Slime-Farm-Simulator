@@ -137,5 +137,6 @@ public class Constants
 
 	// Slime specific stats
 	public static final double SLIMEBALL_SPEED = 3.0;
+	public static final double POISON_SLIMEBALL_SPEED = 1.5;
 	public static final double SLIMEBALL_DAMAGE = 20.0;
 }

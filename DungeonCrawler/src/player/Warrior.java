@@ -133,7 +133,7 @@ public class Warrior extends Player
 		if (getAbilityActive(0) == 0 && getAbilityActive(3) == 0
 				&& getCooldown(3) == 0)
 		{
-
+			setAbilityActive(3, getStats().getAttackTime());
 		}
 	}
 }
