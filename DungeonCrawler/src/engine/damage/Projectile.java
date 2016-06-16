@@ -43,6 +43,7 @@ public abstract class Projectile extends DamageSource {
 	}
 
 	public boolean hit(LivingEntity le) {
+		if (le == null) return false;
 		if (le.getHitbox().intersects(getHitbox())) {
 			if (!isPlayer() && le instanceof Tank
 					&& ((Tank) le).isReflecting()) {

@@ -145,7 +145,6 @@ public abstract class DamageSource implements Drawable, Serializable {
 						((CircleHitbox) hitbox).getRadius() * 2);
 			}
 			else if (hitbox instanceof SwordHitbox) {
-				// lol how do you draw this
 			}
 		}
 	}

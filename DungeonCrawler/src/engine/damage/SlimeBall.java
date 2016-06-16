@@ -1,8 +1,6 @@
 package engine.damage;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 
 import engine.AABB;
 import utility.Constants;
@@ -21,7 +19,7 @@ public class SlimeBall extends Projectile
 	public SlimeBall(Vector2D pos, Vector2D dir, int damage,
 			long id)
 	{
-		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(
+		super(new AABB(pos, 10, 10), 0, -1, pos, dir.getNormalized().multiply(
 				Constants.SLIMEBALL_SPEED), true, false, Constants.SLIMEBALL_DAMAGE,
 				damage, id);
 	}
@@ -29,12 +27,7 @@ public class SlimeBall extends Projectile
 	@Override
 	public void draw(Graphics g, Vector2D offset)
 	{
-		Vector2D shifted = getPosition().add(offset).subtract(
-				getSpeed().getNormalized().multiply(32));
-		AffineTransform af = new AffineTransform();
-		af.rotate(-Math.toRadians(getSpeed().getAngle()), shifted.getX(),
-				shifted.getY());
-		af.translate(shifted.getX(), shifted.getY());
-		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[5], af, null);
+		Vector2D shifted = getPosition().add(offset);
+		g.drawImage(SpriteSheet.PROJECTILES[9], (int) shifted.getX(), (int) shifted.getY(), null);
 	}
 }

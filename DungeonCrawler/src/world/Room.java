@@ -66,8 +66,10 @@ public class Room implements Drawable
 
 	public void update() {
 		for (int i = 0; i < enemies.size(); i++) {
-			if (i >= 0 && i < enemies.size()) {
+			try {
 				enemies.get(i).update(this);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -395,9 +397,10 @@ public class Room implements Drawable
 		nonMovingStuffLevelObject.draw(g, offset);
 
 		for (int i = 0; i < damageSources.size(); i++) {
-			if (i < damageSources.size() && damageSources.get(i) != null) {
-				if (damageSources.get(i) != null)
-					damageSources.get(i).draw(g, offset);
+			try {
+				damageSources.get(i).draw(g, offset);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -411,26 +414,30 @@ public class Room implements Drawable
 				try {
 					particles.get(i).draw(g, offset);
 				} catch (Exception e) {
-
+					e.printStackTrace();
 				}
 			}
 		}
 
 		for (int i = 0; i < enemies.size(); i++) {
-			enemies.get(i).draw(g, offset);
+			try {
+				enemies.get(i).draw(g, offset);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		for (int i = 0; i < players.size(); i++) {
-			if (i >= 0 && i < players.size()) {
-				// this shouldn't be necessary but it keeps saying that it's out
-				// of bounds with index: 0, size: 1
-				if (p != null && players.get(i) != null && players.get(i).getID() == p.getID()) {
-					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
+			try {
+				if (players.get(i).getID() == p.getID()) {
+					p.draw(g, Constants.MIDDLE.subtract(p.getPos()), true);
 				} else {
 					if (players.get(i) != null) {
 						players.get(i).draw(g, offset);
 					}
 				}
+			} catch (Exception e) {
+				
 			}
 		}
 	}
