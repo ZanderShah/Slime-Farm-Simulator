@@ -20,6 +20,12 @@ import engine.ParticleEmitter;
 import engine.damage.DamageSource;
 import engine.damage.Projectile;
 
+/**
+ * Contains information about a specific room in the dungeon
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class Room implements Drawable
 {
 	// x y are used only for position relative to other rooms, when dealing with
@@ -341,6 +347,12 @@ public class Room implements Drawable
 		return damageSources;
 	}
 
+	/**
+	 * Prepares the new room and clears the old room between transitions
+	 * @param r the new room
+	 * @param direction the direction from the old room to the new room
+	 * @return the newly prepared room
+	 */
 	public Room moveTo(Room r, int direction)
 	{
 		Vector2D newPos;
@@ -378,12 +390,19 @@ public class Room implements Drawable
 		return enemies;
 	}
 
+	/**
+	 * Adds a given number of experience points to each player
+	 * @param num the number of experience points
+	 */
 	public void dropExperience(int num)
 	{
 		for (int i = 0; i < players.size(); i++)
 			players.get(i).addExperience(num);
 	}
 
+	/**
+	 * Attempt to stop the screen tearing (it worked!)
+	 */
 	public void stopTearing2017()
 	{
 		nonMovingStuff = new BufferedImage(width * 64, height * 64,
@@ -438,6 +457,13 @@ public class Room implements Drawable
 		}
 	}
 
+	/**
+	 * Draws the current view (includes doors, particles, enemies, players,
+	 * floor, decorative tiles, etc.)
+	 * @param g
+	 * @param offset the offset to apply to each draw
+	 * @param p the player that is being controlled
+	 */
 	public void detailedDraw(Graphics g, Vector2D offset, Player p)
 	{
 		if (nonMovingStuffLevelObject == null)
@@ -500,6 +526,10 @@ public class Room implements Drawable
 		}
 	}
 
+	/**
+	 * Checks whether or not the party is at a door
+	 * @return -1 if there is no door, or the door which the party is at
+	 */
 	public int atDoor()
 	{
 		if (!isCleared() || players.size() == 0)
@@ -524,6 +554,11 @@ public class Room implements Drawable
 		return -1;
 	}
 
+	/**
+	 * Checks whether or not a hitbox will have any collisions in a room
+	 * @param hitbox the given hitbox
+	 * @return whether or not a hitbox will have any collisions
+	 */
 	public boolean hasCollisionWith(AABB hitbox)
 	{
 		// Can only walk into a door if the room is cleared
@@ -556,6 +591,13 @@ public class Room implements Drawable
 		return false;
 	}
 
+	/**
+	 * Checks whether or not the room has space for a given hitbox
+	 * @param n the given hitbox
+	 * @param onTop whether or not the object can exist on top of decorative
+	 *            objects
+	 * @return whether or not the room has space for the given hitbox
+	 */
 	public boolean hasSpaceFor(AABB n, boolean onTop)
 	{
 		if (n.getPosition().getX() < 64

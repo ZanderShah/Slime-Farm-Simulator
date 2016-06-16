@@ -3,6 +3,12 @@ package enemy;
 import utility.Vector2D;
 import engine.AABB;
 
+/**
+ * General class for slime enemies
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public abstract class Slime extends Enemy
 {
 	public Slime(int x, int y)

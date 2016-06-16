@@ -9,6 +9,12 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * Red slime projectile
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class SlimeBall extends Projectile
 {
 
