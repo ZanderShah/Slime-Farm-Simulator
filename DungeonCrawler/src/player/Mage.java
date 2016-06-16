@@ -29,7 +29,7 @@ public class Mage extends Player {
 				Constants.MAGE_ATTACK_LENGTH, Constants.MAGE_SPEED,
 				Constants.MAGE_DEFENCE));
 		setHitbox(new AABB(getPos().add(
-				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
+				new Vector2D(SpriteSheet.MAGE_IMAGES[1].getWidth(null) / 2, getHeight() / 2)), SpriteSheet.MAGE_IMAGES[1].getWidth(null),
 				getHeight()));
 		beamDirection = new Vector2D();
 	}

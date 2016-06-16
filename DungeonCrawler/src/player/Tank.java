@@ -23,7 +23,7 @@ public class Tank extends Player {
 		super(3);
 		setStats(new Stats(Constants.TANK_HEALTH, Constants.TANK_ATTACK_SPEED, Constants.TANK_ATTACK_LENGTH,
 				Constants.TANK_SPEED, Constants.TANK_DEFENCE));
-		setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(), getHeight()));
+		setHitbox(new AABB(getPos().add(new Vector2D(SpriteSheet.TANK_IMAGES[1].getWidth(null) / 2, getHeight() / 2)), SpriteSheet.TANK_IMAGES[1].getWidth(null), getHeight()));
 	}
 
 	@Override

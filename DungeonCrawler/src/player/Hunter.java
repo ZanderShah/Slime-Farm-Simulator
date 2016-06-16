@@ -24,7 +24,7 @@ public class Hunter extends Player {
 				Constants.HUNTER_SPEED,
 				Constants.HUNTER_DEFENCE));
 		setHitbox(new AABB(getPos().add(
-				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
+				new Vector2D(SpriteSheet.HUNTER_IMAGES[1].getWidth(null) / 2, getHeight() / 2)), SpriteSheet.HUNTER_IMAGES[1].getWidth(null),
 				getHeight()));
 	}
 
