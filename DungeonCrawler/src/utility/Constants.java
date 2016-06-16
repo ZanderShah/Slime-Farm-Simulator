@@ -69,6 +69,7 @@ public class Constants
 	public static final double WARRIOR_DAMAGE = 30.0;
 	public static final int WARRIOR_KNOCKBACK = 20;
 	public static final int WARRIOR_RAGE_LENGTH = 500;
+	public static final double WARRIOR_RAGE_HEAL = 3.0;
 
 	// Thief specific stats
 	public static final int THIEF_SWORD_SIZE = 48;

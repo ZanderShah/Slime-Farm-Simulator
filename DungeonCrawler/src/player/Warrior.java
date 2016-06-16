@@ -121,6 +121,9 @@ public class Warrior extends Player
 			giveStatusEffect(new StatusEffect(Constants.WARRIOR_RAGE_LENGTH, 0,
 					0,
 					StatusEffect.RAGE, false));
+			giveStatusEffect(new StatusEffect(Constants.WARRIOR_RAGE_LENGTH,
+					60, Constants.WARRIOR_RAGE_HEAL,
+					StatusEffect.HEALTH, false));
 		}
 	}
 
