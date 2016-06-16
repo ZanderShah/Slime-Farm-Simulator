@@ -52,7 +52,7 @@ public class Warrior extends Player {
 		if (attacked)
 			ds = new SwordDamageSource(getPos(), Constants.WARRIOR_SWORD_SIZE,
 					(int) getAttackDir().getAngle() - Constants.WARRIOR_SWING_ANGLE / 2, Constants.WARRIOR_SWING_ANGLE, getStats().getAttackTime(), true,
-					Constants.WARRIOR_DAMAGE, Constants.WARRIOR_KNOCKBACK, getID());
+					Constants.WARRIOR_DAMAGE, Constants.WARRIOR_KNOCKBACK, getID(), 0);
 			r.addDamageSource(ds, getStats().getDamageMultiplier());
 		return attacked;
 	}
@@ -66,7 +66,7 @@ public class Warrior extends Player {
 			setAbilityActive(0, getStats().getAttackTime());
 			setAbilityActive(1, getStats().getAttackTime());
 			r.addDamageSource(new SwordDamageSource(getPos(), (int) (Constants.WARRIOR_SWORD_SIZE * 1.5), 0, 360, getStats().getAttackTime(), true,
-					Constants.WARRIOR_DAMAGE, Constants.WARRIOR_KNOCKBACK, getID()), getStats().getDamageMultiplier());
+					Constants.WARRIOR_DAMAGE, Constants.WARRIOR_KNOCKBACK, getID(), 0), getStats().getDamageMultiplier());
 		}
 	}
 

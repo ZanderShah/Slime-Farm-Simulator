@@ -12,7 +12,7 @@ import utility.Vector2D;
 public class PiercingArrow extends Projectile {
 
 	public PiercingArrow(Vector2D pos, Vector2D dir, boolean player, long id) {
-		super(new AABB(pos, 3, 3), 5, -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), false, player, Constants.ARROW_DAMAGE, 0, id);
+		super(new AABB(pos, 3, 3), 5, -1, pos, dir.getNormalized().multiply(Constants.ARROW_SPEED), false, player, Constants.PIERCING_ARROW_DAMAGE, 0, id);
 	}
 
 	@Override

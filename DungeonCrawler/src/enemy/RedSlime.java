@@ -10,6 +10,12 @@ import engine.Stats;
 import engine.damage.MeleeEnemyDamageSource;
 import engine.damage.SlimeBall;
 
+/**
+ * Ranged slime
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class RedSlime extends Slime
 {
 	private int movementCounter;
@@ -24,6 +30,10 @@ public class RedSlime extends Slime
 		slideDir = new Vector2D();
 	}
 
+	/**
+	 * Adds the slime's hitbox to its room
+	 * @param r the room where the slime is
+	 */
 	public void addDamage(Room r)
 	{
 		setDamageSource(new MeleeEnemyDamageSource(getHitbox(), 10, 15, getID()));
@@ -31,6 +41,10 @@ public class RedSlime extends Slime
 	}
 
 	@Override
+	/**
+	 * Updates the slime's state
+	 * @param l the room where the slime is
+	 */
 	public void update(Room l)
 	{
 		if (movementCounter == 0)

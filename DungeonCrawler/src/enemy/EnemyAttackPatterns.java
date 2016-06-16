@@ -6,6 +6,12 @@ import player.Player;
 import utility.Vector2D;
 import world.Room;
 
+/**
+ * Static methods to return vectors matching different attack patterns
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class EnemyAttackPatterns
 {
 	static Vector2D runTowardsPlayer(Room r, Vector2D pos)
@@ -19,7 +25,7 @@ public class EnemyAttackPatterns
 		return (targets.size() == 0 ? random() : targets.get(best).getPos()
 				.subtract(pos).getNormalized());
 	}
-	
+
 	static Vector2D random()
 	{
 		return new Vector2D(Math.random() * 360);

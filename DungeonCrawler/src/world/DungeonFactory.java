@@ -10,6 +10,12 @@ import enemy.KingSlime;
 import enemy.Slime;
 import enemy.SlimeFactory;
 
+/**
+ * Manages creation of dungeon
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class DungeonFactory
 {
 	private static Random rng;
@@ -54,7 +60,7 @@ public class DungeonFactory
 			setBossRoom(entry[floor], new boolean[totalRooms], totalRooms - 1,
 					(floor + 1 < numberOfFloors ? entry[floor + 1] : null));
 			addDoors(entry[floor], new boolean[totalRooms]);
-			fillWithDecorativeObjects(entry[floor], difficulty,
+			fillWithDecorativeObjects(entry[floor],
 					new boolean[totalRooms]);
 			fillWithBlockingObjects(entry[floor], difficulty,
 					new boolean[totalRooms]);
@@ -301,7 +307,12 @@ public class DungeonFactory
 		addDoors(room.getRight(), vis);
 	}
 
-	private static void fillWithDecorativeObjects(Room room, int difficulty,
+	/**
+	 * Recursively fills rooms with random decorative objects
+	 * @param room the current room
+	 * @param vis boolean array of visited rooms
+	 */
+	private static void fillWithDecorativeObjects(Room room,
 			boolean[] vis)
 	{
 		if (room == null || vis[room.id()])
@@ -321,12 +332,18 @@ public class DungeonFactory
 				room.addLevelObject(lo);
 		}
 
-		fillWithDecorativeObjects(room.getUp(), difficulty, vis);
-		fillWithDecorativeObjects(room.getDown(), difficulty, vis);
-		fillWithDecorativeObjects(room.getLeft(), difficulty, vis);
-		fillWithDecorativeObjects(room.getRight(), difficulty, vis);
+		fillWithDecorativeObjects(room.getUp(), vis);
+		fillWithDecorativeObjects(room.getDown(), vis);
+		fillWithDecorativeObjects(room.getLeft(), vis);
+		fillWithDecorativeObjects(room.getRight(), vis);
 	}
 
+	/**
+	 * Recursively fills rooms with random blocking objects
+	 * @param room the current room
+	 * @param difficulty the difficulty of the room
+	 * @param vis boolean array of visited rooms
+	 */
 	private static void fillWithBlockingObjects(Room room, int difficulty,
 			boolean[] vis)
 	{
@@ -353,6 +370,12 @@ public class DungeonFactory
 		fillWithBlockingObjects(room.getRight(), difficulty, vis);
 	}
 
+	/**
+	 * Recursively fills rooms with enemies
+	 * @param room the current room
+	 * @param difficulty the difficulty of the room
+	 * @param vis boolean array of visited rooms
+	 */
 	private static void fillWithEnemies(Room room, int difficulty,
 			boolean[] vis)
 	{
@@ -361,7 +384,7 @@ public class DungeonFactory
 
 		vis[room.id()] = true;
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5 * (difficulty + 1); i++)
 		{
 			int x = room.randomX(SpriteSheet.ENEMIES[0], rng), y = room
 					.randomY(SpriteSheet.ENEMIES[0], rng);

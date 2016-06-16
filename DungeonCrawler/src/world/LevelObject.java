@@ -7,6 +7,12 @@ import engine.AABB;
 import engine.Drawable;
 import utility.Vector2D;
 
+/**
+ * Class for any object that will be placed on the level (decorative or not)
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class LevelObject implements Drawable
 {
 	private Image img;
@@ -44,7 +50,7 @@ public class LevelObject implements Drawable
 	{
 		return (int) position.getY();
 	}
-	
+
 	public Image image()
 	{
 		return img;
@@ -52,7 +58,8 @@ public class LevelObject implements Drawable
 
 	public void setHitbox()
 	{
-		hitbox = new AABB(position.add(new Vector2D(width() / 2, height() / 2)),
+		hitbox = new AABB(
+				position.add(new Vector2D(width() / 2, height() / 2)),
 				width(),
 				height());
 	}

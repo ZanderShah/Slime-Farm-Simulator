@@ -2,14 +2,14 @@ package utility;
 
 public class Constants
 {
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	public static final boolean OFFLINE = false;
 
 	public static final int SCREEN_WIDTH = 1024;
 	public static final int SCREEN_HEIGHT = 768;
 	public static final Vector2D MIDDLE = new Vector2D(SCREEN_WIDTH / 2,
 			SCREEN_HEIGHT / 2);
-	public static final int CLIENT_PORT = 7382;
+	public static final int CLIENT_PORT = 7383;
 	public static final int SERVER_PORT = 7383;
 
 	public static final long TIMEOUT = 10000;
@@ -18,6 +18,7 @@ public class Constants
 	public static final int RIGHT = 1, UP = 2, LEFT = 3, DOWN = 4;
 	public static final int MIN_ROOM_WIDTH = 10, MAX_ROOM_WIDTH = 20,
 			MIN_ROOM_HEIGHT = 10, MAX_ROOM_HEIGHT = 20;
+	
 	// I feel like putting all this stuff into a file makes balancing easier
 
 	public static final boolean TRIPPY_SLIMES = true;
@@ -74,7 +75,7 @@ public class Constants
 	public static final double THIEF_DAMAGE = 40.0;
 	public static final int THIEF_KNOCKBACK = 15;
 	public static final double KNIFE_SPEED = 8.0;
-	public static final double KNIFE_DAMAGE = 10.0;
+	public static final double KNIFE_DAMAGE = 50.0;
 	public static final int KNIFE_KNOCKBACK = 5;
 	public static final int KNIFE_SPREAD = 5;
 
@@ -99,6 +100,8 @@ public class Constants
 	// Hunter specific stats
 	public static final double ARROW_SPEED = 6.0;
 	public static final double ARROW_DAMAGE = 25.0;
+	public static final double PIERCING_ARROW_DAMAGE = 50.0;
+	public static final double POISON_ARROW_DAMAGE = 50.0;
 	public static final int ARROW_KNOCKBACK = 10;
 
 	// Cleric specific stats
@@ -130,6 +133,6 @@ public class Constants
 			1.025, 1.025 };
 
 	// Slime specific stats
-	public static final double SLIMEBALL_SPEED = 4.0;
+	public static final double SLIMEBALL_SPEED = 3.0;
 	public static final double SLIMEBALL_DAMAGE = 20.0;
 }

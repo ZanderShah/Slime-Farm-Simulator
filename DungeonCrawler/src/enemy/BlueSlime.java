@@ -9,6 +9,12 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
 
+/**
+ * Melee slime
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class BlueSlime extends Slime
 {
 	private int movementCounter;
@@ -23,6 +29,10 @@ public class BlueSlime extends Slime
 		slideDir = new Vector2D();
 	}
 
+	/**
+	 * Adds the slime's hitbox to its room
+	 * @param r the room where the slime is
+	 */
 	public void addDamage(Room r)
 	{
 		setDamageSource(new MeleeEnemyDamageSource(getHitbox(), 10, 15, getID()));
@@ -30,6 +40,10 @@ public class BlueSlime extends Slime
 	}
 
 	@Override
+	/**
+	 * Updates the slime's state
+	 * @param l the room where the slime is
+	 */
 	public void update(Room l)
 	{
 		if (movementCounter == 0)

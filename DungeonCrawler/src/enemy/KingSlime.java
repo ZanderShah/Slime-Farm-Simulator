@@ -9,6 +9,12 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 import world.Room;
 
+/**
+ * Slime boss
+ *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
+ */
 public class KingSlime extends Enemy
 {
 	private int movementCounter;
@@ -36,6 +42,10 @@ public class KingSlime extends Enemy
 	}
 
 	@Override
+	/**
+	 * Adds the slime's hitbox to its room
+	 * @param r the room where the slime is
+	 */
 	public void addDamage(Room r)
 	{
 		setDamageSource(new MeleeEnemyDamageSource(getHitbox(),
@@ -44,6 +54,10 @@ public class KingSlime extends Enemy
 	}
 
 	@Override
+	/**
+	 * Splits on death as long as it hasnt split more than 3 times
+	 * @param r the slime's room
+	 */
 	public void onDeath(Room r)
 	{
 		if (level < 3)
@@ -69,6 +83,10 @@ public class KingSlime extends Enemy
 	}
 
 	@Override
+	/**
+	 * Updates the slime's state
+	 * @param l the room where the slime is
+	 */
 	public void update(Room l)
 	{
 		if (movementCounter == 0)
