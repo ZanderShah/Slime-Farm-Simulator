@@ -281,6 +281,7 @@ public abstract class LivingEntity implements Drawable, Serializable
 				rage = true;
 			}
 			else if (effects.get(i).getType() == StatusEffect.HEALTH)
+			{
 				if (!rage && effects.get(i).getAbsStrength() < 0)
 				{
 					g.drawImage(SpriteSheet.POISON,
@@ -300,6 +301,15 @@ public abstract class LivingEntity implements Drawable, Serializable
 							(int) shifted.getY()
 									- SpriteSheet.HEALING.getHeight(null) / 2,
 							null);
+			}
+			else
+			{
+				g.drawImage(SpriteSheet.BUFF, (int) shifted.getX()
+						- SpriteSheet.BUFF.getWidth(null) / 2,
+						(int) shifted.getY()
+								- SpriteSheet.BUFF.getHeight(null) / 2,
+						null);
+			}
 
 	}
 }
