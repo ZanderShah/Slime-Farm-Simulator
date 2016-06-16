@@ -26,7 +26,7 @@ public class Cleric extends Player
 				Constants.CLERIC_SPEED,
 				Constants.CLERIC_DEFENCE));
 		setHitbox(new AABB(getPos().add(
-				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
+				new Vector2D(SpriteSheet.CLERIC_IMAGES[1].getWidth(null) / 2, getHeight() / 2)), SpriteSheet.CLERIC_IMAGES[1].getWidth(null),
 				getHeight()));
 	}
 

@@ -26,7 +26,7 @@ public class Thief extends Player
 				Constants.THIEF_ATTACK_SPEED, Constants.THIEF_ATTACK_LENGTH,
 				Constants.THIEF_SPEED, Constants.THIEF_DEFENCE));
 		setHitbox(new AABB(getPos().add(
-				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
+				new Vector2D(SpriteSheet.THIEF_IMAGES[1][0].getWidth(null) / 2, getHeight() / 2)), SpriteSheet.THIEF_IMAGES[1][0].getWidth(null),
 				getHeight()));
 		dodgeDirection = new Vector2D();
 	}

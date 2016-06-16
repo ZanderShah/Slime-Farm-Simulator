@@ -26,7 +26,7 @@ public class Warrior extends Player
 				Constants.WARRIOR_ATTACK_LENGTH, Constants.WARRIOR_SPEED,
 				Constants.WARRIOR_DEFENCE));
 		setHitbox(new AABB(getPos().add(
-				new Vector2D(getWidth() / 2, getHeight() / 2)), getWidth(),
+				new Vector2D(SpriteSheet.WARRIOR_IMAGES[1].getWidth(null) / 2, getHeight() / 2)), SpriteSheet.WARRIOR_IMAGES[1].getWidth(null),
 				getHeight()));
 	}
 
