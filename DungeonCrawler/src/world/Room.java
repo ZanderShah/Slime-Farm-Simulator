@@ -26,8 +26,7 @@ import engine.damage.Projectile;
  * @author Alexander Shah
  * @version Jun 15, 2016
  */
-public class Room implements Drawable
-{
+public class Room implements Drawable {
 	// x y are used only for position relative to other rooms, when dealing with
 	// the room individually,
 	// bottom left is (0, 0) and top right is (width, height)
@@ -287,12 +286,14 @@ public class Room implements Drawable
 
 	/**
 	 * Prepares the new room and clears the old room between transitions
-	 * @param r the new room
-	 * @param direction the direction from the old room to the new room
+	 * 
+	 * @param r
+	 *            the new room
+	 * @param direction
+	 *            the direction from the old room to the new room
 	 * @return the newly prepared room
 	 */
-	public Room moveTo(Room r, int direction)
-	{
+	public Room moveTo(Room r, int direction) {
 		Vector2D newPos;
 		if (direction == Constants.LEFT)
 			newPos = new Vector2D((r.width() - 1) * 64, r.height() / 2 * 64);
@@ -327,10 +328,11 @@ public class Room implements Drawable
 
 	/**
 	 * Adds a given number of experience points to each player
-	 * @param num the number of experience points
+	 * 
+	 * @param num
+	 *            the number of experience points
 	 */
-	public void dropExperience(int num)
-	{
+	public void dropExperience(int num) {
 		for (int i = 0; i < players.size(); i++)
 			players.get(i).addExperience(num);
 	}
@@ -338,10 +340,8 @@ public class Room implements Drawable
 	/**
 	 * Attempt to stop the screen tearing (it worked!)
 	 */
-	public void stopTearing2017()
-	{
-		nonMovingStuff = new BufferedImage(width * 64, height * 64,
-				BufferedImage.TYPE_INT_RGB);
+	public void stopTearing2017() {
+		nonMovingStuff = new BufferedImage(width * 64, height * 64, BufferedImage.TYPE_INT_RGB);
 		Graphics g = nonMovingStuff.getGraphics();
 
 		for (int i = 0; i < width; i++)
@@ -409,9 +409,12 @@ public class Room implements Drawable
 				if (doors[i] != null)
 					doors[i].draw(g, offset);
 
-		for (int i = 0; i < particles.size(); i++) {
-			if (i < particles.size() && particles.get(i) != null) {
-				try {
+		for (int i = 0; i < particles.size(); i++)
+		{
+			if (i < particles.size() && particles.get(i) != null)
+			{
+				try
+				{
 					particles.get(i).draw(g, offset);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -422,6 +425,7 @@ public class Room implements Drawable
 		for (int i = 0; i < enemies.size(); i++) {
 			try {
 				enemies.get(i).draw(g, offset);
+				enemies.get(i).drawStatusEffects(g, offset);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -430,10 +434,13 @@ public class Room implements Drawable
 		for (int i = 0; i < players.size(); i++) {
 			try {
 				if (players.get(i).getID() == p.getID()) {
-					p.draw(g, Constants.MIDDLE.subtract(p.getPos()), true);
+					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
+					p.drawStatusEffects(g, Constants.MIDDLE.subtract(p.getPos()));
 				} else {
-					if (players.get(i) != null) {
+					if (players.get(i) != null)
+					{
 						players.get(i).draw(g, offset);
+						p.drawStatusEffects(g, offset);
 					}
 				}
 			} catch (Exception e) {
@@ -444,10 +451,10 @@ public class Room implements Drawable
 
 	/**
 	 * Checks whether or not the party is at a door
+	 * 
 	 * @return -1 if there is no door, or the door which the party is at
 	 */
-	public int atDoor()
-	{
+	public int atDoor() {
 		if (!isCleared() || players.size() == 0)
 			return -1;
 
@@ -469,11 +476,12 @@ public class Room implements Drawable
 
 	/**
 	 * Checks whether or not a hitbox will have any collisions in a room
-	 * @param hitbox the given hitbox
+	 * 
+	 * @param hitbox
+	 *            the given hitbox
 	 * @return whether or not a hitbox will have any collisions
 	 */
-	public boolean hasCollisionWith(AABB hitbox)
-	{
+	public boolean hasCollisionWith(AABB hitbox) {
 		// Can only walk into a door if the room is cleared
 		if (isCleared()) {
 			AABB doorHitbox = new AABB(hitbox.getPosition(), hitbox.getWidth() + 4, hitbox.getHeight() + 4);
@@ -499,17 +507,17 @@ public class Room implements Drawable
 
 	/**
 	 * Checks whether or not the room has space for a given hitbox
-	 * @param n the given hitbox
-	 * @param onTop whether or not the object can exist on top of decorative
+	 * 
+	 * @param n
+	 *            the given hitbox
+	 * @param onTop
+	 *            whether or not the object can exist on top of decorative
 	 *            objects
 	 * @return whether or not the room has space for the given hitbox
 	 */
-	public boolean hasSpaceFor(AABB n, boolean onTop)
-	{
-		if (n.getPosition().getX() < 64
-				|| n.getPosition().getX() + n.getWidth() > (width - 1) * 64
-				|| n.getPosition().getY() < 64
-				|| n.getPosition().getY() + n.getHeight() > (height - 1) * 64)
+	public boolean hasSpaceFor(AABB n, boolean onTop) {
+		if (n.getPosition().getX() < 64 || n.getPosition().getX() + n.getWidth() > (width - 1) * 64
+				|| n.getPosition().getY() < 64 || n.getPosition().getY() + n.getHeight() > (height - 1) * 64)
 			return false;
 
 		for (LevelObject o : objects)

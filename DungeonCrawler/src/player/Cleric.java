@@ -2,6 +2,7 @@ package player;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import utility.Constants;
 import utility.ControlState;
@@ -15,6 +16,8 @@ import engine.damage.Bolt;
 
 public class Cleric extends Player
 {
+	private boolean usedInvincibilitySpell;
+	
 	public Cleric()
 	{
 		super(5);
@@ -53,6 +56,16 @@ public class Cleric extends Player
 	{
 		// setHitbox(new AABB(getPos().add(new Vector2D(getWidth() / 2,
 		// getHeight() / 2)), getWidth(), getHeight()));
+
+		if (getAbilityActive(3) <= 0 && usedInvincibilitySpell)
+		{
+			ArrayList<Player> friends = r.getPlayers();
+			for (int i = 0; i < friends.size(); i++)
+				friends.get(i).setInvincible(false);
+			
+			usedInvincibilitySpell = false;
+		}
+
 		super.update(cs, r);
 	}
 
@@ -121,6 +134,13 @@ public class Cleric extends Player
 	@Override
 	public void ability3(Point p, Room r)
 	{
-
+		if (getAbilityActive(3) == 0 && getCooldown(3) == 0)
+		{
+			ArrayList<Player> friends = r.getPlayers();
+			for (int i = 0; i < friends.size(); i++)
+				friends.get(i).setInvincible(true);
+			setAbilityActive(3, Constants.CLERIC_INVULNERABLE_LENGTH);
+			usedInvincibilitySpell = true;
+		}
 	}
 }

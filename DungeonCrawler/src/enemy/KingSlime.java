@@ -131,7 +131,7 @@ public class KingSlime extends Enemy
 		g.drawImage(SpriteSheet.KING_SLIME[level], (int) shifted.getX()
 				- getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 
-		drawHealth(g, offset);
+		drawEntityDetails(g, offset);
 	}
 
 }

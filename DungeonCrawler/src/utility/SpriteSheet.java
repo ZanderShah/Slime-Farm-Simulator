@@ -12,9 +12,10 @@ public class SpriteSheet
 	public static Image[] FLOORS, DECORATIVE_IMAGES, BLOCKING_IMAGES,
 			MAGE_IMAGES, HUNTER_IMAGES, CLERIC_IMAGES, TANK_IMAGES,
 			WARRIOR_IMAGES, DOORS, WALLS,
-			PROJECTILES, ENEMIES, MENUS, MELEE_ATTACKS;
+			PROJECTILES, ENEMIES, MENUS, MELEE_ATTACKS, STATUS_EFFECTS;
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
+	public static Image HEALING, POISON, RAGE;
 
 	public static Image random(Image[] source, Random rng)
 	{
@@ -129,6 +130,15 @@ public class SpriteSheet
 			MELEE_ATTACKS = new Image[2];
 			MELEE_ATTACKS[0] = ImageIO.read(new File("img//WarriorSwing.png"));
 			MELEE_ATTACKS[1] = ImageIO.read(new File("img//ThiefSwing.png"));
+
+			HEALING = ImageIO.read(new File("img//Healing.png"));
+			POISON = ImageIO.read(new File("img//Poison.png"));
+			RAGE = ImageIO.read(new File("img//Energized.png"));
+
+			STATUS_EFFECTS = new Image[5];
+			for (int i = 0; i < 5; i++)
+				STATUS_EFFECTS[i] = ImageIO.read(new File(String.format(
+						"img//StatusEffect%d.png", i + 1)));
 		}
 		catch (IOException e)
 		{

@@ -2,6 +2,7 @@ package player;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import engine.AABB;
 import engine.ParticleEmitter;
@@ -36,6 +37,13 @@ public class Mage extends Player {
 	@Override
 	public void draw(Graphics g, Vector2D offset) {
 		Vector2D shifted = getPos().add(offset);
+		
+		ArrayList<StatusEffect> effects = getEffects();
+		for (int i = 0; i < effects.size(); i++)
+			if (effects.get(i).getType() == StatusEffect.HEALTH)
+				g.drawImage(SpriteSheet.HEALING, (int) shifted.getX(),
+						(int) shifted.getY(), null);
+		
 		g.drawImage(SpriteSheet.MAGE_IMAGES[getDirection()],
 				(int) shifted.getX() - getWidth() / 2, (int) shifted.getY()
 						- getHeight() / 2,

@@ -91,7 +91,7 @@ public class RedSlime extends Slime
 		g.drawImage(SpriteSheet.ENEMIES[2], (int) shifted.getX()
 				- getWidth() / 2, (int) shifted.getY() - getHeight() / 2, null);
 
-		drawHealth(g, offset);
+		drawEntityDetails(g, offset);
 	}
 
 }
