@@ -88,7 +88,8 @@ public class SpriteSheet
 			PROJECTILES[7] = ImageIO.read(new File("img//ThiefR.png"));
 			PROJECTILES[8] = ImageIO.read(new File("img//Lightning.png"));
 			PROJECTILES[9] = ImageIO.read(new File("img//SlimeBall.png"));
-			PROJECTILES[10] = ImageIO.read(new File("img//PoisonSlimeBall.png"));
+			PROJECTILES[10] = ImageIO
+					.read(new File("img//PoisonSlimeBall.png"));
 
 			PARTICLES = new Image[1][2];
 			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png"));
@@ -144,7 +145,7 @@ public class SpriteSheet
 			for (int i = 0; i < 5; i++)
 				STATUS_EFFECTS[i] = ImageIO.read(new File(String.format(
 						"img//StatusEffect%d.png", i + 1)));
-			
+
 			GAME_END = new Image[2];
 			GAME_END[0] = ImageIO.read(new File("img//GameOver.png"));
 		}
