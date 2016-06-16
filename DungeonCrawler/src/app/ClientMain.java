@@ -85,6 +85,8 @@ public class ClientMain extends JFrame {
 		private Room current[];
 		private int currentFloor;
 		private int gameState;
+		private boolean gameOver;
+		private boolean win;
 
 		private InetAddress addr;
 		private DatagramSocket sock;
@@ -175,6 +177,8 @@ public class ClientMain extends JFrame {
 
 		public void startGame() {
 			gameState = 4;
+			win = false;
+			gameOver = false;
 			if (Constants.OFFLINE) {
 				controlled = Player.makePlayer(classSelected);
 				controlled.setPos(new Vector2D(40, 40));
@@ -207,9 +211,18 @@ public class ClientMain extends JFrame {
 						}
 
 						// Update stuff locally
-						if (controlled != null)
+						if (controlled != null && gameState == 4)
 							controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
+						
+						if (controlled.getStats().getHealth() <= 0) {
+							gameOver = true;
+						}
+						
+						if (current[currentFloor].isBossRoom() && current[currentFloor].isCleared()) {
+							gameOver = true;
+							win = true;
+						}
 
 						if (Constants.OFFLINE) {
 							int roomCheck = current[currentFloor].atDoor();
@@ -348,11 +361,11 @@ public class ClientMain extends JFrame {
 					drawGame(g, controlled);
 				}
 			} else {
-				drawCharMenu(g);
+				drawMenu(g);
 			}
 		}
 
-		public void drawCharMenu(Graphics g) {
+		public void drawMenu(Graphics g) {
 			g.drawImage(SpriteSheet.MENUS[gameState], 0, 0, null);
 			if (gameState == 1) {
 				g.setColor(new Color(255, 255, 255, 80));
@@ -393,6 +406,14 @@ public class ClientMain extends JFrame {
 				drawMinimap(current[currentFloor], g, offset, new boolean[Constants.NUMBER_OF_ROOMS]);
 
 				drawHUD(p, g);
+				
+				if (gameOver) {
+					if (win) {
+						
+					} else {
+						
+					}
+				}
 			}
 		}
 

@@ -8,6 +8,11 @@ import utility.Constants;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * Mage's basic attack
+ * @author Callum
+ *
+ */
 public class Fireball extends Projectile
 {
 

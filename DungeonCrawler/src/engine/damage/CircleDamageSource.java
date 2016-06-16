@@ -4,6 +4,11 @@ import engine.CircleHitbox;
 import engine.StatusEffect;
 import utility.Vector2D;
 
+/**
+ * A damage source that is circular
+ * @author Callum
+ *
+ */
 public abstract class CircleDamageSource extends DamageSource {
 
 	public CircleDamageSource(Vector2D pos, int rad, int f, int d, boolean single, boolean p, double dam, int kb, long id) {

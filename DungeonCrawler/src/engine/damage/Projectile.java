@@ -7,6 +7,11 @@ import player.Tank;
 import utility.Vector2D;
 import world.Room;
 
+/**
+ * Represents a projectile, a moving damage source
+ * @author Callum
+ *
+ */
 public abstract class Projectile extends DamageSource {
 	private Vector2D position;
 	private Vector2D speed;

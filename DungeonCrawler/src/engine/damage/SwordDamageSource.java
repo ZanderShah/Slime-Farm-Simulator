@@ -9,6 +9,11 @@ import engine.SwordHitbox;
 import utility.SpriteSheet;
 import utility.Vector2D;
 
+/**
+ * Basic sword/swinging attack. Used by warrior, thief, tank
+ * @author Callum
+ *
+ */
 public class SwordDamageSource extends DamageSource
 {
 	private int type;

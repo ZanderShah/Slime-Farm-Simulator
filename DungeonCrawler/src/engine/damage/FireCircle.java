@@ -6,6 +6,11 @@ import java.awt.Graphics;
 import engine.CircleHitbox;
 import utility.Vector2D;
 
+/**
+ * Mage's fire attack
+ * @author Callum
+ *
+ */
 public class FireCircle extends CircleDamageSource {
 
 	public FireCircle(Vector2D pos, int rad, int f, int d, boolean p, double dam, long id) {
