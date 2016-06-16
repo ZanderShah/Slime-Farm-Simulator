@@ -111,18 +111,9 @@ public class SpriteSheet
 			for (int i = 0; i < 6; i++)
 				for (int j = 1; j <= 3; j++)
 				{
-					try
-					{
-						HUD_IMAGES[i][j - 1] = ImageIO.read(new File(String
-								.format(
-										"img//Icon%d%d.png", i, j)));
-					}
-					catch (Exception e)
-					{
-						HUD_IMAGES[i][j - 1] = ImageIO.read(new File(String
-								.format(
-										"img//Icon11.png", i, j)));
-					}
+					HUD_IMAGES[i][j - 1] = ImageIO.read(new File(String
+							.format(
+									"img//Icon%d%d.png", i, j)));
 				}
 
 			MENUS = new Image[3];
@@ -153,7 +144,6 @@ public class SpriteSheet
 		catch (IOException e)
 		{
 			System.out.println("Failed to load an image");
-			e.printStackTrace();
 		}
 	}
 

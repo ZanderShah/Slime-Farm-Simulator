@@ -441,18 +441,18 @@ public class Room implements Drawable
 	public void draw(Graphics g, Vector2D offset)
 	{
 		if (bossRoom && !isCleared())
-			g.setColor(Color.RED);
+			g.setColor(new Color(255, 0, 0, 127));
 		else if (currentRoom)
-			g.setColor(Color.GREEN);
+			g.setColor(new Color(60, 255, 0, 127));
 		else if (isCleared())
-			g.setColor(Color.GRAY.brighter());
+			g.setColor(new Color(155, 155, 155, 127));
 		else
-			g.setColor(Color.GRAY);
+			g.setColor(new Color(88, 88, 88, 127));
 
 		g.fillRect(x, y, width, height);
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
-
+		g.setColor(new Color(0, 0, 0, 127));
 		if (getUp() != null)
 		{
 			g.fillOval(x + width / 2 - 2, y - 2, 4, 4);

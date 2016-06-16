@@ -643,7 +643,7 @@ public class ClientMain extends JFrame
 				{
 					try
 					{
-						if (x >= 800 && x <= 980 && y >= 680 && y <= 740)
+						if (x >= 800 && x <= 980 && y >= 28 && y <= 88)
 							gameState = 0;
 						else if (x >= 42 && x <= 320 && y >= 108 && y <= 403)
 						{
@@ -696,7 +696,7 @@ public class ClientMain extends JFrame
 					}
 					catch (Exception e2)
 					{
-						e2.printStackTrace();
+
 					}
 				}
 			}

@@ -49,7 +49,7 @@ public class DungeonFactory
 		rng = new Random(seed);
 		Room entry[] = new Room[numberOfFloors];
 		for (int floor = 0; floor < numberOfFloors; floor++)
-			entry[floor] = new Room(850, 200, randomWidth(), randomHeight(),
+			entry[floor] = new Room(900, 100, randomWidth(), randomHeight(),
 					difficulty, 0);
 
 		for (int floor = 0; floor < numberOfFloors; floor++)
