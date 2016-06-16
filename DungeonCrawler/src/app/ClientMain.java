@@ -541,7 +541,7 @@ public class ClientMain extends JFrame
 				{
 					if (win)
 					{
-						
+						g.drawImage(SpriteSheet.GAME_END[1], 0, 0, null);
 					}
 					else
 					{

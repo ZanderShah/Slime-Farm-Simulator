@@ -148,6 +148,7 @@ public class SpriteSheet
 
 			GAME_END = new Image[2];
 			GAME_END[0] = ImageIO.read(new File("img//GameOver.png"));
+			GAME_END[1] = ImageIO.read(new File("img//Win.png"));
 		}
 		catch (IOException e)
 		{
