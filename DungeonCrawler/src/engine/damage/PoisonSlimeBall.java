@@ -23,8 +23,8 @@ public class PoisonSlimeBall extends Projectile
 	{
 		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(
 				Constants.POISON_SLIMEBALL_SPEED), true, player,
-				Constants.SLIMEBALL_DAMAGE * 0.5, new StatusEffect(1200, 60,
-						-1, StatusEffect.HEALTH, false),
+				Constants.SLIMEBALL_DAMAGE * 0.5, new StatusEffect(600, 60,
+						-2, StatusEffect.HEALTH, false),
 				Constants.ARROW_KNOCKBACK, id);
 	}
 

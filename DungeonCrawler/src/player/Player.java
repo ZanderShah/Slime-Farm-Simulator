@@ -41,6 +41,8 @@ public abstract class Player extends LivingEntity
 
 			getStats().setMaxHealth(
 					getStats().getMaxHealth() * Constants.LEVEL_HEALTH[pClass]);
+			getStats().setHealth(
+					(getStats().getHealth() + getStats().getMaxHealth()) / 2);
 			getStats().setDamageMultiplier(
 					getStats().getDamageMultiplier()
 							* Constants.LEVEL_DAMAGE[pClass]);
@@ -95,7 +97,8 @@ public abstract class Player extends LivingEntity
 		{
 			Vector2D speed = new Vector2D();
 
-			if (getKnockback() == 0) {
+			if (getKnockback() == 0)
+			{
 				if (cs.getPressed(ControlState.KEY_UP))
 				{
 					speed.addToThis(new Vector2D(0, -1));
@@ -186,10 +189,10 @@ public abstract class Player extends LivingEntity
 	public void draw(Graphics g, Vector2D offset, boolean local)
 	{
 		draw(g, offset);
-		
+
 		if (!local)
 			drawEntityDetails(g, offset);
-		
+
 		drawStatusEffects(g, offset);
 	}
 
