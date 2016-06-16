@@ -488,7 +488,8 @@ public class Room implements Drawable
 		{
 			try
 			{
-				damageSources.get(i).draw(g, offset);
+				if (damageSources.get(i) != null)
+					damageSources.get(i).draw(g, offset);
 			}
 			catch (Exception e)
 			{

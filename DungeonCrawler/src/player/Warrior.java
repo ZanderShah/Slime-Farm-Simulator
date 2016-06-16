@@ -100,8 +100,9 @@ public class Warrior extends Player
 			r.addDamageSource(new SwordDamageSource(getPos(),
 					(int) (Constants.WARRIOR_SWORD_SIZE * 1.5), 0, 360,
 					getStats().getAttackTime(), true,
-					Constants.WARRIOR_DAMAGE, Constants.WARRIOR_KNOCKBACK,
-					getID(), 0), getStats().getDamageMultiplier());
+					Constants.WARRIOR_DAMAGE * 2,
+					Constants.WARRIOR_KNOCKBACK * 4,
+					getID(), 2), getStats().getDamageMultiplier());
 		}
 	}
 

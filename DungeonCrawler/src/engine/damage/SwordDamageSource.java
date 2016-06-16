@@ -27,11 +27,27 @@ public class SwordDamageSource extends DamageSource
 		SwordHitbox sh = (SwordHitbox) getHitbox();
 		Vector2D shifted = sh.getPosition().add(offset);
 		g.setColor(Color.LIGHT_GRAY);
-		AffineTransform af = new AffineTransform();
-		af.rotate(-Math.toRadians(sh.getStart() + sh.getAngle() / 2),
-				shifted.getX(), shifted.getY());
-		af.translate(shifted.getX(), shifted.getY()
-				- SpriteSheet.MELEE_ATTACKS[type].getHeight(null) / 2);
-		((Graphics2D) g).drawImage(SpriteSheet.MELEE_ATTACKS[type], af, null);
+
+		if (type == 2)
+		{
+			g.drawImage(
+					SpriteSheet.MELEE_ATTACKS[type],
+					(int) shifted.getX()
+							- SpriteSheet.MELEE_ATTACKS[type].getWidth(null)
+							/ 2,
+					(int) shifted.getY()
+							- SpriteSheet.MELEE_ATTACKS[type].getHeight(null)
+							/ 2, null);
+		}
+		else
+		{
+			AffineTransform af = new AffineTransform();
+			af.rotate(-Math.toRadians(sh.getStart() + sh.getAngle() / 2),
+					shifted.getX(), shifted.getY());
+			af.translate(shifted.getX(), shifted.getY()
+					- SpriteSheet.MELEE_ATTACKS[type].getHeight(null) / 2);
+			((Graphics2D) g).drawImage(SpriteSheet.MELEE_ATTACKS[type], af,
+					null);
+		}
 	}
 }
