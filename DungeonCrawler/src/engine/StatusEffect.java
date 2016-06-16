@@ -2,12 +2,13 @@ package engine;
 
 import java.io.Serializable;
 
-public class StatusEffect implements Serializable {
-
+public class StatusEffect implements Serializable
+{
 	public static final int HEALTH = 0;
 	public static final int SPEED = 1;
 	public static final int DEF = 2;
 	public static final int STUN = 3;
+	public static final int RAGE = 4;
 
 	private int timeLeft;
 	private int frequency;
@@ -16,7 +17,9 @@ public class StatusEffect implements Serializable {
 	private int type;
 	private boolean multiplicative;
 
-	public StatusEffect(int time, int freq, double strength, int type, boolean mult) {
+	public StatusEffect(int time, int freq, double strength, int type,
+			boolean mult)
+	{
 		timeLeft = time;
 		frequency = freq;
 		frequencyCounter = (frequency == 0 ? 0 : 1);
@@ -25,20 +28,30 @@ public class StatusEffect implements Serializable {
 		multiplicative = mult;
 	}
 
-	public int getTime() {
+	public int getTime()
+	{
 		return timeLeft;
 	}
 
-	public int getType() {
+	public int getType()
+	{
 		return type;
 	}
 
-	public double getStrength() {
+	public double getAbsStrength()
+	{
+		return strength;
+	}
+
+	public double getStrength()
+	{
 		return (frequencyCounter == 0 ? strength : (multiplicative ? 1 : 0));
 	}
 
-	public void elapseTime() {
-		if (timeLeft > 0) {
+	public void elapseTime()
+	{
+		if (timeLeft > 0)
+		{
 			timeLeft--;
 		}
 		if (frequencyCounter == 0)

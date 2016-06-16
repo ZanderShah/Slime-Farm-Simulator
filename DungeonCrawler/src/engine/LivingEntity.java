@@ -263,11 +263,28 @@ public abstract class LivingEntity implements Drawable, Serializable
 
 		for (int i = 0; i < effects.size(); i++)
 			if (effects.get(i).getType() == StatusEffect.HEALTH)
+				if (effects.get(i).getAbsStrength() > 0)
+					g.drawImage(
+							SpriteSheet.HEALING,
+							(int) shifted.getX()
+									- SpriteSheet.HEALING.getWidth(null) / 2,
+							(int) shifted.getY()
+									- SpriteSheet.HEALING.getHeight(null) / 2,
+							null);
+				else
+					g.drawImage(SpriteSheet.POISON,
+							(int) shifted.getX()
+									- SpriteSheet.POISON.getWidth(null) / 2,
+							(int) shifted.getY()
+									- SpriteSheet.POISON.getHeight(null) / 2,
+							null);
+			else if (effects.get(i).getType() == StatusEffect.RAGE)
 				g.drawImage(
-						SpriteSheet.HEALING,
+						SpriteSheet.RAGE,
 						(int) shifted.getX()
-								- SpriteSheet.HEALING.getWidth(null) / 2,
+								- SpriteSheet.RAGE.getWidth(null) / 2,
 						(int) shifted.getY()
-								- SpriteSheet.HEALING.getHeight(null) / 2, null);
+								- SpriteSheet.RAGE.getHeight(null) / 2,
+						null);
 	}
 }

@@ -3,7 +3,7 @@ package utility;
 public class Constants
 {
 	public static final boolean DEBUG = false;
-	public static final boolean OFFLINE = false;
+	public static final boolean OFFLINE = true;
 
 	public static final int SCREEN_WIDTH = 1024;
 	public static final int SCREEN_HEIGHT = 768;
@@ -68,6 +68,7 @@ public class Constants
 	public static final int WARRIOR_SWING_ANGLE = 120;
 	public static final double WARRIOR_DAMAGE = 30.0;
 	public static final int WARRIOR_KNOCKBACK = 20;
+	public static final int WARRIOR_RAGE_LENGTH = 500;
 
 	// Thief specific stats
 	public static final int THIEF_SWORD_SIZE = 48;
@@ -117,7 +118,7 @@ public class Constants
 	public static final int BOLT_KNOCKBACK = 20;
 	public static final int CLERIC_INVULNERABLE_LENGTH = 400;
 
-	public static final int[][] AB_COOLDOWNS = { { 360, 300, 300 }, // Warrior
+	public static final int[][] AB_COOLDOWNS = { { 360, 2500, 300 }, // Warrior
 			{ 600, 90, 300 }, // Thief
 			{ 600, 900, 1200 }, // Mage
 			{ 1500, 900, 1200 }, // Tank

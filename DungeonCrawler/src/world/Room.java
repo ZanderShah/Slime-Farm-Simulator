@@ -509,6 +509,7 @@ public class Room implements Drawable
 		for (int i = 0; i < enemies.size(); i++)
 		{
 			enemies.get(i).draw(g, offset);
+			enemies.get(i).drawStatusEffects(g, offset);
 		}
 
 		for (int i = 0; i < players.size(); i++)
@@ -520,14 +521,16 @@ public class Room implements Drawable
 				if (p != null && players.get(i) != null
 						&& players.get(i).getID() == p.getID())
 				{
-					p.draw(g, Constants.MIDDLE.subtract(p.getPos()),
-							Constants.OFFLINE);
+					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
+					p.drawStatusEffects(g,
+							Constants.MIDDLE.subtract(p.getPos()));
 				}
 				else
 				{
 					if (players.get(i) != null)
 					{
-						players.get(i).draw(g, offset, Constants.OFFLINE);
+						players.get(i).draw(g, offset);
+						p.drawStatusEffects(g, offset);
 					}
 				}
 			}
