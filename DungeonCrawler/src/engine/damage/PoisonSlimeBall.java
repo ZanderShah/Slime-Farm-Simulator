@@ -11,20 +11,20 @@ import utility.SpriteSheet;
 import utility.Vector2D;
 
 /**
- * An arrow that applies poison on hit
- * @author Callum
+ * Poison slimeball projectile
  *
+ * @author Alexander Shah
+ * @version Jun 15, 2016
  */
-public class PoisonArrow extends Projectile
+public class PoisonSlimeBall extends Projectile
 {
 
-	public PoisonArrow(Vector2D pos, Vector2D dir, boolean player, long id)
+	public PoisonSlimeBall(Vector2D pos, Vector2D dir, boolean player, long id)
 	{
-		super(new AABB(pos, SpriteSheet.PROJECTILES[5].getWidth(null),
-				SpriteSheet.PROJECTILES[5].getHeight(null)), 0, -1, pos, dir
-				.getNormalized().multiply(Constants.ARROW_SPEED), true, player,
-				Constants.POISON_ARROW_DAMAGE, new StatusEffect(1200, 40, -5,
-						StatusEffect.HEALTH, false),
+		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(
+				Constants.POISON_SLIMEBALL_SPEED), true, player,
+				Constants.SLIMEBALL_DAMAGE * 0.5, new StatusEffect(1200, 60,
+						-1, StatusEffect.HEALTH, false),
 				Constants.ARROW_KNOCKBACK, id);
 	}
 

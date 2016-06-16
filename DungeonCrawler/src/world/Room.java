@@ -521,8 +521,11 @@ public class Room implements Drawable
 		{
 			try
 			{
-				enemies.get(i).draw(g, offset);
-				enemies.get(i).drawStatusEffects(g, offset);
+				if (i < enemies.size())
+				{
+					enemies.get(i).draw(g, offset);
+					enemies.get(i).drawStatusEffects(g, offset);
+				}
 			}
 			catch (Exception e)
 			{
