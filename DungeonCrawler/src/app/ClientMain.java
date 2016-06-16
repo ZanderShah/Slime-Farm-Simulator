@@ -87,6 +87,7 @@ public class ClientMain extends JFrame {
 		private int gameState;
 		private boolean gameOver;
 		private boolean win;
+		private long gameOverTime;
 
 		private InetAddress addr;
 		private DatagramSocket sock;
@@ -211,13 +212,15 @@ public class ClientMain extends JFrame {
 							controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
 						
-						if (controlled.getStats().getHealth() <= 0) {
+						if (controlled.getStats().getHealth() <= 0 && !gameOver) {
 							gameOver = true;
+ 							gameOverTime = System.currentTimeMillis();
 						}
 						
-						if (current[currentFloor].isBossRoom() && current[currentFloor].isCleared()) {
+						if (current[currentFloor].isBossRoom() && current[currentFloor].isCleared() && !gameOver) {
 							gameOver = true;
 							win = true;
+							gameOverTime = System.currentTimeMillis();
 						}
 
 						if (Constants.OFFLINE) {
@@ -362,9 +365,10 @@ public class ClientMain extends JFrame {
 		}
 
 		public void drawMenu(Graphics g) {
-			if (gameState != 4) {
-				g.setColor(Color.BLACK);
-				g.fillRect(0, 0, getWidth(), getHeight());
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			try {
+				// sometimes gameState gets changed mid-draw
 				g.drawImage(SpriteSheet.MENUS[gameState], 0, 0, null);
 				if (gameState == 1) {
 					g.setColor(new Color(255, 255, 255, 80));
@@ -389,7 +393,7 @@ public class ClientMain extends JFrame {
 						break;
 					}
 				}
-			}
+			} catch (Exception e) {}
 		}
 
 		public void drawGame(Graphics g, Player p) {
@@ -461,8 +465,10 @@ public class ClientMain extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (gameOver) {
-				gameState = 0;
-				gameOver = false;
+				if (System.currentTimeMillis() - gameOverTime > 1000) {
+					gameState = 0;
+					gameOver = false;
+				}
 				return;
 			}
 			int x = e.getX();
@@ -544,8 +550,10 @@ public class ClientMain extends JFrame {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (gameOver) {
-				gameState = 0;
-				gameOver = false;
+				if (System.currentTimeMillis() - gameOverTime > 1000) {
+					gameState = 0;
+					gameOver = false;
+				}
 				return;
 			}
 			switch (e.getKeyCode()) {

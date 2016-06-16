@@ -35,7 +35,7 @@ public class Constants
 	public static final double WARRIOR_SPEED = 2.0;
 	public static final double THIEF_SPEED = 2.5;
 	public static final double MAGE_SPEED = 2.0;
-	public static final double TANK_SPEED = 1.0;
+	public static final double TANK_SPEED = 1.25;
 	public static final double HUNTER_SPEED = 2.0;
 	public static final double CLERIC_SPEED = 2.0;
 
@@ -43,7 +43,7 @@ public class Constants
 	public static final int WARRIOR_ATTACK_SPEED = 60;
 	public static final int THIEF_ATTACK_SPEED = 40;
 	public static final int MAGE_ATTACK_SPEED = 2;
-	public static final int TANK_ATTACK_SPEED = 80;
+	public static final int TANK_ATTACK_SPEED = 100;
 	public static final int HUNTER_ATTACK_SPEED = 60;
 	public static final int CLERIC_ATTACK_SPEED = 150;
 
@@ -51,7 +51,7 @@ public class Constants
 	public static final int WARRIOR_ATTACK_LENGTH = 40;
 	public static final int THIEF_ATTACK_LENGTH = 15;
 	public static final int MAGE_ATTACK_LENGTH = 1;
-	public static final int TANK_ATTACK_LENGTH = 60;
+	public static final int TANK_ATTACK_LENGTH = 80;
 	public static final int HUNTER_ATTACK_LENGTH = 40;
 	public static final int CLERIC_ATTACK_LENGTH = 40;
 
@@ -90,9 +90,10 @@ public class Constants
 	public static final int MAGE_FIRE_LENGTH = 300;
 
 	// Tank specific stats
-	public static final int TANK_SWORD_SIZE = 60;
-	public static final int TANK_SWING_ANGLE = 100;
-	public static final double TANK_DAMAGE = 40.0;
+	public static final int TANK_SWORD_SIZE = 80;
+	public static final int TANK_SWING_ANGLE = 140;
+	public static final double TANK_DAMAGE = 50.0;
+	public static final int TANK_KNOCKBACK = 50;
 	public static final int TANK_BUFF_LENGTH = 600;
 	public static final double TANK_BUFF_STRENGTH = 1.5;
 	public static final int TANK_STUN_RANGE = 150;
