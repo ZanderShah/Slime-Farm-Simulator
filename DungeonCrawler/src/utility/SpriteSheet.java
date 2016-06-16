@@ -127,9 +127,11 @@ public class SpriteSheet
 			MENUS[0] = ImageIO.read(new File("img//MainMenu.png"));
 			MENUS[2] = ImageIO.read(new File("img//HelpMenu.png"));
 
-			MELEE_ATTACKS = new Image[2];
+			MELEE_ATTACKS = new Image[4];
 			MELEE_ATTACKS[0] = ImageIO.read(new File("img//WarriorSwing.png"));
 			MELEE_ATTACKS[1] = ImageIO.read(new File("img//ThiefSwing.png"));
+			MELEE_ATTACKS[2] = ImageIO.read(new File("img//WarriorQ.png"));
+			MELEE_ATTACKS[3] = ImageIO.read(new File("img//WarriorR.png"));
 
 			HEALING = ImageIO.read(new File("img//Healing.png"));
 			POISON = ImageIO.read(new File("img//Poison.png"));
