@@ -3,13 +3,13 @@ package utility;
 public class Constants
 {
 	public static final boolean DEBUG = false;
-	public static final boolean OFFLINE = true;
+	public static final boolean OFFLINE = false;
 
 	public static final int SCREEN_WIDTH = 1024;
 	public static final int SCREEN_HEIGHT = 768;
 	public static final Vector2D MIDDLE = new Vector2D(SCREEN_WIDTH / 2,
 			SCREEN_HEIGHT / 2);
-	public static final int CLIENT_PORT = 7383;
+	public static final int CLIENT_PORT = 7382;
 	public static final int SERVER_PORT = 7383;
 
 	public static final long TIMEOUT = 10000;

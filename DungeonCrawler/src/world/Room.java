@@ -69,7 +69,10 @@ public class Room implements Drawable
 	{
 		for (int i = 0; i < enemies.size(); i++)
 		{
-			enemies.get(i).update(this);
+			if (i >= 0 && i < enemies.size())
+			{
+				enemies.get(i).update(this);
+			}
 		}
 
 		for (int i = 0; i < emitters.size(); i++)
@@ -94,63 +97,67 @@ public class Room implements Drawable
 		for (int i = 0; i < damageSources.size(); i++)
 		{
 			DamageSource d = damageSources.get(i);
-			d.update(this);
-			if (d.getDuration() == 0)
+			if (d != null)
 			{
-				damageSources.remove(d);
-				i--;
-			}
-			else
-			{
-				boolean destroyed = false;
-				if (d instanceof Projectile)
+				d.update(this);
+				if (d.getDuration() == 0)
 				{
-					if (!(new Rectangle(0, 0, width * 64, height * 64)
-							.contains(((Projectile) d).getPosition().toPoint())))
-					{
-						damageSources.remove(d);
-						i--;
-						destroyed = true;
-					}
-					else
-					{
-						for (int l = 0; l < objects.size(); l++)
-						{
-							if (objects.get(l).blocksPlayer()
-									&& objects.get(l).hitbox()
-											.intersects(d.getHitbox())
-									&& i >= 0)
-							{
-								damageSources.remove(d);
-								i--;
-								destroyed = true;
-							}
-						}
-					}
+					damageSources.remove(d);
+					i--;
 				}
-				if (!destroyed && d.getHitCounter() == 0)
+				else
 				{
-					if (d.isPlayer())
+					boolean destroyed = false;
+					if (d instanceof Projectile)
 					{
-						for (int e = 0; e < enemies.size(); e++)
+						if (!(new Rectangle(0, 0, width * 64, height * 64)
+								.contains(((Projectile) d).getPosition()
+										.toPoint())))
 						{
-							if (d.hit(enemies.get(e)) && d.isSingleHit()
-									&& i >= 0)
+							damageSources.remove(d);
+							i--;
+							destroyed = true;
+						}
+						else
+						{
+							for (int l = 0; l < objects.size(); l++)
 							{
-								damageSources.remove(d);
-								i--;
+								if (objects.get(l).blocksPlayer()
+										&& objects.get(l).hitbox()
+												.intersects(d.getHitbox())
+										&& i >= 0)
+								{
+									damageSources.remove(d);
+									i--;
+									destroyed = true;
+								}
 							}
 						}
 					}
-					else
+					if (!destroyed && d.getHitCounter() == 0)
 					{
-						for (int p = 0; p < players.size(); p++)
+						if (d.isPlayer())
 						{
-							if (d.hit(players.get(p)) && d.isSingleHit()
-									&& i >= 0)
+							for (int e = 0; e < enemies.size(); e++)
 							{
-								damageSources.remove(d);
-								i--;
+								if (d.hit(enemies.get(e)) && d.isSingleHit()
+										&& i >= 0)
+								{
+									damageSources.remove(d);
+									i--;
+								}
+							}
+						}
+						else
+						{
+							for (int p = 0; p < players.size(); p++)
+							{
+								if (d.hit(players.get(p)) && d.isSingleHit()
+										&& i >= 0)
+								{
+									damageSources.remove(d);
+									i--;
+								}
 							}
 						}
 					}
@@ -327,14 +334,14 @@ public class Room implements Drawable
 
 	public int randomX(Image img, Random rng)
 	{
-		return Math.max((int) (rng.nextDouble()
-				* ((width - 2) * 64 - img.getWidth(null))) + 128, 0);
+		return Math.max((int) (rng.nextDouble() * ((width - 2) * 64 - img
+				.getWidth(null))) + 128, 0);
 	}
 
 	public int randomY(Image img, Random rng)
 	{
-		return Math.max((int) (rng.nextDouble()
-				* ((height - 2) * 64 - img.getHeight(null))) + 128, 0);
+		return Math.max((int) (rng.nextDouble() * ((height - 2) * 64 - img
+				.getHeight(null))) + 128, 0);
 	}
 
 	public ArrayList<Player> getPlayers()
@@ -566,8 +573,7 @@ public class Room implements Drawable
 		if (isCleared())
 		{
 			AABB doorHitbox = new AABB(hitbox.getPosition(),
-					hitbox.getWidth() + 4,
-					hitbox.getHeight() + 4);
+					hitbox.getWidth() + 4, hitbox.getHeight() + 4);
 			for (int i = 1; i < doors.length; i++)
 				if (doors[i] != null
 						&& doorHitbox.intersects(doors[i].hitbox()))
@@ -577,10 +583,8 @@ public class Room implements Drawable
 		// Outside of map and not on door
 		if ((hitbox.getPosition().getX() - hitbox.getWidth() / 2)
 				* (hitbox.getPosition().getY() - hitbox.getHeight() / 2) < 0
-				|| (hitbox.getPosition().getX() + hitbox.getWidth() / 2) > width
-				* 64
-				|| (hitbox.getPosition().getY()
-				+ hitbox.getHeight() / 2) > height * 64)
+				|| (hitbox.getPosition().getX() + hitbox.getWidth() / 2) > width * 64
+				|| (hitbox.getPosition().getY() + hitbox.getHeight() / 2) > height * 64)
 		{
 			return true;
 		}
