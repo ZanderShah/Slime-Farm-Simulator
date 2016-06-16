@@ -127,10 +127,10 @@ public class Constants
 
 	public static final int[] EXPERIENCE_REQUIRED = { 10, 20, 30, 50, 80, 130,
 			210, 340, 550 };
-	public static final double[] LEVEL_HEALTH = { 1.3, 1.1, 1, 1.4, 1, 1.1 };
-	public static final double[] LEVEL_DAMAGE = { 1.3, 1.2, 1.025, 1.2, 1.4,
-			1.1 };
-	public static final double[] LEVEL_DEFENCE = { 1.2, 1, 1, 1.3, 1, 1 };
+	public static final double[] LEVEL_HEALTH = { 1.3, 1.1, 1, 1.4, 1.1, 1.1 };
+	public static final double[] LEVEL_DAMAGE = { 1.2, 1.2, 1.025, 1.2, 1.3,
+			1.2 };
+	public static final double[] LEVEL_DEFENCE = { 1.2, 1.1, 1.1, 1.3, 1.1, 1.1 };
 	public static final double[] LEVEL_SPEED = { 1.025, 1.075, 1.025, 1.025,
 			1.025, 1.025 };
 

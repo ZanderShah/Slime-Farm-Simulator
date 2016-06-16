@@ -334,14 +334,13 @@ public class Room implements Drawable
 
 	public int randomX(Image img, Random rng)
 	{
-		return Math.max((int) (rng.nextDouble() * ((width - 2) * 64 - img
-				.getWidth(null))) + 128, 0);
+		return Math.max((int) (rng.nextDouble() * ((width - 2) * 64)) + 128, 0);
 	}
 
 	public int randomY(Image img, Random rng)
 	{
-		return Math.max((int) (rng.nextDouble() * ((height - 2) * 64 - img
-				.getHeight(null))) + 128, 0);
+		return Math
+				.max((int) (rng.nextDouble() * ((height - 2) * 64)) + 128, 0);
 	}
 
 	public ArrayList<Player> getPlayers()
@@ -364,13 +363,15 @@ public class Room implements Drawable
 	{
 		Vector2D newPos;
 		if (direction == Constants.LEFT)
-			newPos = new Vector2D((r.width() - 1) * 64, r.height() / 2 * 64);
+			newPos = new Vector2D((r.width() - 1) * 64 + 32,
+					r.height() / 2 * 64);
 		else if (direction == Constants.RIGHT)
-			newPos = new Vector2D(64, r.height() / 2 * 64);
+			newPos = new Vector2D(32, r.height() / 2 * 64);
 		else if (direction == Constants.UP)
-			newPos = new Vector2D(r.width() / 2 * 64, (r.height() - 1) * 64);
+			newPos = new Vector2D(r.width() / 2 * 64,
+					(r.height() - 1) * 64 + 32);
 		else
-			newPos = new Vector2D(r.width() / 2 * 64, 64);
+			newPos = new Vector2D(r.width() / 2 * 64, 32);
 
 		for (int i = 0; i < players.size(); i++)
 		{
