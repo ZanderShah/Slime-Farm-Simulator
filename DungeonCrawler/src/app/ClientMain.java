@@ -643,7 +643,9 @@ public class ClientMain extends JFrame
 				{
 					try
 					{
-						if (x >= 42 && x <= 320 && y >= 108 && y <= 403)
+						if (x >= 800 && x <= 980 && y >= 680 && y <= 740)
+							gameState = 0;
+						else if (x >= 42 && x <= 320 && y >= 108 && y <= 403)
 						{
 							if (!Constants.OFFLINE)
 								sock.send(new DatagramPacket(
