@@ -15,7 +15,7 @@ public class SpriteSheet
 			PROJECTILES, ENEMIES, MENUS, MELEE_ATTACKS, STATUS_EFFECTS;
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
-	public static Image HEALING, POISON, RAGE;
+	public static Image HEALING, POISON, RAGE, BUFF;
 	public static Image[] GAME_END;
 
 	public static Image random(Image[] source, Random rng)
@@ -77,7 +77,7 @@ public class SpriteSheet
 			WALLS = new Image[1];
 			WALLS[0] = ImageIO.read(new File("img//Wall.png"));
 
-			PROJECTILES = new Image[10];
+			PROJECTILES = new Image[11];
 			for (int i = 1; i <= 3; i++)
 				PROJECTILES[i - 1] = ImageIO.read(new File("img//Flame" + i
 						+ ".png"));
@@ -88,6 +88,8 @@ public class SpriteSheet
 			PROJECTILES[7] = ImageIO.read(new File("img//ThiefR.png"));
 			PROJECTILES[8] = ImageIO.read(new File("img//Lightning.png"));
 			PROJECTILES[9] = ImageIO.read(new File("img//SlimeBall.png"));
+			PROJECTILES[10] = ImageIO
+					.read(new File("img//PoisonSlimeBall.png"));
 
 			PARTICLES = new Image[1][2];
 			PARTICLES[0][0] = ImageIO.read(new File("img//Particle1.png"));
@@ -137,12 +139,13 @@ public class SpriteSheet
 			HEALING = ImageIO.read(new File("img//Healing.png"));
 			POISON = ImageIO.read(new File("img//Poison.png"));
 			RAGE = ImageIO.read(new File("img//Energized.png"));
+			BUFF = ImageIO.read(new File("img//Buff.png"));
 
 			STATUS_EFFECTS = new Image[5];
 			for (int i = 0; i < 5; i++)
 				STATUS_EFFECTS[i] = ImageIO.read(new File(String.format(
 						"img//StatusEffect%d.png", i + 1)));
-			
+
 			GAME_END = new Image[2];
 			GAME_END[0] = ImageIO.read(new File("img//GameOver.png"));
 		}

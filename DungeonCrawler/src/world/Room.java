@@ -523,8 +523,8 @@ public class Room implements Drawable
 			{
 				if (i < enemies.size())
 				{
-					enemies.get(i).draw(g, offset);
 					enemies.get(i).drawStatusEffects(g, offset);
+					enemies.get(i).draw(g, offset);
 				}
 			}
 			catch (Exception e)
@@ -539,9 +539,9 @@ public class Room implements Drawable
 			{
 				if (players.get(i).getID() == p.getID())
 				{
-					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
 					p.drawStatusEffects(g,
 							Constants.MIDDLE.subtract(p.getPos()));
+					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
 				}
 				else
 				{

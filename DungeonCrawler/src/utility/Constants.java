@@ -123,7 +123,7 @@ public class Constants
 	public static final int[][] AB_COOLDOWNS = { { 360, 2500, 300 }, // Warrior
 			{ 600, 90, 300 }, // Thief
 			{ 600, 900, 1200 }, // Mage
-			{ 1500, 900, 1200 }, // Tank
+			{ 1500, 900, 300 }, // Tank
 			{ 600, 600, 600 }, // Hunter
 			{ 1200, 1800, 2500 } }; // Cleric
 

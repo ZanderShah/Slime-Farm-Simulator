@@ -21,10 +21,12 @@ public class PoisonSlimeBall extends Projectile
 
 	public PoisonSlimeBall(Vector2D pos, Vector2D dir, boolean player, long id)
 	{
-		super(new AABB(pos, 3, 3), 0, -1, pos, dir.getNormalized().multiply(
-				Constants.POISON_SLIMEBALL_SPEED), true, player,
-				Constants.SLIMEBALL_DAMAGE * 0.5, new StatusEffect(1200, 60,
-						-1, StatusEffect.HEALTH, false),
+		super(new AABB(pos, SpriteSheet.PROJECTILES[10].getWidth(null),
+				SpriteSheet.PROJECTILES[10].getHeight(null)), 0, -1, pos, dir
+				.getNormalized().multiply(
+						Constants.POISON_SLIMEBALL_SPEED), true, player,
+				Constants.SLIMEBALL_DAMAGE * 0.5, new StatusEffect(600, 60,
+						-2, StatusEffect.HEALTH, false),
 				Constants.ARROW_KNOCKBACK, id);
 	}
 
@@ -37,6 +39,6 @@ public class PoisonSlimeBall extends Projectile
 		af.rotate(-Math.toRadians(getSpeed().getAngle()), shifted.getX(),
 				shifted.getY());
 		af.translate(shifted.getX(), shifted.getY());
-		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[5], af, null);
+		((Graphics2D) g).drawImage(SpriteSheet.PROJECTILES[10], af, null);
 	}
 }
