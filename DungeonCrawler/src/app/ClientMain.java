@@ -94,14 +94,6 @@ public class ClientMain extends JFrame {
 		private ObjectOutputStream os;
 
 		public Game() {
-
-			if (Constants.OFFLINE) {
-				currentFloor = 0;
-				current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS,
-						(new Random()).nextLong());
-				current[currentFloor].setCurrent();
-			}
-
 			try {
 				sock = new DatagramSocket(Constants.CLIENT_PORT);
 			} catch (SocketException e) {
@@ -180,6 +172,10 @@ public class ClientMain extends JFrame {
 			win = false;
 			gameOver = false;
 			if (Constants.OFFLINE) {
+				currentFloor = 0;
+				current = DungeonFactory.generateMap(Constants.NUMBER_OF_ROOMS, 0, Constants.NUMBER_OF_FLOORS,
+						(new Random()).nextLong());
+				current[currentFloor].setCurrent();
 				controlled = Player.makePlayer(classSelected);
 				controlled.setPos(new Vector2D(40, 40));
 				current[currentFloor].addPlayer(controlled);
@@ -211,7 +207,7 @@ public class ClientMain extends JFrame {
 						}
 
 						// Update stuff locally
-						if (controlled != null && gameState == 4)
+						if (controlled != null && !gameOver)
 							controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
 						
@@ -366,28 +362,32 @@ public class ClientMain extends JFrame {
 		}
 
 		public void drawMenu(Graphics g) {
-			g.drawImage(SpriteSheet.MENUS[gameState], 0, 0, null);
-			if (gameState == 1) {
-				g.setColor(new Color(255, 255, 255, 80));
-				switch (classSelected) {
-				case 0:
-					g.fillRect(373, 108, 278, 295);
-					break;
-				case 1:
-					g.fillRect(40, 438, 278, 295);
-					break;
-				case 2:
-					g.fillRect(706, 108, 278, 295);
-					break;
-				case 3:
-					g.fillRect(373, 438, 278, 295);
-					break;
-				case 4:
-					g.fillRect(40, 108, 278, 295);
-					break;
-				case 5:
-					g.fillRect(706, 438, 278, 295);
-					break;
+			if (gameState != 4) {
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, getWidth(), getHeight());
+				g.drawImage(SpriteSheet.MENUS[gameState], 0, 0, null);
+				if (gameState == 1) {
+					g.setColor(new Color(255, 255, 255, 80));
+					switch (classSelected) {
+					case 0:
+						g.fillRect(373, 108, 278, 295);
+						break;
+					case 1:
+						g.fillRect(40, 438, 278, 295);
+						break;
+					case 2:
+						g.fillRect(706, 108, 278, 295);
+						break;
+					case 3:
+						g.fillRect(373, 438, 278, 295);
+						break;
+					case 4:
+						g.fillRect(40, 108, 278, 295);
+						break;
+					case 5:
+						g.fillRect(706, 438, 278, 295);
+						break;
+					}
 				}
 			}
 		}
@@ -411,7 +411,7 @@ public class ClientMain extends JFrame {
 					if (win) {
 						
 					} else {
-						
+						g.drawImage(SpriteSheet.GAME_END[0], 0, 0, null);
 					}
 				}
 			}
@@ -460,6 +460,11 @@ public class ClientMain extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			if (gameOver) {
+				gameState = 0;
+				gameOver = false;
+				return;
+			}
 			int x = e.getX();
 			int y = e.getY();
 			if (gameState != 4) {
@@ -538,6 +543,11 @@ public class ClientMain extends JFrame {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
+			if (gameOver) {
+				gameState = 0;
+				gameOver = false;
+				return;
+			}
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
 				cs.press(ControlState.KEY_UP);
