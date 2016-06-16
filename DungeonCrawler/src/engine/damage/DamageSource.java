@@ -73,8 +73,9 @@ public abstract class DamageSource implements Drawable, Serializable {
 			hitCounter = frequency;
 		if (hitCounter > 0)
 			hitCounter--;
-		if (duration > 0)
+		if (duration > 0) {
 			duration--;
+		}
 	}
 
 	public void setHitbox(Hitbox hitbox) {

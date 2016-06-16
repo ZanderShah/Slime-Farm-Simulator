@@ -3,6 +3,7 @@ package engine.damage;
 import engine.Hitbox;
 import engine.LivingEntity;
 import engine.StatusEffect;
+import player.Player;
 import player.Tank;
 import utility.Vector2D;
 import world.Room;
@@ -51,7 +52,7 @@ public abstract class Projectile extends DamageSource {
 		if (le == null) return false;
 		if (le.getHitbox().intersects(getHitbox())) {
 			if (!isPlayer() && le instanceof Tank
-					&& ((Tank) le).isReflecting()) {
+					&& ((Player) le).getAbilityActive(3) != 0) {
 				speed = position.subtract(le.getPos()).getNormalized()
 						.multiply(speed.getLength());
 				setPlayer(true);

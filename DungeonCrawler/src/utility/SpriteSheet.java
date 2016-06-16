@@ -16,6 +16,7 @@ public class SpriteSheet
 	public static Image[][] THIEF_IMAGES, PARTICLES, HUD_IMAGES;
 	public static Image[] KING_SLIME;
 	public static Image HEALING, POISON, RAGE;
+	public static Image[] GAME_END;
 
 	public static Image random(Image[] source, Random rng)
 	{
@@ -141,6 +142,9 @@ public class SpriteSheet
 			for (int i = 0; i < 5; i++)
 				STATUS_EFFECTS[i] = ImageIO.read(new File(String.format(
 						"img//StatusEffect%d.png", i + 1)));
+			
+			GAME_END = new Image[2];
+			GAME_END[0] = ImageIO.read(new File("img//GameOver.png"));
 		}
 		catch (IOException e)
 		{
