@@ -11,13 +11,12 @@ import utility.Vector2D;
 
 public class SwordDamageSource extends DamageSource
 {
-
 	private int type;
 
 	public SwordDamageSource(Vector2D position, int radius, int startAngle,
 			int angle, int d, boolean p, double dam, int kb, long id, int type)
 	{
-		super(new SwordHitbox(position, radius, startAngle, angle), 10, d,
+		super(new SwordHitbox(position, radius, startAngle, angle), 20, d,
 				false, p, dam, kb, id);
 		this.type = type;
 	}
