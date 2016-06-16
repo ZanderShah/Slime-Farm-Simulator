@@ -126,6 +126,10 @@ public class Warrior extends Player
 	@Override
 	public void ability3(Point p, Room r)
 	{
+		if (getAbilityActive(0) == 0 && getAbilityActive(3) == 0
+				&& getCooldown(3) == 0)
+		{
 
+		}
 	}
 }

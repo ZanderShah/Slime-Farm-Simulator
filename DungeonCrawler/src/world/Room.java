@@ -69,9 +69,13 @@ public class Room implements Drawable
 	{
 		for (int i = 0; i < enemies.size(); i++)
 		{
-			if (i >= 0 && i < enemies.size())
+			try
 			{
 				enemies.get(i).update(this);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
 			}
 		}
 
@@ -355,6 +359,7 @@ public class Room implements Drawable
 
 	/**
 	 * Prepares the new room and clears the old room between transitions
+	 * 
 	 * @param r the new room
 	 * @param direction the direction from the old room to the new room
 	 * @return the newly prepared room
@@ -400,6 +405,7 @@ public class Room implements Drawable
 
 	/**
 	 * Adds a given number of experience points to each player
+	 * 
 	 * @param num the number of experience points
 	 */
 	public void dropExperience(int num)
@@ -480,10 +486,13 @@ public class Room implements Drawable
 
 		for (int i = 0; i < damageSources.size(); i++)
 		{
-			if (i < damageSources.size() && damageSources.get(i) != null)
+			try
 			{
-				if (damageSources.get(i) != null)
-					damageSources.get(i).draw(g, offset);
+				damageSources.get(i).draw(g, offset);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
 			}
 		}
 
@@ -502,25 +511,29 @@ public class Room implements Drawable
 				}
 				catch (Exception e)
 				{
-
+					e.printStackTrace();
 				}
 			}
 		}
 
 		for (int i = 0; i < enemies.size(); i++)
 		{
-			enemies.get(i).draw(g, offset);
-			enemies.get(i).drawStatusEffects(g, offset);
+			try
+			{
+				enemies.get(i).draw(g, offset);
+				enemies.get(i).drawStatusEffects(g, offset);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		for (int i = 0; i < players.size(); i++)
 		{
-			if (i >= 0 && i < players.size())
+			try
 			{
-				// this shouldn't be necessary but it keeps saying that it's out
-				// of bounds with index: 0, size: 1
-				if (p != null && players.get(i) != null
-						&& players.get(i).getID() == p.getID())
+				if (players.get(i).getID() == p.getID())
 				{
 					p.draw(g, Constants.MIDDLE.subtract(p.getPos()));
 					p.drawStatusEffects(g,
@@ -535,11 +548,16 @@ public class Room implements Drawable
 					}
 				}
 			}
+			catch (Exception e)
+			{
+
+			}
 		}
 	}
 
 	/**
 	 * Checks whether or not the party is at a door
+	 * 
 	 * @return -1 if there is no door, or the door which the party is at
 	 */
 	public int atDoor()
@@ -568,6 +586,7 @@ public class Room implements Drawable
 
 	/**
 	 * Checks whether or not a hitbox will have any collisions in a room
+	 * 
 	 * @param hitbox the given hitbox
 	 * @return whether or not a hitbox will have any collisions
 	 */
@@ -602,6 +621,7 @@ public class Room implements Drawable
 
 	/**
 	 * Checks whether or not the room has space for a given hitbox
+	 * 
 	 * @param n the given hitbox
 	 * @param onTop whether or not the object can exist on top of decorative
 	 *            objects
