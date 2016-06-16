@@ -51,7 +51,6 @@ public class ClientMain extends JFrame {
 		{
 			try
 			{
-//				gc.connect(InetAddress.getByName("135.23.87.22"));
 				gc.connect(InetAddress.getByName("localhost"));
 			}
 			catch (Exception e) {
@@ -236,28 +235,30 @@ public class ClientMain extends JFrame {
 							controlled.update(cs, current[currentFloor]);
 						current[currentFloor].update();
 
-						int roomCheck = current[currentFloor]
-								.atDoor();
-						if (roomCheck == Constants.LEFT) {
-							current[currentFloor] = current[currentFloor]
-									.moveTo(current[currentFloor].getLeft(),
-											roomCheck);
-						}
-						else if (roomCheck == Constants.RIGHT) {
-							current[currentFloor] = current[currentFloor]
-									.moveTo(current[currentFloor]
-											.getRight(),
-											roomCheck);
-						}
-						else if (roomCheck == Constants.UP) {
-							current[currentFloor] = current[currentFloor]
-									.moveTo(current[currentFloor].getUp(),
-											roomCheck);
-						}
-						else if (roomCheck == Constants.DOWN) {
-							current[currentFloor] = current[currentFloor]
-									.moveTo(current[currentFloor].getDown(),
-											roomCheck);
+						if (Constants.OFFLINE) {
+							int roomCheck = current[currentFloor]
+									.atDoor();
+							if (roomCheck == Constants.LEFT) {
+								current[currentFloor] = current[currentFloor]
+										.moveTo(current[currentFloor].getLeft(),
+												roomCheck);
+							}
+							else if (roomCheck == Constants.RIGHT) {
+								current[currentFloor] = current[currentFloor]
+										.moveTo(current[currentFloor]
+												.getRight(),
+												roomCheck);
+							}
+							else if (roomCheck == Constants.UP) {
+								current[currentFloor] = current[currentFloor]
+										.moveTo(current[currentFloor].getUp(),
+												roomCheck);
+							}
+							else if (roomCheck == Constants.DOWN) {
+								current[currentFloor] = current[currentFloor]
+										.moveTo(current[currentFloor].getDown(),
+												roomCheck);
+							}
 						}
 
 						long time = System.currentTimeMillis();
@@ -348,6 +349,17 @@ public class ClientMain extends JFrame {
 				}
 				ois.close();
 				break;
+			case 7: // move room
+				int roomCheck = dp.getData()[1];
+				if (roomCheck == Constants.LEFT) {
+					current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getLeft(), roomCheck);
+				} else if (roomCheck == Constants.RIGHT) {
+					current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getRight(), roomCheck);
+				} else if (roomCheck == Constants.UP) {
+					current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getUp(), roomCheck);
+				} else if (roomCheck == Constants.DOWN) {
+					current[currentFloor] = current[currentFloor].moveTo(current[currentFloor].getDown(), roomCheck);
+				}
 			}
 		}
 

@@ -190,6 +190,27 @@ public class Server {
 						e.printStackTrace();
 					}
 
+					int roomCheck = dungeon[currentFloor].atDoor();
+					if (roomCheck == Constants.LEFT) {
+						dungeon[currentFloor] = dungeon[currentFloor].moveTo(dungeon[currentFloor].getLeft(), roomCheck);
+					} else if (roomCheck == Constants.RIGHT) {
+						dungeon[currentFloor] = dungeon[currentFloor].moveTo(dungeon[currentFloor].getRight(), roomCheck);
+					} else if (roomCheck == Constants.UP) {
+						dungeon[currentFloor] = dungeon[currentFloor].moveTo(dungeon[currentFloor].getUp(), roomCheck);
+					} else if (roomCheck == Constants.DOWN) {
+						dungeon[currentFloor] = dungeon[currentFloor].moveTo(dungeon[currentFloor].getDown(), roomCheck);
+					}
+					
+					if (roomCheck >= 1) {
+						for (int i = 0; i < clientList.size(); i++) {
+							try {
+								clientList.get(i).send(new byte[] {7, (byte) roomCheck});
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+
 					long time = System.currentTimeMillis();
 					long diff = time - lastUpdate;
 					lastUpdate = time;
