@@ -1,2 +1,2 @@
 #Slime Farm Simulator
-Top down roguelike similar to Risk of Rain
+Roguelike similar to Risk of Rain
