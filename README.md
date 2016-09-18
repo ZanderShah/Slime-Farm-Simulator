@@ -1,4 +1,4 @@
 #Slime Farming Simulator
-Roguelike similar to Risk of Rain
+Top down fantasy roguelike
 
 ![Main Menu](https://github.com/ZanderShah/Slime-Farming-Simulator/blob/master/DungeonCrawler/img/MainMenu.png)
